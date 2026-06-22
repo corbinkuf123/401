@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Pabellón 414 · Archivo Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --chrome:#13170D;
+    --chrome2:#1c2113;
+    --chrome3:#262d1a;
+    --marfil:#F4F1E8;
+    --arena:#E7DFC9;
+    --oliva:#4F5D3A;
+    --bronce:#8A6A44;
+    --oro:#C2A36B;
+    --tinta:#2F2F2F;
+    --tinta-suave:#5a5750;
+    --crema:#EDE7D6;
+    --crema-soft:rgba(237,231,214,.58);
+    --linea:rgba(79,93,58,.18);
+    --linea-bronce:rgba(138,106,68,.35);
+    --linea-dark:rgba(237,231,214,.12);
+    --serif:'Fraunces',Georgia,serif;
+    --sans:'Hanken Grotesk',system-ui,sans-serif;
+    --nav-h:66px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:var(--sans);background:#0c0f08;color:var(--tinta);min-height:100vh;-webkit-font-smoothing:antialiased}
+  .app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--chrome);position:relative;overflow-x:hidden}
+  .scroll{min-height:100vh;padding-bottom:calc(var(--nav-h) + 14px)}
+  .screen{display:none}
+  .screen.active{display:block;animation:fade .45s ease both}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .ph-ico{width:30px;height:30px;color:rgba(237,231,214,.4)}
+
+  /* ---------------- INICIO / PABELLÓN ---------------- */
+  .hero{position:relative;height:352px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+  .hero .bg{position:absolute;inset:0;background:radial-gradient(140% 92% at 50% -18%, #534727 0%, #2c3120 44%, #13170d 100%)}
+  /* colonnata: líneas verticales tenues como columnas */
+  .hero .bg::before{content:"";position:absolute;inset:0;
+      background-image:repeating-linear-gradient(90deg,transparent 0 68px,rgba(194,163,107,.07) 68px 69px,transparent 69px 70px);
+      mask-image:linear-gradient(180deg,transparent 6%,#000 36%,transparent 86%)}
+  .hero .bg::after{content:"";position:absolute;inset:0;background:radial-gradient(62% 42% at 50% 6%,rgba(194,163,107,.14),transparent 72%)}
+  .hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,18,10,.42) 0%,transparent 32%,rgba(15,18,10,.94) 100%)}
+  .hero .frame{position:absolute;inset:13px;border:1px solid rgba(194,163,107,.3);z-index:2;pointer-events:none}
+  .hero .frame::after{content:"";position:absolute;inset:5px;border:1px solid rgba(194,163,107,.12)}
+  .hero .topbar{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:20px 22px;z-index:3}
+  .crest-mini{display:flex;align-items:center;gap:12px}
+  .crest-mini .mark{width:34px;height:34px;border:1px solid var(--oro);display:flex;align-items:center;justify-content:center;color:var(--oro);transform:rotate(45deg);flex:0 0 auto}
+  .crest-mini .mark span{transform:rotate(-45deg);font-family:var(--serif);font-size:13px;letter-spacing:.02em}
+  .crest-mini .t{font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--crema);line-height:1.5}
+  .crest-mini .t2{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--crema-soft)}
+  .admin-key{width:36px;height:36px;border:1px solid var(--linea-bronce);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--oro);background:rgba(194,163,107,.07);cursor:pointer}
+  .admin-key svg{width:16px;height:16px}
+  .hero .title{position:relative;z-index:2;padding:0 26px 32px;text-align:center}
+  .hero .overline{font-size:9.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--oro);margin-bottom:13px}
+  .hero h1{font-family:var(--serif);font-weight:300;font-size:50px;line-height:.92;color:var(--crema);letter-spacing:.02em}
+  .hero h1 b{font-weight:400;font-style:italic;color:var(--oro)}
+  .hero .rule{width:44px;height:1px;background:var(--linea-bronce);margin:17px auto 0;position:relative}
+  .hero .rule::before,.hero .rule::after{content:"";position:absolute;top:-2px;width:5px;height:5px;border:1px solid var(--oro);transform:rotate(45deg)}
+  .hero .rule::before{left:-9px}.hero .rule::after{right:-9px}
+  .hero .subt{font-family:var(--serif);font-style:italic;font-size:13.5px;color:var(--crema-soft);margin-top:15px}
+
+  .intro{padding:24px 24px 6px}
+  .intro p{font-family:var(--serif);font-weight:300;font-size:15.5px;line-height:1.66;color:var(--crema-soft)}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:20px 24px 8px}
+  .stat-card{background:var(--marfil);border-radius:14px;padding:16px 12px;text-align:center}
+  .stat-card .n{font-family:var(--serif);font-size:30px;font-weight:400;color:var(--oliva);line-height:1}
+  .stat-card .l{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta-suave);margin-top:7px;line-height:1.3}
+
+  .sec-head{display:flex;justify-content:space-between;align-items:baseline;padding:26px 24px 14px}
+  .sec-head h2{font-family:var(--serif);font-weight:400;font-size:21px;color:var(--crema)}
+  .sec-head a{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--oro);cursor:pointer}
+  .rail{display:flex;gap:14px;overflow-x:auto;padding:0 24px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .rail::-webkit-scrollbar{display:none}
+  .rail .feat{flex:0 0 150px;cursor:pointer}
+  .rail .feat .img{height:190px;border-radius:14px;position:relative;overflow:hidden;border:1px solid var(--linea-dark)}
+  .feat .img .grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(12,15,8,.88) 100%)}
+  .feat .cap{position:absolute;left:0;right:0;bottom:0;padding:12px 13px;z-index:2}
+  .feat .cap .code{font-size:9px;letter-spacing:.14em;color:var(--oro);margin-bottom:3px}
+  .feat .cap .nm{font-family:var(--serif);font-size:15px;color:var(--crema);line-height:1.1}
+  .enter-btn{display:block;width:calc(100% - 48px);margin:24px 24px 14px;padding:16px;border:none;border-radius:12px;
+    background:var(--oro);color:#241c0e;font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+  .enter-btn:active{transform:scale(.99)}
+
+  /* ---------------- COLECCIÓN ---------------- */
+  .col-head{display:flex;align-items:center;justify-content:space-between;padding:22px 22px 4px}
+  .col-head h2{font-family:var(--serif);font-weight:400;font-size:26px;color:var(--crema)}
+  .icon-btn{width:38px;height:38px;border:1px solid var(--linea-dark);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--crema-soft);background:none;cursor:pointer}
+  .icon-btn svg{width:17px;height:17px}
+  .searchbox{position:relative;margin:14px 22px 12px}
+  .searchbox svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--crema-soft)}
+  .searchbox input{width:100%;padding:13px 14px 13px 42px;border:1px solid var(--linea-dark);border-radius:11px;
+    background:rgba(237,231,214,.05);color:var(--crema);font-family:var(--sans);font-size:14px}
+  .searchbox input::placeholder{color:rgba(237,231,214,.4)}
+  .searchbox input:focus{outline:none;border-color:var(--oro)}
+  .filters{display:flex;gap:8px;overflow-x:auto;padding:0 22px 6px;scrollbar-width:none}
+  .filters::-webkit-scrollbar{display:none}
+  .filters select{appearance:none;-webkit-appearance:none;flex:0 0 auto;font-family:var(--sans);font-size:11.5px;font-weight:600;
+    letter-spacing:.04em;color:var(--crema-soft);background:transparent;border:1px solid var(--linea-dark);border-radius:40px;
+    padding:9px 30px 9px 15px;cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23C2A36B' stroke-width='1.5'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 13px center}
+  .filters select:focus{outline:none}
+  .filters select.set{background-color:var(--oro);color:#241c0e;border-color:var(--oro);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23241c0e' stroke-width='1.6'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E")}
+  .count-row{display:flex;justify-content:space-between;align-items:center;padding:10px 24px 2px}
+  .count{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--crema-soft)}
+  .clear{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--oro);background:none;border:none;cursor:pointer;font-family:var(--sans);font-weight:600;display:none}
+  .clear.show{display:inline}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px 22px 30px}
+  .card{cursor:pointer;border:none;background:none;padding:0;font-family:inherit;text-align:left;
+    opacity:0;transform:translateY(14px);animation:rise .5s ease forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .card .img{position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden;border:1px solid var(--linea-dark);transition:transform .3s}
+  .card:active .img{transform:scale(.98)}
+  .card .img .grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 38%,rgba(12,15,8,.9) 100%)}
+  .card .cap{position:absolute;left:0;right:0;bottom:0;padding:12px 13px;z-index:2}
+  .card .cap .code{font-size:9px;letter-spacing:.14em;color:var(--oro);margin-bottom:3px}
+  .card .cap .nm{font-family:var(--serif);font-size:15px;color:var(--crema);line-height:1.08}
+  .card .cap .meta{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--crema-soft);margin-top:4px}
+  .ph-ico-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .empty{grid-column:1/-1;text-align:center;padding:50px 10px;color:var(--crema-soft);font-style:italic;font-family:var(--serif)}
+
+  /* placeholder gradientes variados */
+  .v0{background:radial-gradient(120% 100% at 60% 10%,#4a4126,#23271a 70%,#161a0f)}
+  .v1{background:radial-gradient(120% 100% at 40% 20%,#3c4a30,#222a18 70%,#141810)}
+  .v2{background:radial-gradient(120% 100% at 70% 15%,#5a3f2c,#2a2114 70%,#15110b)}
+  .v3{background:radial-gradient(120% 100% at 50% 0%,#454b34,#262a1a 70%,#13170d)}
+  .v4{background:radial-gradient(120% 100% at 55% 20%,#52432a,#272117 70%,#15120c)}
+  .v5{background:radial-gradient(120% 100% at 45% 10%,#3f4a3a,#222a1f 70%,#121710)}
+  /* foto real encima del recuadro de respaldo */
+  .img img,.f-hero>img,.gtile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+
+  /* ---------------- FICHA ---------------- */
+  #view-ficha{background:var(--chrome)}
+  .f-top{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 14px}
+  .f-top .code{font-size:12px;letter-spacing:.2em;color:var(--crema);font-weight:600}
+  .f-actions{display:flex;gap:8px}
+  .icon-btn.key{color:var(--oro);border-color:var(--linea-bronce)}
+  .f-hero{position:relative;height:322px;overflow:hidden}
+  .f-hero .ph-ico-wrap{flex-direction:column;gap:12px}
+  .f-hero .ph-ico{width:46px;height:46px}
+  .f-hero .ph-cap{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(237,231,214,.45)}
+  .f-hero .counter{position:absolute;bottom:24px;right:18px;background:rgba(12,15,8,.66);color:var(--crema);
+    font-size:11px;letter-spacing:.08em;padding:5px 12px;border-radius:30px;backdrop-filter:blur(4px)}
+
+  .f-body{background:var(--marfil);border-radius:24px 24px 0 0;margin-top:-2px;position:relative;z-index:2;padding-top:28px;min-height:60vh}
+  .f-name{padding:0 24px}
+  .f-over{font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--bronce);margin-bottom:11px}
+  .f-name h2{font-family:var(--serif);font-weight:400;font-size:30px;color:var(--oliva);letter-spacing:.02em;line-height:1.02;text-transform:uppercase}
+  .f-name .sci{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--bronce);margin-top:4px}
+  .quick{display:flex;gap:18px;padding:18px 24px 4px;flex-wrap:wrap}
+  .quick .q{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--tinta-suave)}
+  .quick .q svg{width:15px;height:15px;color:var(--bronce);stroke-width:1.5}
+
+  .tabs{display:flex;gap:4px;overflow-x:auto;padding:16px 18px 0;scrollbar-width:none;border-bottom:1px solid var(--linea)}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:0 0 auto;background:none;border:none;font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.04em;
+    color:var(--tinta-suave);padding:10px 12px;cursor:pointer;position:relative}
+  .tab.on{color:var(--oliva)}
+  .tab.on::after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:2px;background:var(--bronce)}
+  .tabpane{display:none;padding:22px 24px 30px;animation:fade .35s ease both}
+  .tabpane.on{display:block}
+
+  .pane-label{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--bronce);font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+  .pane-label::after{content:"";flex:1;height:1px;background:var(--linea)}
+  .bio-row{display:flex;align-items:flex-start;gap:13px;padding:11px 0;border-bottom:1px dotted var(--linea)}
+  .bio-row:last-child{border-bottom:none}
+  .bio-row svg{width:17px;height:17px;color:var(--bronce);flex:0 0 auto;margin-top:1px;stroke-width:1.5}
+  .bio-row .k{flex:0 0 86px;font-size:11px;letter-spacing:.06em;color:var(--tinta-suave)}
+  .bio-row .v{flex:1;font-size:14px;color:var(--tinta)}
+
+  .historia p{font-family:var(--serif);font-weight:300;font-size:16px;line-height:1.72;color:var(--tinta);margin-bottom:14px}
+  .historia p:first-of-type::first-letter{font-size:46px;float:left;line-height:.82;padding:6px 9px 0 0;color:var(--bronce)}
+  .pull{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--oliva);text-align:center;margin-top:6px;padding-top:18px;border-top:1px solid var(--linea-bronce);line-height:1.5}
+
+  .caza-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--linea);border:1px solid var(--linea);border-radius:8px;overflow:hidden}
+  .stat{background:var(--marfil);padding:13px 14px;display:flex;align-items:center;gap:11px}
+  .stat svg{width:17px;height:17px;color:var(--oliva);flex:0 0 auto;stroke-width:1.4}
+  .stat .lab{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta-suave)}
+  .stat .val{font-size:13px;color:var(--tinta);font-weight:500;line-height:1.15}
+
+  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .gtile{aspect-ratio:1;border-radius:12px;border:1px solid var(--linea);display:flex;align-items:center;justify-content:center;position:relative}
+  .gtile .ph-ico{width:24px;height:24px;color:rgba(138,106,68,.5)}
+  .gtile .gn{position:absolute;bottom:8px;right:10px;font-size:9px;letter-spacing:.1em;color:var(--bronce)}
+
+  .tax-note{font-size:14px;color:var(--tinta-suave);line-height:1.65;font-style:italic;font-family:var(--serif);margin-top:6px}
+  .docs{margin-top:6px}
+  .doc{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--linea);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;width:100%;font-family:inherit;text-align:left}
+  .doc:last-child{border-bottom:none}
+  .doc svg{width:18px;height:18px;color:var(--bronce);flex:0 0 auto}
+  .doc .dn{flex:1;font-size:13.5px;color:var(--tinta)}
+  .doc .tag{font-size:9px;letter-spacing:.1em;color:var(--tinta-suave);border:1px solid var(--linea);padding:2px 7px;border-radius:3px}
+  .mas-sub{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--bronce);font-weight:600;margin:22px 0 12px}
+  .mas-sub:first-child{margin-top:0}
+
+  /* ---------------- BOTTOM NAV ---------------- */
+  .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:var(--nav-h);
+    background:rgba(19,23,13,.94);backdrop-filter:blur(10px);border-top:1px solid var(--linea-dark);
+    display:flex;z-index:40;padding-bottom:env(safe-area-inset-bottom)}
+  .nav button{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:var(--crema-soft);font-family:var(--sans)}
+  .nav button svg{width:21px;height:21px;stroke-width:1.6}
+  .nav button .lbl{font-size:10px;letter-spacing:.08em}
+  .nav button.on{color:var(--oro)}
+
+  /* Toast */
+  .toast{position:fixed;bottom:calc(var(--nav-h) + 18px);left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--oliva);color:var(--crema);font-size:12px;letter-spacing:.04em;padding:11px 20px;border-radius:30px;
+    opacity:0;pointer-events:none;transition:.3s;z-index:60}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* Admin */
+  .overlay{position:fixed;top:0;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(10,13,7,.66);backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;padding:64px 24px 24px;z-index:100;overflow-y:auto}
+  .overlay.show{display:flex;animation:fade .25s ease}
+  .modal{background:var(--marfil);max-width:340px;width:100%;padding:30px 26px;border-radius:18px;text-align:center;position:relative;box-shadow:0 30px 70px rgba(0,0,0,.5)}
+  .modal .x{position:absolute;top:10px;right:16px;background:none;border:none;font-size:22px;color:var(--tinta-suave);cursor:pointer;line-height:1}
+  .modal .m-over{font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--bronce);font-weight:600;margin-bottom:10px}
+  .modal h4{font-family:var(--serif);font-weight:400;font-size:22px;color:var(--oliva);margin-bottom:6px}
+  .modal p.sub{font-size:12.5px;color:var(--tinta-suave);margin-bottom:22px;line-height:1.5}
+  .pin{display:flex;gap:9px;justify-content:center;margin-bottom:8px}
+  .pin input{width:46px;height:54px;text-align:center;font-family:var(--serif);font-size:24px;color:var(--oliva);border:1px solid var(--linea-bronce);background:#fff;border-radius:8px}
+  .pin input:focus{outline:none;border-color:var(--oliva);box-shadow:0 0 0 3px rgba(79,93,58,.12)}
+  .pin.err{animation:shake .4s}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+  .pin-msg{font-size:11.5px;color:#a14a3c;height:16px}
+  .ok .check{width:46px;height:46px;border-radius:50%;background:var(--oliva);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+  .ok .check svg{width:22px;height:22px;color:#fff}
+  .ok .placeholder{background:var(--arena);border:1px dashed var(--linea-bronce);padding:16px;border-radius:10px;margin-top:14px;font-size:12.5px;color:var(--tinta-suave);line-height:1.55}
+
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===================== INICIO / PABELLÓN ===================== -->
+  <div id="view-inicio" class="screen active">
+   <div class="scroll">
+    <div class="hero">
+      <div class="bg"></div><div class="scrim"></div><div class="frame"></div>
+      <div class="topbar">
+        <div class="crest-mini"><div class="mark"><span>414</span></div>
+          <div><div class="t">Pabellón 414</div><div class="t2">Archivo Digital</div></div>
+        </div>
+      </div>
+      <div class="title">
+        <div class="overline">Colección Privada · Acceso por invitación</div>
+        <h1>Pabellón <b>414</b></h1>
+        <div class="rule"></div>
+        <div class="subt">Catálogo documental de piezas y expediciones</div>
+      </div>
+    </div>
+
+    <div class="intro"><p>Una colección documentada de piezas reunidas a lo largo de años de expediciones. Cada trofeo guarda el relato de un viaje, un paisaje y un instante.</p></div>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="sec-head"><h2>Destacados</h2><a onclick="goTab('coleccion')">Ver colección</a></div>
+    <div class="rail" id="rail"></div>
+
+    <button class="enter-btn" onclick="goTab('coleccion')">Explorar la colección</button>
+   </div>
+  </div>
+
+  <!-- ===================== COLECCIÓN ===================== -->
+  <div id="view-coleccion" class="screen">
+   <div class="scroll">
+    <div class="col-head">
+      <h2>Colección</h2>
+      <button class="icon-btn" onclick="document.getElementById('search').focus()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5h18M6 12h12M10 19h4"/></svg></button>
+    </div>
+    <div class="searchbox">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="search" type="text" placeholder="Buscar trofeo…" autocomplete="off">
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="count-row"><span class="count" id="count"></span><button class="clear" id="clear">Limpiar</button></div>
+    <div class="grid" id="grid"></div>
+   </div>
+  </div>
+
+  <!-- ===================== FICHA ===================== -->
+  <div id="view-ficha" class="screen"><div class="scroll" id="fichaScroll"></div></div>
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="nav">
+    <button id="nav-inicio" class="on" onclick="goTab('inicio')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 10l8-6 8 6"/><path d="M5 9.5V20h14V9.5"/><path d="M9 20v-6h6v6"/></svg>
+      <span class="lbl">Inicio</span>
+    </button>
+    <button id="nav-coleccion" onclick="goTab('coleccion')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.2"/></svg>
+      <span class="lbl">Colección</span>
+    </button>
+  </nav>
+</div>
+<div class="toast" id="toast">Enlace copiado</div>
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+
+<script src="animales.js"></script>
+<script>
+/* Los datos viven en animales.js (array ANIMALES). El index solo los lee. */
+const DATA = ANIMALES;
+
+const I = {
+  photo:'<svg class="ph-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 7h3l1.5-2h7L17 7h3v12H4z"/><circle cx="12" cy="13" r="3.2"/></svg>',
+  pais:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>',
+  fecha:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3.5" y="5" width="17" height="16" rx="1.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>',
+  modalidad:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="7" cy="12" r="3.4"/><circle cx="17" cy="12" r="3.4"/><path d="M10.4 12h3.2M7 8.6V6M17 8.6V6"/></svg>',
+  region:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>',
+  distancia:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3"/></svg>',
+  arma:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 14h13l4-4M16 14v4M6 14v3M3 11h6"/></svg>',
+  calibre:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="9" y="4" width="6" height="11" rx="3"/><path d="M9 15h6v4H9z"/></svg>',
+  clase:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 21l-4.9 2.6.9-5.5-4-3.9L9.5 8z"/></svg>',
+  orden:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M4 12h16M4 17h10"/></svg>',
+  familia:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="6" r="2.4"/><circle cx="6" cy="17" r="2.4"/><circle cx="18" cy="17" r="2.4"/><path d="M12 8.4v3l-4.5 3.6M12 11.4l4.5 3.6"/></svg>',
+  habitat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 20h18M5 20v-7l4-3 4 3M13 20V8l4-3 4 3v12"/></svg>',
+  estado:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 21s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.5-7 10-7 10z"/></svg>',
+  distribucion:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>',
+  doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg>',
+  share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="6" cy="12" r="2.4"/><circle cx="17" cy="6" r="2.4"/><circle cx="17" cy="18" r="2.4"/><path d="M8.2 11l6.6-3.6M8.2 13l6.6 3.6"/></svg>',
+  ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 12l5 5L20 6"/></svg>',
+  key:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="4.5"/><path d="M11.2 11.2L20 20M16 16l2 2M18 14l2 2"/></svg>'
+};
+
+const filterDefs=[{key:"especie",label:"Especie"},{key:"pais",label:"País"},{key:"continente",label:"Continente"},{key:"anio",label:"Año"},{key:"sala",label:"Sala"}];
+const state={q:"",especie:"",pais:"",continente:"",anio:"",sala:""};
+const $=s=>document.querySelector(s);
+
+/* gradiente de respaldo estable a partir del id (si falta la foto) */
+function gradFor(id){const v=["v0","v1","v2","v3","v4","v5"];let h=0;for(let i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;return v[h%v.length];}
+/* etiqueta de imagen img/<id>/<n>.jpg; si no carga, se quita y queda el recuadro */
+function img(a,n){return a.fotos>0?`<img src="img/${a.id}/${n}.jpg" alt="${a.nombreComun}" loading="lazy" onerror="this.remove()">`:"";}
+
+/* ---------- INICIO ---------- */
+function buildInicio(){
+  const salas=new Set(DATA.map(a=>a.sala)).size;
+  const cont=new Set(DATA.map(a=>a.continente)).size;
+  $("#stats").innerHTML=`
+    <div class="stat-card"><div class="n">${DATA.length}</div><div class="l">Piezas</div></div>
+    <div class="stat-card"><div class="n">${salas}</div><div class="l">Salas</div></div>
+    <div class="stat-card"><div class="n">${cont}</div><div class="l">Continentes</div></div>`;
+  $("#rail").innerHTML=DATA.slice(0,5).map(a=>`
+    <div class="feat" onclick="goFicha('${a.id}')">
+      <div class="img ${gradFor(a.id)}"><div class="ph-ico-wrap">${I.photo}</div>${img(a,1)}<div class="grad"></div>
+        <div class="cap">${a.codigo?`<div class="code">${a.codigo}</div>`:""}<div class="nm">${a.nombreComun}</div></div>
+      </div>
+    </div>`).join("");
+}
+
+/* ---------- COLECCIÓN ---------- */
+function buildFilters(){
+  const cont=$("#filters");cont.innerHTML="";
+  filterDefs.forEach(f=>{
+    const sel=document.createElement("select");
+    const vals=[...new Set(DATA.map(a=>String(a[f.key])))].sort();
+    sel.innerHTML=`<option value="">${f.label}</option>`+vals.map(v=>`<option value="${v}">${v}</option>`).join("");
+    sel.value=state[f.key];if(state[f.key])sel.classList.add("set");
+    sel.addEventListener("change",e=>{state[f.key]=e.target.value;e.target.classList.toggle("set",!!e.target.value);renderGrid();updateClear();});
+    cont.appendChild(sel);
+  });
+}
+function updateClear(){const any=state.q||filterDefs.some(f=>state[f.key]);$("#clear").classList.toggle("show",!!any);}
+function renderGrid(){
+  const list=DATA.filter(a=>{
+    if(state.q){const t=(a.nombreComun+" "+a.nombreCientifico+" "+a.especie+" "+(a.codigo||"")).toLowerCase();if(!t.includes(state.q.toLowerCase()))return false;}
+    return filterDefs.every(f=>!state[f.key]||String(a[f.key])===state[f.key]);
+  });
+  $("#count").textContent=list.length+(list.length===1?" pieza":" piezas");
+  $("#grid").innerHTML=list.length?list.map((a,i)=>`
+    <button class="card" style="animation-delay:${i*60}ms" onclick="goFicha('${a.id}')">
+      <div class="img ${gradFor(a.id)}"><div class="ph-ico-wrap">${I.photo}</div>${img(a,1)}<div class="grad"></div>
+        <div class="cap">${a.codigo?`<div class="code">${a.codigo}</div>`:""}<div class="nm">${a.nombreComun}</div><div class="meta">${a.pais}</div></div>
+      </div>
+    </button>`).join(""):`<div class="empty">No hay piezas que coincidan con la búsqueda.</div>`;
+}
+
+/* ---------- FICHA ---------- */
+let curTab="historia";
+function renderFicha(a){
+  const cazaStats=[["pais","País",a.pais],["region","Región",a.region],["fecha","Fecha",a.caza.fecha],["modalidad","Modalidad",a.caza.modalidad],["distancia","Distancia",a.caza.distancia],["arma","Arma",a.caza.arma],["calibre","Calibre",a.caza.calibre]];
+  const bioRows=[["distribucion","Distribución",a.bio.distribucion],["habitat","Hábitat",a.bio.habitat],["clase","Clase",a.bio.clase],["orden","Orden",a.bio.orden],["familia","Familia",a.bio.familia],["estado","Conservación",a.bio.estado]];
+  $("#fichaScroll").innerHTML=`
+    <div class="f-top">
+      <button class="icon-btn" onclick="goBack()">${I.back}</button>
+      <span class="code">${a.codigo||""}</span>
+      <div class="f-actions">
+        <button class="icon-btn" onclick="share()">${I.share}</button>
+        <button class="icon-btn key" onclick="openAdmin('${a.codigo||a.id}','${a.nombreComun.replace(/'/g,"")}')" aria-label="Administración">${I.key}</button>
+      </div>
+    </div>
+    <div class="f-hero ${gradFor(a.id)}"><div class="ph-ico-wrap">${I.photo}<span class="ph-cap">${a.fotos>0?"Fotografía":"Sin fotografía"}</span></div>${img(a,1)}${a.fotos>0?`<div class="counter">1 / ${a.fotos}</div>`:""}</div>
+
+    <div class="f-body">
+      <div class="f-name"><div class="f-over">${a.sala} · ${a.continente}</div><h2>${a.nombreComun}</h2><div class="sci">${a.nombreCientifico}</div></div>
+      <div class="quick">
+        <span class="q">${I.pais}${a.pais}</span>
+        <span class="q">${I.fecha}${a.anio}</span>
+        <span class="q">${I.modalidad}${a.caza.modalidad}</span>
+      </div>
+
+      <div class="tabs">
+        <button class="tab" data-t="historia" onclick="setTab('historia')">Historia</button>
+        <button class="tab" data-t="biologia" onclick="setTab('biologia')">Biología</button>
+        <button class="tab" data-t="caceria" onclick="setTab('caceria')">Cacería</button>
+        <button class="tab" data-t="galeria" onclick="setTab('galeria')">Galería</button>
+        <button class="tab" data-t="mas" onclick="setTab('mas')">Más</button>
+      </div>
+
+      <div class="tabpane historia" data-p="historia">
+        <div class="pane-label">Sobre la expedición</div>
+        ${a.historia.map(p=>`<p>${p}</p>`).join("")}
+        <div class="pull">${a.pull}</div>
+      </div>
+
+      <div class="tabpane" data-p="biologia">
+        <div class="pane-label">Datos biológicos</div>
+        ${bioRows.map(r=>`<div class="bio-row">${I[r[0]]}<div class="k">${r[1]}</div><div class="v">${r[2]}</div></div>`).join("")}
+      </div>
+
+      <div class="tabpane" data-p="caceria">
+        <div class="pane-label">Datos de la cacería</div>
+        <div class="caza-grid">${cazaStats.map(s=>`<div class="stat">${I[s[0]]}<div><div class="lab">${s[1]}</div><div class="val">${s[2]}</div></div></div>`).join("")}</div>
+      </div>
+
+      <div class="tabpane" data-p="galeria">
+        <div class="pane-label">Galería · ${a.fotos} imágenes</div>
+        <div class="gallery">${a.fotos>0?Array.from({length:a.fotos}).map((_,i)=>`<div class="gtile ${gradFor(a.id)}">${I.photo}<img src="img/${a.id}/${i+1}.jpg" alt="${a.nombreComun} ${i+1}" loading="lazy" onerror="this.remove()"><span class="gn">${i+1}</span></div>`).join(""):`<p class="tax-note">Sin fotografías por ahora.</p>`}</div>
+      </div>
+
+      <div class="tabpane" data-p="mas">
+        <div class="mas-sub">Ubicación en el pabellón</div>
+        <div class="bio-row">${I.region}<div class="k">Sala</div><div class="v">${a.sala} · ${a.vitrina}</div></div>
+        <div class="mas-sub">Taxidermia</div>
+        <div class="bio-row"><div class="k">Montaje</div><div class="v">${a.taxidermia.fecha}</div></div>
+        <div class="bio-row"><div class="k">Taller</div><div class="v">${a.taxidermia.taller}</div></div>
+        <p class="tax-note">${a.taxidermia.observaciones}</p>
+        <div class="mas-sub">Documentos</div>
+        <div class="docs">${a.documentos.map(d=>`<button class="doc">${I.doc}<span class="dn">${d}</span><span class="tag">PDF</span></button>`).join("")}</div>
+      </div>
+    </div>`;
+  curTab="historia";applyTab();
+}
+function setTab(t){curTab=t;applyTab();}
+function applyTab(){
+  document.querySelectorAll("#fichaScroll .tab").forEach(b=>b.classList.toggle("on",b.dataset.t===curTab));
+  document.querySelectorAll("#fichaScroll .tabpane").forEach(p=>p.classList.toggle("on",p.dataset.p===curTab));
+}
+function share(){
+  const url=location.href;
+  if(navigator.clipboard){navigator.clipboard.writeText(url).then(showToast).catch(showToast);}else showToast();
+}
+function showToast(){const t=$("#toast");t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1800);}
+
+/* ---------- ADMINISTRACIÓN (clave 1234) ---------- */
+let adminTarget=null;
+function openAdmin(codigo,nombre){
+  adminTarget = codigo ? {codigo,nombre} : null;
+  const m=$("#modal");
+  m.innerHTML=`<button class="x" onclick="closeAdmin()">×</button>
+    <div class="m-over">Acceso restringido</div>
+    <h4>${adminTarget?adminTarget.nombre:"Administración"}</h4>
+    <p class="sub">Ingresa la clave de 4 dígitos para acceder al registro de esta pieza.</p>
+    <div class="pin" id="pin">${[0,1,2,3].map(()=>`<input type="tel" maxlength="1" inputmode="numeric">`).join("")}</div>
+    <div class="pin-msg" id="pinMsg"></div>`;
+  $("#overlay").classList.add("show");
+  const inputs=[...m.querySelectorAll(".pin input")];
+  inputs[0].focus();
+  inputs.forEach((inp,i)=>{
+    inp.addEventListener("input",()=>{inp.value=inp.value.replace(/\D/g,"");if(inp.value&&i<3)inputs[i+1].focus();if(inputs.every(x=>x.value))checkPin(inputs);});
+    inp.addEventListener("keydown",e=>{if(e.key==="Backspace"&&!inp.value&&i>0)inputs[i-1].focus();});
+  });
+}
+function checkPin(inputs){
+  if(inputs.map(x=>x.value).join("")==="1234")showAdmin();
+  else{$("#pin").classList.add("err");$("#pinMsg").textContent="Clave incorrecta.";setTimeout(()=>{$("#pin").classList.remove("err");inputs.forEach(x=>x.value="");inputs[0].focus();},450);}
+}
+function showAdmin(){
+  const t=adminTarget;
+  const dest = t
+    ? `Se abrirá la hoja de cálculo en la fila de <strong>${t.nombre}</strong> (código <strong>${t.codigo}</strong>).<br><br>— Pendiente de conectar —`
+    : `Aquí vivirán las herramientas de gestión del pabellón.<br><br>— Pendiente de conectar —`;
+  $("#modal").innerHTML=`<button class="x" onclick="closeAdmin()">×</button>
+    <div class="ok"><div class="check">${I.ok}</div>
+    <div class="m-over">Acceso concedido</div>
+    <h4>${t?t.nombre:"Área de administración"}</h4>
+    <div class="placeholder">${dest}</div></div>`;
+}
+function closeAdmin(){$("#overlay").classList.remove("show");}
+function goBack(){goTab(lastTab);}
+
+/* ---------- NAVEGACIÓN / RUTEO ---------- */
+function goTab(tab){location.hash = tab==="inicio"?"":"/"+tab;}
+function goFicha(codigo){location.hash="/pieza/"+codigo;}
+function setActiveNav(tab){
+  $("#nav-inicio").classList.toggle("on",tab==="inicio");
+  $("#nav-coleccion").classList.toggle("on",tab==="coleccion"||tab==="ficha");
+}
+function show(view){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$("#view-"+view).classList.add("active");window.scrollTo(0,0);}
+let lastTab="inicio";
+function router(){
+  const h=location.hash;
+  const m=h.match(/^#\/pieza\/(.+)$/);
+  if(m){const a=DATA.find(x=>x.id===decodeURIComponent(m[1]));if(a){renderFicha(a);show("ficha");setActiveNav("ficha");return;}}
+  if(h==="#/coleccion"){lastTab="coleccion";show("coleccion");setActiveNav("coleccion");return;}
+  lastTab="inicio";show("inicio");setActiveNav("inicio");
+}
+window.addEventListener("hashchange",router);
+
+/* init */
+buildInicio();buildFilters();renderGrid();
+$("#search").addEventListener("input",e=>{state.q=e.target.value;renderGrid();updateClear();});
+$("#clear").addEventListener("click",()=>{state.q="";filterDefs.forEach(f=>state[f.key]="");$("#search").value="";buildFilters();renderGrid();updateClear();});
+$("#overlay").addEventListener("click",e=>{if(e.target.id==="overlay")closeAdmin();});
+router();
+</script>
+</body>
+</html>
