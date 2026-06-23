@@ -84,7 +84,7 @@ const ANIMALES = [
     anio: null,
     region: "",
     sala: "Sector 1 – Salón Principal Pared Oeste",
-    fotos: 0,
+    fotos: 2,
     bio: {
       clase: "Mammalia",
       orden: "Artiodactyla",
