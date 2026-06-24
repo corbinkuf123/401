@@ -339,7 +339,7 @@ const $=s=>document.querySelector(s);
 /* gradiente de respaldo estable a partir del id (si falta la foto) */
 function gradFor(id){const v=["v0","v1","v2","v3","v4","v5"];let h=0;for(let i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;return v[h%v.length];}
 /* etiqueta de imagen img/<id>/<n>.jpg; si no carga, se quita y queda el recuadro */
-function img(a,n){return a.fotos>0?`<img src="img/${a.id}/${n}.jpg" alt="${a.nombreComun}" loading="lazy" onerror="this.remove()">`:"";}
+function img(a,n){return a.fotos>0?`<img src="img/${a.id}/${n}.jpg" alt="${a.nombreComun}" loading="lazy" onerror="if(this.dataset.up){this.remove()}else{this.dataset.up=1;this.src='img/${a.id}/${n}.JPG'}">`:"";}
 
 /* ---------- INICIO ---------- */
 function buildInicio(){
@@ -387,25 +387,28 @@ function renderGrid(){
 /* ---------- FICHA ---------- */
 let curTab="historia";
 function renderFicha(a){
-  const cazaStats=[["pais","País",a.pais],["region","Región",a.region],["fecha","Fecha",a.caza.fecha],["modalidad","Modalidad",a.caza.modalidad],["distancia","Distancia",a.caza.distancia],["arma","Arma",a.caza.arma],["calibre","Calibre",a.caza.calibre]];
-  const bioRows=[["distribucion","Distribución",a.bio.distribucion],["habitat","Hábitat",a.bio.habitat],["clase","Clase",a.bio.clase],["orden","Orden",a.bio.orden],["familia","Familia",a.bio.familia],["estado","Conservación",a.bio.estado]];
+  const caza=a.caza||{}, bio=a.bio||{}, tax=a.taxidermia||{};
+  const historia=Array.isArray(a.historia)?a.historia:[];
+  const documentos=Array.isArray(a.documentos)?a.documentos:[];
+  const cazaStats=[["pais","País",a.pais||"—"],["region","Región",a.region||"—"],["fecha","Fecha",caza.fecha||"—"],["modalidad","Modalidad",caza.modalidad||"—"],["distancia","Distancia",caza.distancia||"—"],["arma","Arma",caza.arma||"—"],["calibre","Calibre",caza.calibre||"—"]];
+  const bioRows=[["distribucion","Distribución",bio.distribucion||"—"],["habitat","Hábitat",bio.habitat||"—"],["clase","Clase",bio.clase||"—"],["orden","Orden",bio.orden||"—"],["familia","Familia",bio.familia||"—"],["estado","Conservación",bio.estado||"—"]];
   $("#fichaScroll").innerHTML=`
     <div class="f-top">
       <button class="icon-btn" onclick="goBack()">${I.back}</button>
       <span class="code">${a.codigo||""}</span>
       <div class="f-actions">
         <button class="icon-btn" onclick="share()">${I.share}</button>
-        <button class="icon-btn key" onclick="openAdmin('${a.codigo||a.id}','${a.nombreComun.replace(/'/g,"")}')" aria-label="Administración">${I.key}</button>
+        <button class="icon-btn key" onclick="openAdmin('${a.codigo||a.id}','${(a.nombreComun||"").replace(/'/g,"")}')" aria-label="Administración">${I.key}</button>
       </div>
     </div>
     <div class="f-hero ${gradFor(a.id)}"><div class="ph-ico-wrap">${I.photo}<span class="ph-cap">${a.fotos>0?"Fotografía":"Sin fotografía"}</span></div>${img(a,1)}${a.fotos>0?`<div class="counter">1 / ${a.fotos}</div>`:""}</div>
 
     <div class="f-body">
-      <div class="f-name"><div class="f-over">${a.sala} · ${a.continente}</div><h2>${a.nombreComun}</h2><div class="sci">${a.nombreCientifico}</div></div>
+      <div class="f-name"><div class="f-over">${a.sala||""}${a.continente?" · "+a.continente:""}</div><h2>${a.nombreComun}</h2><div class="sci">${a.nombreCientifico||""}</div></div>
       <div class="quick">
-        <span class="q">${I.pais}${a.pais}</span>
-        <span class="q">${I.fecha}${a.anio}</span>
-        <span class="q">${I.modalidad}${a.caza.modalidad}</span>
+        <span class="q">${I.pais}${a.pais||"—"}</span>
+        <span class="q">${I.fecha}${a.anio||"—"}</span>
+        <span class="q">${I.modalidad}${caza.modalidad||"—"}</span>
       </div>
 
       <div class="tabs">
@@ -418,8 +421,8 @@ function renderFicha(a){
 
       <div class="tabpane historia" data-p="historia">
         <div class="pane-label">Sobre la expedición</div>
-        ${a.historia.map(p=>`<p>${p}</p>`).join("")}
-        <div class="pull">${a.pull}</div>
+        ${historia.length?historia.map(p=>`<p>${p}</p>`).join(""):`<p class="tax-note">Sin reseña por ahora.</p>`}
+        ${a.pull&&a.pull.replace(/[«»\s]/g,"")?`<div class="pull">${a.pull}</div>`:""}
       </div>
 
       <div class="tabpane" data-p="biologia">
@@ -433,19 +436,19 @@ function renderFicha(a){
       </div>
 
       <div class="tabpane" data-p="galeria">
-        <div class="pane-label">Galería · ${a.fotos} imágenes</div>
-        <div class="gallery">${a.fotos>0?Array.from({length:a.fotos}).map((_,i)=>`<div class="gtile ${gradFor(a.id)}">${I.photo}<img src="img/${a.id}/${i+1}.jpg" alt="${a.nombreComun} ${i+1}" loading="lazy" onerror="this.remove()"><span class="gn">${i+1}</span></div>`).join(""):`<p class="tax-note">Sin fotografías por ahora.</p>`}</div>
+        <div class="pane-label">Galería · ${a.fotos||0} imágenes</div>
+        <div class="gallery">${a.fotos>0?Array.from({length:a.fotos}).map((_,i)=>`<div class="gtile ${gradFor(a.id)}">${I.photo}<img src="img/${a.id}/${i+1}.jpg" alt="${a.nombreComun} ${i+1}" loading="lazy" onerror="if(this.dataset.up){this.remove()}else{this.dataset.up=1;this.src='img/${a.id}/${i+1}.JPG'}"><span class="gn">${i+1}</span></div>`).join(""):`<p class="tax-note">Sin fotografías por ahora.</p>`}</div>
       </div>
 
       <div class="tabpane" data-p="mas">
         <div class="mas-sub">Ubicación en el pabellón</div>
-        <div class="bio-row">${I.region}<div class="k">Sala</div><div class="v">${a.sala} · ${a.vitrina}</div></div>
+        <div class="bio-row">${I.region}<div class="k">Sala</div><div class="v">${a.sala||"—"}${a.vitrina?" · "+a.vitrina:""}</div></div>
         <div class="mas-sub">Taxidermia</div>
-        <div class="bio-row"><div class="k">Montaje</div><div class="v">${a.taxidermia.fecha}</div></div>
-        <div class="bio-row"><div class="k">Taller</div><div class="v">${a.taxidermia.taller}</div></div>
-        <p class="tax-note">${a.taxidermia.observaciones}</p>
+        <div class="bio-row"><div class="k">Montaje</div><div class="v">${tax.fecha||"—"}</div></div>
+        <div class="bio-row"><div class="k">Taller</div><div class="v">${tax.taller||"—"}</div></div>
+        <p class="tax-note">${tax.observaciones||""}</p>
         <div class="mas-sub">Documentos</div>
-        <div class="docs">${a.documentos.map(d=>`<button class="doc">${I.doc}<span class="dn">${d}</span><span class="tag">PDF</span></button>`).join("")}</div>
+        <div class="docs">${documentos.length?documentos.map(d=>`<button class="doc">${I.doc}<span class="dn">${d}</span><span class="tag">PDF</span></button>`).join(""):`<p class="tax-note">Sin documentos.</p>`}</div>
       </div>
     </div>`;
   curTab="historia";applyTab();
