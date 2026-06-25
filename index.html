@@ -315,6 +315,7 @@ const I = {
   pais:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>',
   fecha:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3.5" y="5" width="17" height="16" rx="1.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>',
   modalidad:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="7" cy="12" r="3.4"/><circle cx="17" cy="12" r="3.4"/><path d="M10.4 12h3.2M7 8.6V6M17 8.6V6"/></svg>',
+  operador:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20a6.5 6.5 0 0113 0"/></svg>',
   region:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>',
   distancia:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3"/></svg>',
   arma:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 14h13l4-4M16 14v4M6 14v3M3 11h6"/></svg>',
@@ -388,9 +389,9 @@ function renderGrid(){
 let curTab="historia";
 function renderFicha(a){
   const caza=a.caza||{}, bio=a.bio||{}, tax=a.taxidermia||{};
-  const historia=Array.isArray(a.historia)?a.historia:[];
-  const documentos=Array.isArray(a.documentos)?a.documentos:[];
-  const cazaStats=[["pais","País",a.pais||"—"],["region","Región",a.region||"—"],["fecha","Fecha",caza.fecha||"—"],["modalidad","Modalidad",caza.modalidad||"—"],["distancia","Distancia",caza.distancia||"—"],["arma","Arma",caza.arma||"—"],["calibre","Calibre",caza.calibre||"—"]];
+  const historia=Array.isArray(a.historia)?a.historia:(typeof a.historia==="string"&&a.historia.trim()?a.historia.split(/\n{2,}/).map(s=>s.trim()).filter(Boolean):[]);
+  const documentos=Array.isArray(a.documentos)?a.documentos:(typeof a.documentos==="string"&&a.documentos.trim()?a.documentos.split(/[;\n]+/).map(s=>s.trim()).filter(Boolean):[]);
+  const cazaStats=[["pais","País",a.pais||"—"],["region","Región",a.region||"—"],["fecha","Fecha",caza.fecha||"—"],["operador","Operador",caza.operador||"—"],["modalidad","Modalidad",caza.modalidad||"—"],["distancia","Distancia",caza.distancia||"—"],["arma","Arma",caza.arma||"—"],["calibre","Calibre",caza.calibre||"—"]];
   const bioRows=[["distribucion","Distribución",bio.distribucion||"—"],["habitat","Hábitat",bio.habitat||"—"],["clase","Clase",bio.clase||"—"],["orden","Orden",bio.orden||"—"],["familia","Familia",bio.familia||"—"],["estado","Conservación",bio.estado||"—"]];
   $("#fichaScroll").innerHTML=`
     <div class="f-top">
@@ -518,6 +519,7 @@ function router(){
   lastTab="inicio";show("inicio");setActiveNav("inicio");
 }
 window.addEventListener("hashchange",router);
+
 /* init */
 buildInicio();buildFilters();renderGrid();
 $("#search").addEventListener("input",e=>{state.q=e.target.value;renderGrid();updateClear();});
