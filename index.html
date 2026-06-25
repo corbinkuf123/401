@@ -518,7 +518,6 @@ function router(){
   lastTab="inicio";show("inicio");setActiveNav("inicio");
 }
 window.addEventListener("hashchange",router);
-
 /* init */
 buildInicio();buildFilters();renderGrid();
 $("#search").addEventListener("input",e=>{state.q=e.target.value;renderGrid();updateClear();});
