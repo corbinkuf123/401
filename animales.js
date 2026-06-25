@@ -1,3 +1,16 @@
+/* ─────────────────────────────────────────────────────────────
+   CAMPOS A LLENAR EN CADA ANIMAL (deja "" lo que no apliques):
+
+   caza.fecha / caza.operador / caza.modalidad / caza.distancia /
+   caza.arma / caza.calibre
+   taxidermia.fecha  (= columna MONTAJE de tu Excel)
+   taxidermia.taller / taxidermia.observaciones
+   documentos: "Certificado; Permiso; Informe"   ← sepáralos con ;
+   historia:   "El viento del sur…"               ← texto normal; deja
+               una línea en blanco entre párrafos si quieres varios
+   pull:       "«Frase corta destacada»"          ← opcional
+   ───────────────────────────────────────────────────────────── */
+
 const ANIMALES = [
 
   // ═══════════════════════════════════════════════════════════════
@@ -24,6 +37,10 @@ const ANIMALES = [
       habitat: "Bosques mixtos y praderas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -47,6 +64,10 @@ const ANIMALES = [
       habitat: "Bosques y sabanas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -70,6 +91,10 @@ const ANIMALES = [
       habitat: "Bosques caducifolios y parques",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -93,6 +118,10 @@ const ANIMALES = [
       habitat: "Taiga, bordes de ríos y lagos",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -116,6 +145,10 @@ const ANIMALES = [
       habitat: "Bosques templados y estepas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -139,6 +172,10 @@ const ANIMALES = [
       habitat: "Dehesas y bosques mediterráneos",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -162,6 +199,10 @@ const ANIMALES = [
       habitat: "Bosques mixtos y zonas arbustivas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -189,6 +230,10 @@ const ANIMALES = [
       habitat: "Zonas montañosas y bosques abiertos",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -212,6 +257,10 @@ const ANIMALES = [
       habitat: "Montañas alpinas y subalpinas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -235,6 +284,10 @@ const ANIMALES = [
       habitat: "Montañas rocosas y escarpadas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -258,6 +311,10 @@ const ANIMALES = [
       habitat: "Montañas mediterráneas rocosas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -281,6 +338,10 @@ const ANIMALES = [
       habitat: "Bosques de coníferas maduros con sotobosque",
       estado: "Vulnerable (VU)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -304,6 +365,10 @@ const ANIMALES = [
       habitat: "Montañas alpinas y subalpinas de Siberia",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -327,6 +392,10 @@ const ANIMALES = [
       habitat: "Montañas escarpadas y nevadas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -350,6 +419,10 @@ const ANIMALES = [
       habitat: "Estepas de alta montaña (4000–5500 m)",
       estado: "Casi amenazado (NT)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -373,6 +446,10 @@ const ANIMALES = [
       habitat: "Terrenos rocosos y montañosos",
       estado: "Vulnerable (VU)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -400,6 +477,10 @@ const ANIMALES = [
       habitat: "Sabanas arboladas y bordes de bosque",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -423,6 +504,10 @@ const ANIMALES = [
       habitat: "Cercanía de ríos y zonas húmedas de sabana",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -446,6 +531,10 @@ const ANIMALES = [
       habitat: "Llanuras de sabana abierta",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -469,6 +558,10 @@ const ANIMALES = [
       habitat: "Bosques montañosos y praderas subalpinas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -492,6 +585,10 @@ const ANIMALES = [
       habitat: "Bosques y praderas alpinas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -515,6 +612,10 @@ const ANIMALES = [
       habitat: "Bosques mixtos, matorrales y zonas agrícolas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -538,6 +639,10 @@ const ANIMALES = [
       habitat: "Sabanas, llanuras abiertas y bosques",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -561,6 +666,10 @@ const ANIMALES = [
       habitat: "Sabanas y praderas abiertas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -584,6 +693,10 @@ const ANIMALES = [
       habitat: "Sabanas con arbustos y bosques secos",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -607,6 +720,10 @@ const ANIMALES = [
       habitat: "Karoo, sabanas áridas y semiáridas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -630,6 +747,10 @@ const ANIMALES = [
       habitat: "Desiertos y sabanas áridas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -653,6 +774,10 @@ const ANIMALES = [
       habitat: "Desiertos, chaparrales y montañas del oeste norteamericano",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -676,6 +801,10 @@ const ANIMALES = [
       habitat: "Bosques, matorrales y bordes de zonas agrícolas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -700,6 +829,10 @@ const ANIMALES = [
       habitat: "Ríos, lagos y pantanos tropicales",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -723,6 +856,10 @@ const ANIMALES = [
       habitat: "Sabanas abiertas y praderas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -750,6 +887,10 @@ const ANIMALES = [
       habitat: "Bosques andinos, vertientes y laderas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -777,6 +918,10 @@ const ANIMALES = [
       habitat: "Pastizales abiertos y praderas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -801,6 +946,10 @@ const ANIMALES = [
       habitat: "Bosques templados y estepas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -829,6 +978,10 @@ const ANIMALES = [
       habitat: "Pastizales",
       estado: "Doméstico / No evaluado"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -853,6 +1006,10 @@ const ANIMALES = [
       habitat: "Montañas mediterráneas rocosas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -877,6 +1034,10 @@ const ANIMALES = [
       habitat: "Montañas escarpadas y nevadas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -905,6 +1066,10 @@ const ANIMALES = [
       habitat: "Sabanas y praderas",
       estado: "Casi amenazado (NT)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -933,6 +1098,10 @@ const ANIMALES = [
       habitat: "Sabanas, bosques y zonas pantanosas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -960,6 +1129,10 @@ const ANIMALES = [
       habitat: "Taiga, tundra, montañas",
       estado: "Preocupación menor (LC)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -983,6 +1156,10 @@ const ANIMALES = [
       habitat: "Selvas tropicales densas",
       estado: "Casi amenazado (NT)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -1006,6 +1183,10 @@ const ANIMALES = [
       habitat: "Desiertos, estepas y planicies áridas",
       estado: "Vulnerable (VU)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -1029,6 +1210,10 @@ const ANIMALES = [
       habitat: "Estepas de alta montaña (4000–5500 m)",
       estado: "Casi amenazado (NT)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -1052,6 +1237,10 @@ const ANIMALES = [
       habitat: "Montañas rocosas con pendientes pronunciadas (700–4000 m)",
       estado: "Casi amenazado (NT)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -1075,6 +1264,10 @@ const ANIMALES = [
       habitat: "Desiertos rocosos y cañones áridos",
       estado: "Casi amenazado (NT)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -1098,6 +1291,10 @@ const ANIMALES = [
       habitat: "Zonas pantanosas, llanos inundables y pastizales",
       estado: "Doméstico / No evaluado"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
@@ -1121,6 +1318,10 @@ const ANIMALES = [
       habitat: "Sabanas, praderas y zonas arbustivas abiertas",
       estado: "Vulnerable (VU)"
     },
+    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
+    taxidermia: { fecha: "", taller: "", observaciones: "" },
+    documentos: "",
+    historia: "",
     pull: "«»",
   },
 
