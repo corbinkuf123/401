@@ -150,6 +150,10 @@
   .f-hero .ph-cap{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(237,231,214,.45)}
   .f-hero .counter{position:absolute;bottom:24px;right:18px;background:rgba(12,15,8,.66);color:var(--crema);
     font-size:11px;letter-spacing:.08em;padding:5px 12px;border-radius:30px;backdrop-filter:blur(4px)}
+  .navarrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:none;
+    background:rgba(12,15,8,.42);color:var(--crema);font-family:var(--serif);font-size:22px;line-height:1;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(3px);z-index:3;padding-bottom:3px}
+  .navarrow.prev{left:12px}.navarrow.next{right:12px}
 
   .f-body{background:var(--marfil);border-radius:24px 24px 0 0;margin-top:-2px;position:relative;z-index:2;padding-top:28px;min-height:60vh}
   .f-name{padding:0 24px}
@@ -402,7 +406,7 @@ function renderFicha(a){
         <button class="icon-btn key" onclick="openAdmin('${a.codigo||a.id}','${(a.nombreComun||"").replace(/'/g,"")}')" aria-label="Administración">${I.key}</button>
       </div>
     </div>
-    <div class="f-hero ${gradFor(a.id)}"><div class="ph-ico-wrap">${I.photo}<span class="ph-cap">${a.fotos>0?"Fotografía":"Sin fotografía"}</span></div>${img(a,1)}${a.fotos>0?`<div class="counter">1 / ${a.fotos}</div>`:""}</div>
+    <div class="f-hero ${gradFor(a.id)}" id="fhero"><div class="ph-ico-wrap">${I.photo}<span class="ph-cap">${a.fotos>0?"Fotografía":"Sin fotografía"}</span></div>${a.fotos>0?`<img class="foto" src="img/${a.id}/1.jpg" alt="${a.nombreComun}" onerror="if(this.dataset.up){this.style.display='none'}else{this.dataset.up=1;this.src='img/${a.id}/1.JPG'}">`:""}${a.fotos>1?`<button class="navarrow prev" onclick="heroStep(-1)" aria-label="Anterior">‹</button><button class="navarrow next" onclick="heroStep(1)" aria-label="Siguiente">›</button>`:""}${a.fotos>0?`<div class="counter">1 / ${a.fotos}</div>`:""}</div>
 
     <div class="f-body">
       <div class="f-name"><div class="f-over">${a.sala||""}${a.continente?" · "+a.continente:""}</div><h2>${a.nombreComun}</h2><div class="sci">${a.nombreCientifico||""}</div></div>
@@ -451,12 +455,35 @@ function renderFicha(a){
         <div class="docs">${documentos.length?documentos.map(d=>`<button class="doc">${I.doc}<span class="dn">${d}</span></button>`).join(""):`<p class="tax-note">Sin documentos.</p>`}</div>
       </div>
     </div>`;
-  curTab="historia";applyTab();
+  curTab="historia";applyTab();setupHero(a);
 }
 function setTab(t){curTab=t;applyTab();}
 function applyTab(){
   document.querySelectorAll("#fichaScroll .tab").forEach(b=>b.classList.toggle("on",b.dataset.t===curTab));
   document.querySelectorAll("#fichaScroll .tabpane").forEach(p=>p.classList.toggle("on",p.dataset.p===curTab));
+}
+
+/* ---------- Carrusel de la foto principal ---------- */
+let heroState=null;
+function heroShow(n){
+  const s=heroState;if(!s)return;
+  s.idx=((n-1+s.fotos)%s.fotos)+1;
+  const hero=$("#fhero");if(!hero)return;
+  let im=hero.querySelector("img.foto");
+  if(!im){im=document.createElement("img");im.className="foto";hero.insertBefore(im,hero.querySelector(".counter"));}
+  im.dataset.up="";im.style.display="block";
+  im.onerror=function(){if(this.dataset.up){this.style.display="none"}else{this.dataset.up="1";this.src="img/"+s.id+"/"+s.idx+".JPG"}};
+  im.src="img/"+s.id+"/"+s.idx+".jpg";
+  const c=hero.querySelector(".counter");if(c)c.textContent=s.idx+" / "+s.fotos;
+}
+function heroStep(d){if(heroState)heroShow(heroState.idx+d);}
+function setupHero(a){
+  heroState=a.fotos>0?{id:a.id,fotos:a.fotos,idx:1}:null;
+  if(!(a.fotos>1))return;
+  const hero=$("#fhero");if(!hero)return;
+  let x0=null;
+  hero.addEventListener("touchstart",e=>{x0=e.touches[0].clientX},{passive:true});
+  hero.addEventListener("touchend",e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)heroStep(dx<0?1:-1);x0=null},{passive:true});
 }
 function share(){
   const url=location.href;
