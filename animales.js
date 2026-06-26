@@ -39,7 +39,7 @@ const ANIMALES = [
       estado: "Preocupación menor (LC)"
     },
     caza: { fecha: "MAYO 2016", operador: "LEITHEN VALLEY", modalidad: "Rececho", distancia: "260m", arma: "REMINGTON CUSTOM MADE", calibre: "270 WIN" },
-    taxidermia: { fecha: "", taller: "NAPLO", observaciones: "" },
+    taxidermia: { fecha: "MAYO 2016", taller: "NAPLO", observaciones: "" },
     documentos: "FILE NZ002",
     historia: `El viento del sur traía olor a pasto húmedo y a libertad.
 En las colinas de Waikaka, el sol se abría paso entre nubes bajas, iluminando el territorio de un fugitivo: un ciervo dama que había escapado del rancho hacía años y aprendido a vivir como los antiguos, sin dueño ni frontera. Oliver, nuestro guía, lo buscó tres temporadas. El animal conocía cada quebrada, cada sombra del valle. Su astucia era su escudo, su silencio, su ventaja.
