@@ -188,7 +188,7 @@
   .stat .val{font-size:13px;color:var(--tinta);font-weight:500;line-height:1.15}
 
   .gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .gtile{aspect-ratio:1;border-radius:12px;border:1px solid var(--linea);display:flex;align-items:center;justify-content:center;position:relative}
+  .gtile{aspect-ratio:1;border-radius:12px;border:1px solid var(--linea);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
   .gtile .ph-ico{width:24px;height:24px;color:rgba(138,106,68,.5)}
   .gtile .gn{position:absolute;bottom:8px;right:10px;font-size:9px;letter-spacing:.1em;color:var(--bronce)}
 
@@ -445,11 +445,10 @@ function renderFicha(a){
         <div class="mas-sub">Ubicación en el pabellón</div>
         <div class="bio-row">${I.region}<div class="k">Sala</div><div class="v">${a.sala||"—"}${a.vitrina?" · "+a.vitrina:""}</div></div>
         <div class="mas-sub">Taxidermia</div>
-        <div class="bio-row"><div class="k">Montaje</div><div class="v">${tax.fecha||"—"}</div></div>
         <div class="bio-row"><div class="k">Taller</div><div class="v">${tax.taller||"—"}</div></div>
         <p class="tax-note">${tax.observaciones||""}</p>
         <div class="mas-sub">Documentos</div>
-        <div class="docs">${documentos.length?documentos.map(d=>`<button class="doc">${I.doc}<span class="dn">${d}</span><span class="tag">PDF</span></button>`).join(""):`<p class="tax-note">Sin documentos.</p>`}</div>
+        <div class="docs">${documentos.length?documentos.map(d=>`<button class="doc">${I.doc}<span class="dn">${d}</span></button>`).join(""):`<p class="tax-note">Sin documentos.</p>`}</div>
       </div>
     </div>`;
   curTab="historia";applyTab();
