@@ -26,7 +26,7 @@ const ANIMALES = [
     especie: "Cérvido",
     continente: "Oceanía",
     pais: "Nueva Zelanda",
-    anio: null,
+    anio: 2016,
     region: "WAIKAKA",
     sala: "Sector 1 – Salón Principal Pared Oeste",
     fotos: 4,
