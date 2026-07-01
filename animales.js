@@ -111,8 +111,8 @@ Habíamos cazado más que un animal: habíamos alcanzado una historia que se res
     especie: "Cérvido",
     continente: "Europa / Asia",
     pais: "Rusia",
-    anio: null,
-    region: "",
+    anio: 2018,
+    region: "KAMCHATKA",
     sala: "Sector 1 – Salón Principal Pared Oeste",
     fotos: 2,
     bio: {
@@ -123,10 +123,16 @@ Habíamos cazado más que un animal: habíamos alcanzado una historia que se res
       habitat: "Taiga, bordes de ríos y lagos",
       estado: "Preocupación menor (LC)"
     },
-    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
-    taxidermia: { fecha: "", taller: "", observaciones: "" },
-    documentos: "",
-    historia: "",
+    caza: { fecha: "OCTUBRE 2018", operador: "Igor Yazykov", modalidad: "Rececho", distancia: "220m", arma: "RIFLE CHRISTENSEN", calibre: "338 LAPUA" },
+    taxidermia: { fecha: "ISTC", taller: "NAPLO", observaciones: "" },
+    documentos: "FILE RUS001",
+    historia: `La lluvia caía sin tregua sobre el suelo empantanado. El aire olía a tierra y a hierro. En la distancia, el alce avanzaba con paso firme, creyendo que éramos otro macho dispuesto a disputarle el territorio.
+
+Nos movimos rápido, pero sin ruido. Cada paso hundía las botas en el barro, cada respiración era una promesa de encuentro.
+
+El animal apareció entre la bruma, enorme, majestuoso. Un solo disparo bastó. Cayó sin un sonido, como si el bosque mismo lo hubiera reclamado.
+
+Los hombres del lugar se acercaron después, asombrados por el tamaño del ejemplar. Yo solo miré el horizonte gris, sabiendo que en ese instante la naturaleza había hablado, y nosotros habíamos escuchado.`,
     pull: "«»",
   },
 
@@ -304,8 +310,8 @@ Habíamos cazado más que un animal: habíamos alcanzado una historia que se res
     especie: "Caprino salvaje",
     continente: "Europa",
     pais: "España",
-    anio: null,
-    region: "Beceite",
+    anio: 2015,
+    region: "Benassal, Valencia",
     sala: "Sector 1 – Salón Principal Pared Este",
     fotos: 0,
     bio: {
@@ -316,10 +322,16 @@ Habíamos cazado más que un animal: habíamos alcanzado una historia que se res
       habitat: "Montañas mediterráneas rocosas",
       estado: "Preocupación menor (LC)"
     },
-    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
-    taxidermia: { fecha: "", taller: "", observaciones: "" },
-    documentos: "",
-    historia: "",
+    caza: { fecha: "NOVIEMBRE 2015", operador: "Lucas Beltrán", modalidad: "Rececho", distancia: "260m", arma: "RIFLE BLASER", calibre: "300win" },
+    taxidermia: { fecha: "ISTC", taller: "NAPLO", observaciones: "" },
+    documentos: "FILE ESP002",
+    historia: `El viento bajaba desde las cumbres trayendo consigo el silencio de los pueblos vacíos, ese silencio que solo existe donde la vida se ha vuelto recuerdo.
+
+Caminábamos despacio por los picos de las sierras, sintiendo el peso del aire y la distancia. La cabra estaba allí, oculta entre el bosque, preocupada por cuidar su espacio de contendores.
+
+El disparo fue un acto de destino, el viento, la inclinación y la distancia lo complicaban. 
+
+Búsqueda de huellas que nos guíen, horas después el pequeño Teckel encontró el rastro de sangre, y con él, la certeza de que la naturaleza no concede victorias, sino encuentros. No hubo triunfo, solo gratitud.`,
     pull: "«»",
   },
 
@@ -412,8 +424,8 @@ Habíamos cazado más que un animal: habíamos alcanzado una historia que se res
     especie: "Ovino salvaje",
     continente: "Asia",
     pais: "Tayikistán",
-    anio: null,
-    region: "Pamir",
+    anio: 2014,
+    region: "Corredor Wakhan, Afganistán",
     sala: "Sector 1 – Salón Principal Pared Este",
     fotos: 0,
     bio: {
@@ -424,10 +436,14 @@ Habíamos cazado más que un animal: habíamos alcanzado una historia que se res
       habitat: "Estepas de alta montaña (4000–5500 m)",
       estado: "Casi amenazado (NT)"
     },
-    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
-    taxidermia: { fecha: "", taller: "", observaciones: "" },
-    documentos: "",
-    historia: "",
+    caza: { fecha: "SEPTIEMBRE 2014", operador: "AsianMountain Outfitters", modalidad: "Rececho", distancia: "370m", arma: "RIFLE CHRISTENSEN", calibre: "375 h&h" },
+    taxidermia: { fecha: "ISTC", taller: "BUENOS AIRES", observaciones: "" },
+    documentos: "FILE TJK001",
+    historia: `Durante quince días, las montañas fueron un mundo. El amanecer llegaba antes del cansancio, y el cansancio nunca se iba. Caminábamos desde las tres de la mañana hasta que el sol se rendía detrás de las cumbres. El silencio era absoluto.
+
+El hambre y la perseverancia se volvieron compañeras. El cuerpo dolía, pero la mente seguía firme, guiada por una idea: el sueño de mi vida, el Marco Polo. El último día, cuando todo parecía perdido, el destino ofreció su oportunidad. El disparo cruzó la distancia imposible, y el animal cayó con la dignidad de quien ha vivido libre en las alturas.
+
+El Pamír me enseñó que los sueños no se conquistan, se alcanzan con el alma humilde, constancia y respeto.`,
     pull: "«»",
   },
 
@@ -439,8 +455,8 @@ Habíamos cazado más que un animal: habíamos alcanzado una historia que se res
     especie: "Caprino salvaje",
     continente: "Asia",
     pais: "Turquía",
-    anio: null,
-    region: "",
+    anio: 2015,
+    region: "Montes Tauro, Antalya",
     sala: "Sector 1 – Salón Principal Pared Este",
     fotos: 0,
     bio: {
@@ -451,10 +467,16 @@ Habíamos cazado más que un animal: habíamos alcanzado una historia que se res
       habitat: "Terrenos rocosos y montañosos",
       estado: "Vulnerable (VU)"
     },
-    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
-    taxidermia: { fecha: "", taller: "", observaciones: "" },
-    documentos: "",
-    historia: "",
+    caza: { fecha: "NOVIEMBRE 2015", operador: "Wild Hunting Turkey", modalidad: "Rececho", distancia: "260m", arma: "RIFLE BRILEY", calibre: "270 WIN" },
+    taxidermia: { fecha: "ISTC", taller: "BUENOS AIRES", observaciones: "" },
+    documentos: "FILE TUR002",
+    historia: `Emblemática, tan hermosa como desafiante. Era la segunda vez que viajábamos a Turquía por ese trofeo. Antes se nos había escapado entre las rocas, como si las montañas mismas lo protegieran.
+
+Las Taurus son duras. Su suelo de piedra caliza destroza las botas y pone a prueba cada paso. Las cabras se mueven con una gracia que parece imposible; nosotros, en cambio, tenemos que aprender a adaptarnos, a perderle el miedo a las alturas y a entender su terreno.
+
+El disparo fue complicado: inclinación pronunciada, viento cruzado y una distancia larga. Pero la oportunidad llegó, y los guías —verdaderos maestros del rastreo— lograron cobrar la pieza después de una búsqueda intensa.
+
+El regreso fue agotador, pero también lleno de satisfacción. Cada paso, cada piedra, cada búsqueda del Gran Bezoar, te recuerda que la montaña siempre tiene la última palabra.`,
     pull: "«»",
   },
 
@@ -578,8 +600,8 @@ Habíamos cazado más que un animal: habíamos alcanzado una historia que se res
     especie: "Cérvido",
     continente: "Oceanía",
     pais: "Nueva Zelanda",
-    anio: null,
-    region: "",
+    anio: 2011,
+    region: "Waikaka, Southland",
     sala: "Sector 1 – Salón Principal Pared Sur",
     fotos: 0,
     bio: {
@@ -590,10 +612,14 @@ Habíamos cazado más que un animal: habíamos alcanzado una historia que se res
       habitat: "Bosques y praderas alpinas",
       estado: "Preocupación menor (LC)"
     },
-    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
-    taxidermia: { fecha: "", taller: "", observaciones: "" },
-    documentos: "",
-    historia: "",
+    caza: { fecha: "MAYO 2011", operador: "Leithen Valley", modalidad: "Rececho", distancia: "160m", arma: "RIFLE BLASER", calibre: "300 WIN" },
+    taxidermia: { fecha: "ISTC", taller: "BUENOS AIRES", observaciones: "" },
+    documentos: "FILE NZ001",
+    historia: `No me costó ni tres segundos decidir cruzar el Pacífico. La idea de ver a César trabajando en aquella tierra llena de ciervos de gran calidad era demasiado tentadora. Nueva Zelanda tiene algo especial: sus paisajes son tan impresionantes como la calidez de su gente.
+
+Cazar allí fue una experiencia completa. El entorno, la organización, el respeto por el animal y la naturaleza —todo encajaba. Cuando apareció aquel ciervo, enorme y perfecto, supe que era el cierre de un ciclo. Un trofeo así no solo representa una cacería exitosa, sino el broche de oro de una historia que empezó muchos años atrás.
+
+Nueva Zelanda me dejó una sensación de plenitud. No fue solo el ciervo, fue el viaje, la compañía y el saber que algunos sueños se cumplen cuando uno se atreve a perseguirlos.`,
     pull: "«»",
   },
 
@@ -881,7 +907,7 @@ Habíamos cazado más que un animal: habíamos alcanzado una historia que se res
     continente: "América del Sur",
     pais: "Perú",
     anio: null,
-    region: "Cusco",
+    region: "Sierra del Perú",
     sala: "Sector 1 – Zona Escaleras",
     fotos: 0,
     bio: {
@@ -892,10 +918,18 @@ Habíamos cazado más que un animal: habíamos alcanzado una historia que se res
       habitat: "Bosques andinos, vertientes y laderas",
       estado: "Preocupación menor (LC)"
     },
-    caza: { fecha: "", operador: "", modalidad: "", distancia: "", arma: "", calibre: "" },
-    taxidermia: { fecha: "", taller: "", observaciones: "" },
-    documentos: "",
-    historia: "",
+    caza: { fecha: "Toda una vida", operador: "Guias locales", modalidad: "Varias", distancia: "Varias", arma: "Varios", calibre: "270 WIN" },
+    taxidermia: { fecha: "Varios", taller: "LIMA", observaciones: "" },
+    documentos: "FILE WTN002",
+    historia: `Para cazar en los Andes uno debe aprender a escuchar lo que la montaña tiene para decir.
+
+El venado andino es un sabio disfrazado de sombra. Su astucia no está en la huida, sino en el entendimiento profundo del territorio. Cada encuentro con él es una lección de humildad: sobre el tiempo, la paciencia y la mirada que sabe distinguir entre el impulso y el respeto.
+
+He caminado esas sierras desde joven, entre amaneceres que parecen eternos y ocasos que queman el alma. He conocido el Perú y su profundidad, ese que vive en los gestos de los pastores, en los rituales del agua y en la cosmovisión que entiende que todo ser tiene su lugar y su propósito.
+
+Cazar allí es agradecer. Agradecer por las montañas que cobijan, por las lagunas que reflejan el cielo, por los animales que enseñan el equilibrio entre la vida y la muerte. Cada trofeo no es una conquista, sino un fruto que la montaña concede a quien la respeta.
+
+Y así, entre el frío, el silencio y la gratitud, he comprendido que el verdadero honor no está en el disparo, sino en el permiso que la naturaleza otorga para ser parte de su historia.`,
     pull: "«»",
   },
 
