@@ -17,8 +17,8 @@
     --ok:#6b8f4e; --warn:#c9873f; --danger:#b5544a;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:var(--sans);background:#0e0b0d;color:var(--texto);-webkit-font-smoothing:antialiased;line-height:1.5}
-  .wrap{max-width:920px;margin:0 auto;min-height:100vh;background:var(--bg)}
+  body{font-family:var(--sans);background:var(--bg);color:var(--texto);-webkit-font-smoothing:antialiased;line-height:1.5}
+  .wrap{max-width:1180px;margin:0 auto;min-height:100vh;background:var(--bg)}
   a{color:var(--beige2)}
   button{font-family:var(--sans);cursor:pointer}
   input,select,textarea{font-family:var(--sans);font-size:15px;color:var(--texto);background:rgba(230,217,192,.05);
@@ -256,7 +256,7 @@
           </div>
           <div class="g3">
             <div class="field"><label>Código</label><input id="f_codigo" placeholder="ALC-004"></div>
-            <div class="field"><label>Especie</label><input id="f_especie"></div>
+            <div class="field"><label>Especie</label><select id="f_especie"></select><input id="f_especie_txt" class="hide" placeholder="Especificar especie…" style="margin-top:8px"></div>
             <div class="field"><label>Año</label><input id="f_anio" type="number" inputmode="numeric"></div>
           </div>
         </fieldset>
@@ -265,11 +265,11 @@
           <legend>Origen y ubicación</legend>
           <div class="g2">
             <div class="field"><label>País</label><input id="f_pais"></div>
-            <div class="field"><label>Continente</label><input id="f_continente"></div>
+            <div class="field"><label>Continente</label><select id="f_continente"></select><input id="f_continente_txt" class="hide" placeholder="Especificar continente…" style="margin-top:8px"></div>
           </div>
           <div class="g2">
             <div class="field"><label>Región</label><input id="f_region"></div>
-            <div class="field"><label>Sala / sector (catálogo)</label><input id="f_sala"></div>
+            <div class="field"><label>Sala / sector</label><select id="f_sala"></select><input id="f_sala_txt" class="hide" placeholder="Especificar sala…" style="margin-top:8px"></div>
           </div>
           <div class="g2">
             <div class="field"><label>Ubicación física actual</label><input id="f_ubicacion_actual"></div>
@@ -287,7 +287,7 @@
           <div class="g3">
             <div class="field"><label>Fecha</label><input id="f_caza_fecha"></div>
             <div class="field"><label>Operador</label><input id="f_caza_operador"></div>
-            <div class="field"><label>Modalidad</label><input id="f_caza_modalidad"></div>
+            <div class="field"><label>Modalidad</label><select id="f_caza_modalidad"></select><input id="f_caza_modalidad_txt" class="hide" placeholder="Especificar modalidad…" style="margin-top:8px"></div>
           </div>
           <div class="g3">
             <div class="field"><label>Distancia</label><input id="f_caza_distancia"></div>
@@ -357,16 +357,21 @@
       </div>
     </section>
 
-    <!-- ===== MANTENIMIENTO: lista de animales ===== -->
+    <!-- ===== MANTENIMIENTO ===== -->
     <section id="mantListView" class="hide">
-      <div class="list-head">
-        <h2 class="serif">Mantenimiento por pieza</h2>
-        <div class="searchbox">
+      <div class="list-head"><h2 class="serif">Mantenimiento</h2></div>
+      <div class="tabbar" id="mantTabs" style="margin-bottom:18px">
+        <button data-mt="agenda" class="on">Por hacer (agenda)</button>
+        <button data-mt="piezas">Por pieza</button>
+      </div>
+      <div id="mantAgenda"></div>
+      <div id="mantPiezasList" class="hide">
+        <div class="searchbox" style="margin-bottom:14px">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
           <input type="text" id="mantSearch" placeholder="Buscar pieza…">
         </div>
+        <div class="rows" id="mantRows"></div>
       </div>
-      <div class="rows" id="mantRows"></div>
     </section>
 
     <!-- ===== MANTENIMIENTO: detalle de un animal ===== -->
@@ -412,7 +417,7 @@
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.js"></script>
 <script src="config.js"></script>
 <script src="admin.js"></script>
 </body>

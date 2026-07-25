@@ -20,6 +20,38 @@ function estadoClass(e){return e==="Excelente"?"ex":e==="Requiere atención"?"at
 function fmtDate(d){if(!d)return"";const p=d.split("-");return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:d;}
 function today(){return new Date().toISOString().slice(0,10);}
 
+/* ---------- desplegables (opciones fijas + "Otro…" para valores nuevos) ---------- */
+const SEL = {
+  f_especie: ["Antílope","Ave galliforme","Bóvido","Caprino salvaje","Cérvido","Équido","Felino","Gacela","Ovino","Ovino salvaje","Perisodáctilo","Reptil cocodrílido","Suido","Úrsido"],
+  f_continente: ["África","América","América del Norte","América del Sur","Asia","Europa","Europa / Asia","Oceanía"],
+  f_sala: ["Sector 1 – Salón Principal Pared Oeste","Sector 1 – Salón Principal Pared Este","Sector 1 – Salón Principal Pared Sur","Sector 1 – Zona Escaleras","Sector 2 – Comedor","Sector 3 – Segundo Piso","Sector 4 – Oficina / Hall","Sector 5 – Entrada Exterior","Sector 6 – Patio Interior"],
+  f_caza_modalidad: ["Rececho","Espera / Aguardo","Batida / Montería","Al salto","Desde vehículo","Varias"]
+};
+function initSelects(){
+  Object.entries(SEL).forEach(([id,vals])=>{
+    const s=$("#"+id); if(!s) return;
+    s.innerHTML=`<option value="">— seleccionar —</option>`+vals.map(v=>`<option value="${v}">${v}</option>`).join("")+`<option value="__otro__">Otro…</option>`;
+    s.addEventListener("change",()=>{
+      const txt=$("#"+id+"_txt"); if(!txt) return;
+      if(s.value==="__otro__"){ txt.classList.remove("hide"); txt.value=""; txt.focus(); }
+      else txt.classList.add("hide");
+    });
+  });
+}
+function setSelVal(id,val){
+  const s=$("#"+id), txt=$("#"+id+"_txt"); if(!s) return;
+  if(txt){ txt.classList.add("hide"); txt.value=""; }
+  if(!val){ s.value=""; return; }
+  if(![...s.options].some(o=>o.value===val)){ const o=document.createElement("option"); o.value=val; o.textContent=val; s.insertBefore(o,s.lastElementChild); }
+  s.value=val;
+}
+function getSelVal(id){
+  const s=$("#"+id); if(!s) return "";
+  if(s.value==="__otro__"){ const txt=$("#"+id+"_txt"); return txt?(txt.value||"").trim():""; }
+  return s.value;
+}
+initSelects();
+
 /* ═══════════════ AUTENTICACIÓN ═══════════════ */
 $("#loginForm").addEventListener("submit", async e=>{
   e.preventDefault();
@@ -53,7 +85,7 @@ function showSection(name){
 }
 function setNav(which){ $("#navPiezas").classList.toggle("on",which==="piezas"); $("#navMant").classList.toggle("on",which==="mant"); }
 $("#navPiezas").addEventListener("click", ()=>{ setNav("piezas"); showSection("listView"); loadList(); });
-$("#navMant").addEventListener("click", ()=>{ setNav("mant"); showSection("mantListView"); loadMantList(); });
+$("#navMant").addEventListener("click", ()=>{ setNav("mant"); showSection("mantListView"); enterMant(); });
 
 /* ═══════════════ LISTA DE PIEZAS ═══════════════ */
 async function loadList(){
@@ -88,12 +120,12 @@ $("#backBtn").addEventListener("click", ()=>{ showSection("listView"); loadList(
 $("#cancelBtn").addEventListener("click", ()=>{ showSection("listView"); loadList(); });
 
 $$("#edTabs button").forEach(b=>b.addEventListener("click", ()=>goTab(b.dataset.t)));
-function goTab(t){ $$("#edTabs button").forEach(b=>b.classList.toggle("on",b.dataset.t===t)); $$("#editView .pane").forEach(p=>p.classList.toggle("on",p.dataset.p===t)); }
+function goTab(t){ $$("#edTabs button").forEach(b=>b.classList.toggle("on",b.dataset.t===t)); $$("#editView .pane").forEach(p=>p.classList.toggle("on",p.dataset.p===t)); if(t==="qr"&&currentId) renderQR(); }
 
 const F = {
-  scalar:["codigo","nombre_comun","nombre_cientifico","especie","continente","pais","region","sala","ubicacion_actual","estado_pieza","documentos","historia"],
+  scalar:["codigo","nombre_comun","nombre_cientifico","pais","region","ubicacion_actual","estado_pieza","documentos","historia"],
   bio:["clase","orden","familia","distribucion","habitat","estado"],
-  caza:["fecha","operador","modalidad","distancia","arma","calibre"],
+  caza:["fecha","operador","distancia","arma","calibre"],
   tax:["fecha","taller","observaciones"]
 };
 
@@ -110,6 +142,10 @@ async function openEditor(id){
   F.bio.forEach(k=>$("#f_bio_"+k).value = p&&p.bio ? (p.bio[k]||"") : "");
   F.caza.forEach(k=>$("#f_caza_"+k).value = p&&p.caza ? (p.caza[k]||"") : "");
   F.tax.forEach(k=>$("#f_tax_"+k).value = p&&p.taxidermia ? (p.taxidermia[k]||"") : "");
+  setSelVal("f_especie", p?p.especie:"");
+  setSelVal("f_continente", p?p.continente:"");
+  setSelVal("f_sala", p?p.sala:"");
+  setSelVal("f_caza_modalidad", p&&p.caza?p.caza.modalidad:"");
 
   $("#edTitle").textContent = p ? p.nombre_comun : "Nueva pieza";
   $("#edSub").textContent = p ? (p.codigo||p.id) : "Completá los datos y guardá";
@@ -131,12 +167,12 @@ function readForm(){
     codigo:$("#f_codigo").value.trim(),
     nombre_comun:$("#f_nombre_comun").value.trim(),
     nombre_cientifico:$("#f_nombre_cientifico").value.trim(),
-    especie:$("#f_especie").value.trim(),
-    continente:$("#f_continente").value.trim(),
+    especie:getSelVal("f_especie"),
+    continente:getSelVal("f_continente"),
     pais:$("#f_pais").value.trim(),
     anio: anio===""?null:parseInt(anio,10),
     region:$("#f_region").value.trim(),
-    sala:$("#f_sala").value.trim(),
+    sala:getSelVal("f_sala"),
     ubicacion_actual:$("#f_ubicacion_actual").value.trim(),
     estado_pieza:$("#f_estado_pieza").value,
     documentos:$("#f_documentos").value.trim(),
@@ -145,6 +181,7 @@ function readForm(){
   };
   F.bio.forEach(k=>obj.bio[k]=$("#f_bio_"+k).value.trim());
   F.caza.forEach(k=>obj.caza[k]=$("#f_caza_"+k).value.trim());
+  obj.caza.modalidad=getSelVal("f_caza_modalidad");
   F.tax.forEach(k=>obj.taxidermia[k]=$("#f_tax_"+k).value.trim());
   return obj;
 }
@@ -315,7 +352,54 @@ function renderMantList(){
   }).join("");
 }
 $("#mantSearch").addEventListener("input", renderMantList);
-$("#mantBackBtn").addEventListener("click", ()=>{ showSection("mantListView"); loadMantList(); });
+$("#mantBackBtn").addEventListener("click", ()=>{ showSection("mantListView"); enterMant(); });
+
+/* sub-tabs de Mantenimiento: Agenda / Por pieza */
+$$("#mantTabs button").forEach(b=>b.addEventListener("click",()=>{
+  $$("#mantTabs button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+  const mt=b.dataset.mt;
+  $("#mantAgenda").classList.toggle("hide", mt!=="agenda");
+  $("#mantPiezasList").classList.toggle("hide", mt!=="piezas");
+}));
+function enterMant(){
+  $$("#mantTabs button").forEach(x=>x.classList.toggle("on", x.dataset.mt==="agenda"));
+  $("#mantAgenda").classList.remove("hide"); $("#mantPiezasList").classList.add("hide");
+  loadAgenda(); loadMantList();
+}
+
+/* Agenda: todos los mantenimientos pendientes de todas las piezas */
+async function loadAgenda(){
+  const { data, error } = await sb.from("mantenimientos")
+    .select("*, piezas(id,nombre_comun,codigo)")
+    .neq("estado","realizado")
+    .order("fecha_programada",{ascending:true,nullsFirst:false});
+  if(error){ console.error(error); return; }
+  renderAgenda(data||[]);
+}
+function renderAgenda(items){
+  const c=$("#mantAgenda"), hoy=today();
+  if(!items.length){ c.innerHTML=`<div class="empty" style="padding:44px">No hay mantenimientos pendientes. 🎉<br><span style="font-size:12px">Programalos desde “Por pieza”.</span></div>`; return; }
+  c.innerHTML=items.map(m=>{
+    const pz=m.piezas||{}, due=m.fecha_programada&&m.fecha_programada<=hoy;
+    return `<div class="card">
+      <div class="c-top">
+        <span class="c-tipo">${pz.nombre_comun||"—"}</span>
+        <span class="tag prog">${m.fecha_programada?fmtDate(m.fecha_programada):"Sin fecha"}</span>
+      </div>
+      <div class="c-date">${m.tipo||"Mantenimiento"}${due?' · <span style="color:var(--warn)">⚠ vencido</span>':''}</div>
+      ${m.descripcion?`<div class="c-desc" style="margin-top:6px">${m.descripcion}</div>`:""}
+      <div class="c-foot">
+        ${m.responsable?`<span class="c-date">👤 ${m.responsable}</span>`:""}
+        <button class="link" onclick="markDone('${m.id}')">Marcar realizado</button>
+        <button class="link" onclick="openMantDetail('${pz.id}')">Ver pieza ↗</button>
+      </div>
+    </div>`;
+  }).join("");
+}
+async function refreshMant(){
+  if(!$("#mantListView").classList.contains("hide")) await loadAgenda();
+  if(mSelId && !$("#mantDetailView").classList.contains("hide")) await loadMant();
+}
 
 async function openMantDetail(id){
   mSelId=id;
@@ -380,11 +464,11 @@ $("#mantSave").addEventListener("click", async ()=>{
   const q = mantEditId ? sb.from("mantenimientos").update(body).eq("id",mantEditId) : sb.from("mantenimientos").insert(body);
   const { error } = await q;
   if(error){ toast("Error al guardar"); console.error(error); return; }
-  mantOverlay.classList.remove("show"); toast("Mantenimiento guardado"); loadMant();
+  mantOverlay.classList.remove("show"); toast("Mantenimiento guardado"); refreshMant();
 });
 async function markDone(id){
   const { error } = await sb.from("mantenimientos").update({estado:"realizado",fecha_realizado:today()}).eq("id",id);
-  if(error){ toast("Error"); return; } toast("Marcado como realizado"); loadMant();
+  if(error){ toast("Error"); return; } toast("Marcado como realizado"); refreshMant();
 }
 window.markDone=markDone;
 async function editMant(id){
@@ -394,7 +478,7 @@ async function editMant(id){
 window.editMant=editMant;
 async function deleteMant(id){
   if(!confirm("¿Borrar este mantenimiento?")) return;
-  await sb.from("mantenimientos").delete().eq("id",id); loadMant();
+  await sb.from("mantenimientos").delete().eq("id",id); refreshMant();
 }
 window.deleteMant=deleteMant;
 
