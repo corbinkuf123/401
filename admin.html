@@ -184,6 +184,14 @@
   .spin{width:15px;height:15px;border:2px solid rgba(32,22,12,.3);border-top-color:#20160c;border-radius:50%;
     display:inline-block;animation:sp .7s linear infinite}
   @keyframes sp{to{transform:rotate(360deg)}}
+
+  /* subnav Piezas / Mantenimiento */
+  .subnav{display:flex;gap:8px;padding:16px 20px 0}
+  .subnav button{background:none;border:1px solid var(--linea);color:var(--soft);padding:9px 18px;border-radius:40px;font-weight:600;font-size:12.5px;letter-spacing:.03em}
+  .subnav button.on{background:var(--beige);color:#20160c;border-color:var(--beige)}
+  .mant-next{font-size:11px;color:var(--soft);margin-top:2px}
+  .mant-next.due{color:var(--warn)}
+  @media(max-width:640px){.subnav{padding:12px 14px 0}.subnav button{padding:8px 14px;font-size:12px}}
 </style>
 </head>
 <body>
@@ -208,6 +216,10 @@
     <div class="brand"><b class="serif">414</b><span>Administración</span></div>
     <div class="who"><a href="index.html" target="_blank">Ver sitio ↗</a><button class="btn ghost sm" id="logoutBtn">Salir</button></div>
   </div>
+  <div class="subnav">
+    <button id="navPiezas" class="on">Piezas</button>
+    <button id="navMant">Mantenimiento</button>
+  </div>
   <main>
     <!-- LISTA -->
     <section id="listView">
@@ -231,8 +243,6 @@
       <div class="tabbar" id="edTabs">
         <button data-t="datos" class="on">Datos</button>
         <button data-t="fotos">Fotos</button>
-        <button data-t="mant">Mantenimiento</button>
-        <button data-t="notas">Notas</button>
         <button data-t="qr">QR</button>
       </div>
 
@@ -313,7 +323,6 @@
         <fieldset>
           <legend>Relato</legend>
           <div class="field"><label>Historia (una línea en blanco entre párrafos)</label><textarea id="f_historia" rows="6"></textarea></div>
-          <div class="field"><label>Frase destacada</label><input id="f_pull" placeholder="«…»"></div>
         </fieldset>
 
         <div class="save-bar">
@@ -325,34 +334,12 @@
 
       <!-- FOTOS -->
       <div class="pane" data-p="fotos">
-        <div id="fotosLocked" class="empty">Guardá la pieza primero para poder subir fotos.</div>
-        <div id="fotosArea" class="hide">
+        <div id="fotosArea">
           <div class="drop" id="drop">
             <b>Arrastrá fotos aquí</b> o <label style="display:inline;color:var(--beige);cursor:pointer;text-transform:none;letter-spacing:0;font-size:14px"><u>elegí archivos</u><input type="file" id="fileInput" accept="image/*" multiple class="hide"></label>
             <div style="font-size:11px;margin-top:8px">Se recomiendan 3–4 fotos por pieza. La primera es la principal.</div>
           </div>
           <div class="thumbs" id="thumbs"></div>
-        </div>
-      </div>
-
-      <!-- MANTENIMIENTO -->
-      <div class="pane" data-p="mant">
-        <div id="mantLocked" class="empty">Guardá la pieza primero para gestionar sus mantenimientos.</div>
-        <div id="mantArea" class="hide">
-          <div class="sec-head"><h3 class="serif">Próximos mantenimientos</h3><button class="btn sm" id="addMantBtn">+ Programar</button></div>
-          <div id="mantProg"></div>
-          <div class="sec-head" style="margin-top:22px"><h3 class="serif">Historial</h3></div>
-          <div id="mantHist"></div>
-        </div>
-      </div>
-
-      <!-- NOTAS -->
-      <div class="pane" data-p="notas">
-        <div id="notasLocked" class="empty">Guardá la pieza primero para agregar notas.</div>
-        <div id="notasArea" class="hide">
-          <div class="field"><textarea id="notaTexto" placeholder="Escribir una nota / observación…" rows="3"></textarea></div>
-          <div style="display:flex;justify-content:flex-end;margin-bottom:18px"><button class="btn sm" id="addNotaBtn">Agregar nota</button></div>
-          <div id="notasList"></div>
         </div>
       </div>
 
@@ -368,6 +355,36 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- ===== MANTENIMIENTO: lista de animales ===== -->
+    <section id="mantListView" class="hide">
+      <div class="list-head">
+        <h2 class="serif">Mantenimiento por pieza</h2>
+        <div class="searchbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+          <input type="text" id="mantSearch" placeholder="Buscar pieza…">
+        </div>
+      </div>
+      <div class="rows" id="mantRows"></div>
+    </section>
+
+    <!-- ===== MANTENIMIENTO: detalle de un animal ===== -->
+    <section id="mantDetailView" class="hide">
+      <div class="ed-top"><button class="back" id="mantBackBtn">‹ Volver a la lista</button></div>
+      <div class="ed-title serif" id="mantTitle"></div>
+      <div class="ed-sub" id="mantSub"></div>
+
+      <div class="sec-head" style="margin-top:18px"><h3 class="serif">Próximos mantenimientos</h3><button class="btn sm" id="addMantBtn">+ Programar</button></div>
+      <div id="mantProg"></div>
+
+      <div class="sec-head" style="margin-top:24px"><h3 class="serif">Historial</h3></div>
+      <div id="mantHist"></div>
+
+      <div class="sec-head" style="margin-top:28px"><h3 class="serif">Notas / bitácora</h3></div>
+      <div class="field"><textarea id="notaTexto" placeholder="Escribir una nota / observación…" rows="3"></textarea></div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:18px"><button class="btn sm" id="addNotaBtn">Agregar nota</button></div>
+      <div id="notasList"></div>
     </section>
   </main>
 </div>

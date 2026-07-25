@@ -4,10 +4,13 @@
    ═══════════════════════════════════════════════════════════════ */
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
-let PIEZAS = [];        // lista en memoria para la vista de lista
-let currentId = null;   // id de la pieza en edición (null = nueva)
-let currentImgs = [];   // imágenes de la pieza en edición
-let mantEditId = null;  // id del mantenimiento en edición dentro del modal
+let PIEZAS = [];          // piezas para la lista de edición
+let MANT_PIEZAS = [];      // piezas para la sección de mantenimiento
+let currentId = null;     // id de la pieza en edición (null = nueva)
+let currentImgs = [];     // imágenes guardadas de la pieza en edición
+let pendingFiles = [];    // fotos elegidas para una pieza nueva (se suben al guardar)
+let mSelId = null;        // pieza seleccionada en la sección de mantenimiento
+let mantEditId = null;    // mantenimiento en edición dentro del modal
 
 /* ---------- utilidades ---------- */
 function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),2200);}
@@ -15,6 +18,7 @@ function slugify(s){return (s||"pieza").toString().normalize("NFD").replace(/[̀
 function rand(n){return Math.random().toString(36).slice(2,2+n);}
 function estadoClass(e){return e==="Excelente"?"ex":e==="Requiere atención"?"at":e==="En restauración"?"re":"";}
 function fmtDate(d){if(!d)return"";const p=d.split("-");return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:d;}
+function today(){return new Date().toISOString().slice(0,10);}
 
 /* ═══════════════ AUTENTICACIÓN ═══════════════ */
 $("#loginForm").addEventListener("submit", async e=>{
@@ -35,11 +39,21 @@ sb.auth.getSession().then(({data})=>{ if(data.session) showApp(); });
 async function showApp(){
   $("#login").classList.add("hide");
   $("#app").classList.remove("hide");
+  setNav("piezas"); showSection("listView");
   await loadList();
   // deep-link desde el sitio público: admin.html#pieza=<id>
   const m = location.hash.match(/^#pieza=(.+)$/);
   if(m){ openEditor(decodeURIComponent(m[1])); history.replaceState(null,"","admin.html"); }
 }
+
+/* ═══════════════ NAVEGACIÓN PRINCIPAL ═══════════════ */
+function showSection(name){
+  ["listView","editView","mantListView","mantDetailView"].forEach(v=>$("#"+v).classList.toggle("hide", v!==name));
+  window.scrollTo(0,0);
+}
+function setNav(which){ $("#navPiezas").classList.toggle("on",which==="piezas"); $("#navMant").classList.toggle("on",which==="mant"); }
+$("#navPiezas").addEventListener("click", ()=>{ setNav("piezas"); showSection("listView"); loadList(); });
+$("#navMant").addEventListener("click", ()=>{ setNav("mant"); showSection("mantListView"); loadMantList(); });
 
 /* ═══════════════ LISTA DE PIEZAS ═══════════════ */
 async function loadList(){
@@ -69,32 +83,27 @@ function renderList(){
 $("#adminSearch").addEventListener("input", renderList);
 $("#newBtn").addEventListener("click", ()=>openEditor(null));
 
-/* ═══════════════ EDITOR ═══════════════ */
-function switchView(v){
-  $("#listView").classList.toggle("hide", v!=="list");
-  $("#editView").classList.toggle("hide", v!=="edit");
-  window.scrollTo(0,0);
-}
-$("#backBtn").addEventListener("click", ()=>{ switchView("list"); loadList(); });
-$("#cancelBtn").addEventListener("click", ()=>{ switchView("list"); loadList(); });
+/* ═══════════════ EDITOR DE PIEZA ═══════════════ */
+$("#backBtn").addEventListener("click", ()=>{ showSection("listView"); loadList(); });
+$("#cancelBtn").addEventListener("click", ()=>{ showSection("listView"); loadList(); });
 
-$$("#edTabs button").forEach(b=>b.addEventListener("click", ()=>{
-  $$("#edTabs button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
-  $$(".pane").forEach(p=>p.classList.toggle("on", p.dataset.p===b.dataset.t));
-}));
-function goTab(t){ $$("#edTabs button").forEach(b=>b.classList.toggle("on",b.dataset.t===t)); $$(".pane").forEach(p=>p.classList.toggle("on",p.dataset.p===t)); }
+$$("#edTabs button").forEach(b=>b.addEventListener("click", ()=>goTab(b.dataset.t)));
+function goTab(t){ $$("#edTabs button").forEach(b=>b.classList.toggle("on",b.dataset.t===t)); $$("#editView .pane").forEach(p=>p.classList.toggle("on",p.dataset.p===t)); }
 
 const F = {
-  scalar:["codigo","nombre_comun","nombre_cientifico","especie","continente","pais","region","sala","ubicacion_actual","estado_pieza","documentos","historia","pull"],
+  scalar:["codigo","nombre_comun","nombre_cientifico","especie","continente","pais","region","sala","ubicacion_actual","estado_pieza","documentos","historia"],
   bio:["clase","orden","familia","distribucion","habitat","estado"],
   caza:["fecha","operador","modalidad","distancia","arma","calibre"],
   tax:["fecha","taller","observaciones"]
 };
 
 async function openEditor(id){
+  // reset total del editor (evita arrastrar la pieza anterior)
+  pendingFiles.forEach(pf=>URL.revokeObjectURL(pf.url)); pendingFiles=[];
   currentId=id; currentImgs=[];
+  $("#thumbs").innerHTML="";
   const p = id ? PIEZAS.find(x=>x.id===id) : null;
-  // limpiar
+
   F.scalar.forEach(k=>{ const el=$("#f_"+k); if(el) el.value = p ? (p[k]??"") : ""; });
   if(!p) $("#f_estado_pieza").value="Bueno";
   $("#f_anio").value = p && p.anio!=null ? p.anio : "";
@@ -105,16 +114,14 @@ async function openEditor(id){
   $("#edTitle").textContent = p ? p.nombre_comun : "Nueva pieza";
   $("#edSub").textContent = p ? (p.codigo||p.id) : "Completá los datos y guardá";
   $("#deleteBtn").classList.toggle("hide", !p);
+  // El QR sí necesita que la pieza exista (usa su id en la URL)
+  $("#qrLocked").classList.toggle("hide", !!p);
+  $("#qrArea").classList.toggle("hide", !p);
   goTab("datos");
+  showSection("editView");
 
-  const locked = !p;
-  ["fotos","mant","notas","qr"].forEach(s=>{
-    $("#"+s+"Locked").classList.toggle("hide", !locked);
-    $("#"+s+"Area").classList.toggle("hide", locked);
-  });
-  switchView("edit");
-
-  if(p){ await Promise.all([loadFotos(), loadMant(), loadNotas()]); renderQR(); }
+  if(p){ await loadFotos(); renderQR(); }
+  else { renderThumbs(); }
 }
 window.openEditor = openEditor;
 
@@ -134,7 +141,6 @@ function readForm(){
     estado_pieza:$("#f_estado_pieza").value,
     documentos:$("#f_documentos").value.trim(),
     historia:$("#f_historia").value.trim(),
-    pull:$("#f_pull").value.trim(),
     bio:{}, caza:{}, taxidermia:{}
   };
   F.bio.forEach(k=>obj.bio[k]=$("#f_bio_"+k).value.trim());
@@ -162,12 +168,19 @@ $("#saveBtn").addEventListener("click", async ()=>{
         else throw error;
       }
       if(!ok) throw new Error("No se pudo generar un identificador único");
-      toast("Pieza creada");
-      // desbloquear pestañas
-      ["fotos","mant","notas","qr"].forEach(s=>{ $("#"+s+"Locked").classList.add("hide"); $("#"+s+"Area").classList.remove("hide"); });
+      // subir las fotos que se habían elegido antes de guardar
+      if(pendingFiles.length){
+        toast("Subiendo fotos…");
+        let orden=0;
+        for(const pf of pendingFiles){ try{ await uploadOne(pf.file, orden++); }catch(e){ console.error(e); } }
+        pendingFiles.forEach(pf=>URL.revokeObjectURL(pf.url)); pendingFiles=[];
+        await loadFotos();
+      }
       $("#deleteBtn").classList.remove("hide");
       $("#edSub").textContent = body.codigo||currentId;
+      $("#qrLocked").classList.add("hide"); $("#qrArea").classList.remove("hide");
       renderQR();
+      toast("Pieza creada");
     }
     await loadList();
     $("#edTitle").textContent = body.nombre_comun;
@@ -178,12 +191,11 @@ $("#saveBtn").addEventListener("click", async ()=>{
 $("#deleteBtn").addEventListener("click", async ()=>{
   if(!currentId) return;
   if(!confirm("¿Eliminar esta pieza y todas sus fotos, mantenimientos y notas? No se puede deshacer.")) return;
-  // borrar fotos del storage
   const paths = currentImgs.map(i=>i.storage_path).filter(Boolean);
   if(paths.length) await sb.storage.from("piezas").remove(paths);
   const { error } = await sb.from("piezas").delete().eq("id",currentId);
   if(error){ toast("Error al eliminar"); return; }
-  toast("Pieza eliminada"); switchView("list"); loadList();
+  toast("Pieza eliminada"); showSection("listView"); loadList();
 });
 
 /* ═══════════════ FOTOS ═══════════════ */
@@ -195,43 +207,62 @@ async function loadFotos(){
 }
 function renderThumbs(){
   const c=$("#thumbs");
-  c.innerHTML=currentImgs.map((im,i)=>`
-    <div class="th">
-      ${i===0?'<span class="badge">Principal</span>':''}
-      <img src="${im.url}" alt="">
-      <div class="tools">
-        ${i>0?`<button onclick="moveImg('${im.id}',-1)" title="Subir">↑</button>`:''}
-        ${i<currentImgs.length-1?`<button onclick="moveImg('${im.id}',1)" title="Bajar">↓</button>`:''}
-        <button class="del" onclick="deleteImg('${im.id}')">Borrar</button>
-      </div>
-    </div>`).join("");
+  if(currentId){
+    c.innerHTML=currentImgs.map((im,i)=>`
+      <div class="th">
+        ${i===0?'<span class="badge">Principal</span>':''}
+        <img src="${im.url}" alt="">
+        <div class="tools">
+          ${i>0?`<button onclick="moveImg('${im.id}',-1)" title="Subir">↑</button>`:''}
+          ${i<currentImgs.length-1?`<button onclick="moveImg('${im.id}',1)" title="Bajar">↓</button>`:''}
+          <button class="del" onclick="deleteImg('${im.id}')">Borrar</button>
+        </div>
+      </div>`).join("");
+  }else{
+    c.innerHTML=pendingFiles.map((pf,i)=>`
+      <div class="th">
+        ${i===0?'<span class="badge">Principal</span>':''}
+        <img src="${pf.url}" alt="">
+        <div class="tools"><button class="del" onclick="removePending('${pf.id}')">Quitar</button></div>
+      </div>`).join("");
+  }
 }
-$("#fileInput").addEventListener("change", e=>uploadFiles(e.target.files));
+$("#fileInput").addEventListener("change", e=>{ uploadFiles(e.target.files); e.target.value=""; });
 const drop=$("#drop");
 ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("over");}));
 ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("over");}));
 drop.addEventListener("drop", e=>uploadFiles(e.dataTransfer.files));
 
+async function uploadOne(file, orden){
+  const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";
+  const path=`${currentId}/${Date.now()}-${rand(4)}.${ext}`;
+  const up=await sb.storage.from("piezas").upload(path,file,{cacheControl:"3600",upsert:false});
+  if(up.error) throw up.error;
+  const url=sb.storage.from("piezas").getPublicUrl(path).data.publicUrl;
+  const ins=await sb.from("imagenes").insert({pieza_id:currentId,storage_path:path,url,orden});
+  if(ins.error) throw ins.error;
+}
 async function uploadFiles(files){
-  if(!currentId){ toast("Guardá la pieza primero"); return; }
   const arr=[...files].filter(f=>f.type.startsWith("image/"));
   if(!arr.length) return;
+  // pieza aún no guardada: encolar y previsualizar; se suben al guardar
+  if(!currentId){
+    arr.forEach(f=>pendingFiles.push({file:f,url:URL.createObjectURL(f),id:rand(6)}));
+    renderThumbs();
+    toast(`${arr.length} foto(s) lista(s) · se subirán al guardar`);
+    return;
+  }
   toast(`Subiendo ${arr.length} foto(s)…`);
   let orden = currentImgs.length ? Math.max(...currentImgs.map(i=>i.orden||0))+1 : 0;
-  for(const file of arr){
-    try{
-      const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";
-      const path=`${currentId}/${Date.now()}-${rand(4)}.${ext}`;
-      const up=await sb.storage.from("piezas").upload(path,file,{cacheControl:"3600",upsert:false});
-      if(up.error) throw up.error;
-      const url=sb.storage.from("piezas").getPublicUrl(path).data.publicUrl;
-      const ins=await sb.from("imagenes").insert({pieza_id:currentId,storage_path:path,url,orden:orden++});
-      if(ins.error) throw ins.error;
-    }catch(err){ console.error(err); toast("Error subiendo una foto"); }
-  }
+  for(const file of arr){ try{ await uploadOne(file, orden++); }catch(err){ console.error(err); toast("Error subiendo una foto"); } }
   await loadFotos(); await loadList();
   toast("Fotos actualizadas");
 }
+function removePending(id){
+  const pf=pendingFiles.find(x=>x.id===id); if(pf) URL.revokeObjectURL(pf.url);
+  pendingFiles=pendingFiles.filter(x=>x.id!==id); renderThumbs();
+}
+window.removePending=removePending;
 async function deleteImg(id){
   const im=currentImgs.find(x=>x.id===id); if(!im) return;
   if(!confirm("¿Borrar esta foto?")) return;
@@ -252,9 +283,54 @@ async function moveImg(id,dir){
 }
 window.moveImg=moveImg;
 
-/* ═══════════════ MANTENIMIENTOS ═══════════════ */
+/* ═══════════════ MANTENIMIENTO · lista de animales ═══════════════ */
+async function loadMantList(){
+  const { data, error } = await sb.from("piezas")
+    .select("id,nombre_comun,codigo,estado_pieza,orden_display, imagenes(url,orden), mantenimientos(estado,fecha_programada)")
+    .order("orden_display",{ascending:true});
+  if(error){ toast("Error cargando"); console.error(error); return; }
+  MANT_PIEZAS = data||[];
+  renderMantList();
+}
+function renderMantList(){
+  const q=($("#mantSearch").value||"").toLowerCase();
+  const list=MANT_PIEZAS.filter(p=>!q || (p.nombre_comun+" "+(p.codigo||"")).toLowerCase().includes(q));
+  const rows=$("#mantRows");
+  if(!list.length){ rows.innerHTML=`<div class="empty">${MANT_PIEZAS.length?"Sin resultados.":"Aún no hay piezas cargadas."}</div>`; return; }
+  const hoy=today();
+  rows.innerHTML=list.map(p=>{
+    const img=(p.imagenes||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))[0];
+    const prog=(p.mantenimientos||[]).filter(m=>m.estado!=="realizado"&&m.fecha_programada).map(m=>m.fecha_programada).sort();
+    const next=prog[0];
+    const due=next&&next<=hoy;
+    const txt=next?`Próximo: ${fmtDate(next)}`:"Sin mantenimiento programado";
+    return `<div class="row" onclick="openMantDetail('${p.id}')">
+      <div class="thumb">${img?`<img src="${img.url}" alt="">`:"—"}</div>
+      <div class="info">
+        <div class="nm">${p.nombre_comun||"(sin nombre)"}</div>
+        <div class="mant-next ${due?"due":""}">${due?"⚠ Vencido · ":""}${txt}</div>
+      </div>
+      <span class="pill ${estadoClass(p.estado_pieza||"Bueno")}">${p.estado_pieza||"Bueno"}</span>
+    </div>`;
+  }).join("");
+}
+$("#mantSearch").addEventListener("input", renderMantList);
+$("#mantBackBtn").addEventListener("click", ()=>{ showSection("mantListView"); loadMantList(); });
+
+async function openMantDetail(id){
+  mSelId=id;
+  const p = MANT_PIEZAS.find(x=>x.id===id) || PIEZAS.find(x=>x.id===id);
+  $("#mantTitle").textContent = p ? p.nombre_comun : "Pieza";
+  $("#mantSub").textContent = p ? (p.codigo||p.id) : "";
+  $("#notaTexto").value="";
+  showSection("mantDetailView");
+  await Promise.all([loadMant(), loadNotas()]);
+}
+window.openMantDetail=openMantDetail;
+
+/* ═══════════════ MANTENIMIENTOS (de la pieza seleccionada) ═══════════════ */
 async function loadMant(){
-  const { data, error } = await sb.from("mantenimientos").select("*").eq("pieza_id",currentId)
+  const { data, error } = await sb.from("mantenimientos").select("*").eq("pieza_id",mSelId)
     .order("fecha_programada",{ascending:true,nullsFirst:false});
   if(error){ console.error(error); return; }
   const prog=(data||[]).filter(m=>m.estado!=="realizado");
@@ -298,7 +374,7 @@ $("#mantCancel").addEventListener("click", ()=>mantOverlay.classList.remove("sho
 mantOverlay.addEventListener("click", e=>{ if(e.target===mantOverlay) mantOverlay.classList.remove("show"); });
 $("#mantSave").addEventListener("click", async ()=>{
   const estado=$("#m_estado").value, fecha=$("#m_fecha").value||null;
-  const body={ pieza_id:currentId, tipo:$("#m_tipo").value.trim(), responsable:$("#m_responsable").value.trim(),
+  const body={ pieza_id:mSelId, tipo:$("#m_tipo").value.trim(), responsable:$("#m_responsable").value.trim(),
     descripcion:$("#m_desc").value.trim(), estado,
     fecha_programada: estado==="programado"?fecha:null, fecha_realizado: estado==="realizado"?fecha:null };
   const q = mantEditId ? sb.from("mantenimientos").update(body).eq("id",mantEditId) : sb.from("mantenimientos").insert(body);
@@ -307,7 +383,7 @@ $("#mantSave").addEventListener("click", async ()=>{
   mantOverlay.classList.remove("show"); toast("Mantenimiento guardado"); loadMant();
 });
 async function markDone(id){
-  const { error } = await sb.from("mantenimientos").update({estado:"realizado",fecha_realizado:new Date().toISOString().slice(0,10)}).eq("id",id);
+  const { error } = await sb.from("mantenimientos").update({estado:"realizado",fecha_realizado:today()}).eq("id",id);
   if(error){ toast("Error"); return; } toast("Marcado como realizado"); loadMant();
 }
 window.markDone=markDone;
@@ -322,9 +398,9 @@ async function deleteMant(id){
 }
 window.deleteMant=deleteMant;
 
-/* ═══════════════ NOTAS ═══════════════ */
+/* ═══════════════ NOTAS (de la pieza seleccionada) ═══════════════ */
 async function loadNotas(){
-  const { data, error } = await sb.from("notas").select("*").eq("pieza_id",currentId).order("created_at",{ascending:false});
+  const { data, error } = await sb.from("notas").select("*").eq("pieza_id",mSelId).order("created_at",{ascending:false});
   if(error){ console.error(error); return; }
   const list=$("#notasList");
   list.innerHTML=(data&&data.length)?data.map(n=>`
@@ -335,8 +411,8 @@ async function loadNotas(){
     </div>`).join(""):`<div class="empty" style="padding:20px">Sin notas todavía.</div>`;
 }
 $("#addNotaBtn").addEventListener("click", async ()=>{
-  const texto=$("#notaTexto").value.trim(); if(!texto){ return; }
-  const { error } = await sb.from("notas").insert({pieza_id:currentId,texto});
+  const texto=$("#notaTexto").value.trim(); if(!texto) return;
+  const { error } = await sb.from("notas").insert({pieza_id:mSelId,texto});
   if(error){ toast("Error"); return; }
   $("#notaTexto").value=""; loadNotas();
 });
