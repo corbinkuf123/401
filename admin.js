@@ -92,7 +92,14 @@ async function loadList(){
   const { data, error } = await sb.from("piezas").select("*, imagenes(url,orden)").order("orden_display",{ascending:true});
   if(error){ toast("Error cargando piezas"); console.error(error); return; }
   PIEZAS = data||[];
+  renderStats();
   renderList();
+}
+function renderStats(){
+  const el=$("#adminStats"); if(!el) return;
+  const salas=new Set(PIEZAS.map(p=>p.sala).filter(Boolean)).size;
+  const cont=new Set(PIEZAS.map(p=>p.continente).filter(Boolean)).size;
+  el.innerHTML=`<span><b>${PIEZAS.length}</b> Piezas</span><span>·</span><span><b>${salas}</b> Salas</span><span>·</span><span><b>${cont}</b> Continentes</span>`;
 }
 function renderList(){
   const q=($("#adminSearch").value||"").toLowerCase();
