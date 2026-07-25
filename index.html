@@ -7,7 +7,7 @@
 <title>Pabellón 414 · Archivo Digital</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --chrome:#13170D;
@@ -25,7 +25,10 @@
     --linea:rgba(79,93,58,.18);
     --linea-bronce:rgba(138,106,68,.35);
     --linea-dark:rgba(237,231,214,.12);
-    --serif:'Fraunces',Georgia,serif;
+    /* Cinzel: capitales romanas grabadas, para títulos (placa de bronce)
+       EB Garamond: serif clásica y cálida, para lectura */
+    --display:'Cinzel',Georgia,serif;
+    --serif:'EB Garamond',Georgia,serif;
     --sans:'Hanken Grotesk',system-ui,sans-serif;
     --nav-h:66px;
     /* ── paleta de cacería: verde bosque, corteza, cuero y crema ── */
@@ -84,11 +87,15 @@
     display:flex;align-items:center;gap:13px}
   .lp-kicker::before,.lp-kicker::after{content:"";width:26px;height:1px;background:linear-gradient(90deg,transparent,var(--n-beige))}
   .lp-kicker::after{background:linear-gradient(90deg,var(--n-beige),transparent)}
-  .lp-title{font-family:var(--serif);font-weight:300;font-size:38px;line-height:1;color:var(--n-texto);letter-spacing:.03em;text-transform:uppercase}
-  .lp-title em{display:block;font-style:normal;font-weight:300;font-size:84px;line-height:.9;letter-spacing:.06em;margin-top:8px;
-    background:linear-gradient(180deg,#F0DCB0,var(--n-beige) 62%,#A67F4C);
+  .lp-title{font-family:var(--display);font-weight:400;font-size:27px;line-height:1;color:var(--n-texto);letter-spacing:.22em;text-transform:uppercase;text-indent:.22em}
+  .lp-title em{display:block;font-style:normal;font-weight:600;font-size:72px;line-height:.95;letter-spacing:.1em;margin-top:14px;text-indent:.1em;
+    background:linear-gradient(180deg,#F3E2BC,var(--n-beige-claro) 40%,var(--n-beige) 70%,#9C7642);
     -webkit-background-clip:text;background-clip:text;color:transparent}
-  .lp-sub{font-family:var(--serif);font-style:italic;font-size:15.5px;color:var(--n-texto-soft);margin-top:24px;max-width:300px;line-height:1.65}
+  /* filete doble bajo el título, como en una placa grabada */
+  .lp-rule{width:132px;margin:22px 0 0;display:flex;align-items:center;gap:9px}
+  .lp-rule::before,.lp-rule::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--n-beige),transparent)}
+  .lp-rule i{width:5px;height:5px;border:1px solid var(--n-beige);transform:rotate(45deg);flex:0 0 auto}
+  .lp-sub{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--n-texto-soft);margin-top:20px;max-width:310px;line-height:1.7}
   .lp-cta{margin-top:36px;display:inline-flex;align-items:center;gap:10px;
     background:linear-gradient(180deg,var(--n-beige-claro),var(--n-beige));color:#231705;border:none;
     font-family:var(--sans);font-weight:700;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
@@ -103,12 +110,58 @@
   .lp-scroll::after{content:"";display:block;width:1px;height:22px;background:linear-gradient(var(--n-beige),transparent);margin:9px auto 0;animation:scrollpulse 2s ease-in-out infinite}
   @keyframes scrollpulse{0%,100%{opacity:.25;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
 
+  /* título de sección común */
+  .lp-h2{font-family:var(--display);font-weight:400;font-size:22px;line-height:1.2;color:var(--n-texto);
+    letter-spacing:.12em;text-transform:uppercase;margin-bottom:20px}
+
+  /* ── banda de cifras (contadores animados) ── */
+  .lp-band{display:flex;background:var(--n-verde-prof);border-top:1px solid var(--n-linea-fuerte);
+    border-bottom:1px solid var(--n-linea-fuerte);padding:26px 12px}
+  .lp-band .bi{flex:1;text-align:center;position:relative}
+  .lp-band .bi + .bi::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);
+    width:1px;height:34px;background:var(--n-linea)}
+  .lp-band .n{display:block;font-family:var(--display);font-weight:500;font-size:32px;line-height:1;
+    color:var(--n-beige-claro);font-variant-numeric:tabular-nums}
+  .lp-band .l{display:block;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--n-texto-soft);margin-top:9px}
+
+  /* ── destacados: carrusel horizontal ── */
+  .lp-dest{padding:44px 0 40px}
+  .lp-dest .lp-label,.lp-dest .lp-h2{padding:0 30px}
+  .lp-rail{display:flex;gap:14px;overflow-x:auto;padding:2px 30px 8px;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .lp-rail::-webkit-scrollbar{display:none}
+  .lp-rail .rc{flex:0 0 63%;max-width:230px;scroll-snap-align:start;border:none;background:none;padding:0;
+    font-family:inherit;text-align:left;cursor:pointer}
+  .lp-rail .rc .ph{position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden;border:1px solid var(--n-linea);
+    transition:border-color .3s,transform .3s}
+  .lp-rail .rc:active .ph{transform:scale(.98)}
+  .lp-rail .rc:hover .ph{border-color:var(--n-linea-fuerte)}
+  .lp-rail .rc .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .55s ease}
+  .lp-rail .rc .ph img.ld{opacity:1}
+  .lp-rail .rc .ph .g{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(8,12,7,.92) 100%)}
+  .lp-rail .rc .cp{position:absolute;left:0;right:0;bottom:0;padding:12px 13px;z-index:2}
+  .lp-rail .rc .cd{font-size:8.5px;letter-spacing:.18em;color:var(--n-beige);margin-bottom:4px}
+  .lp-rail .rc .nm{font-family:var(--display);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--n-texto);line-height:1.25}
+  .lp-rail .rc .mt{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--n-texto-soft);margin-top:4px}
+
+  /* ── salas del pabellón ── */
+  .lp-salas{padding:40px 30px 44px;background:var(--n-verde-prof);
+    border-top:1px solid var(--n-linea);border-bottom:1px solid var(--n-linea)}
+  .lp-sala{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px dotted var(--n-linea);
+    width:100%;background:none;border-left:none;border-right:none;border-top:none;
+    font-family:inherit;text-align:left;cursor:pointer;color:inherit;transition:padding-left .25s ease}
+  .lp-sala:last-child{border-bottom:none}
+  .lp-sala:hover{padding-left:6px}
+  .lp-sala .sn{flex:1;font-family:var(--serif);font-size:16px;color:var(--n-texto);line-height:1.3}
+  .lp-sala .sc{font-size:11px;letter-spacing:.1em;color:var(--n-beige);flex:0 0 auto}
+  .lp-sala .ar{width:14px;height:14px;color:var(--n-texto-soft);flex:0 0 auto;transition:transform .25s,color .25s}
+  .lp-sala:hover .ar{transform:translateX(3px);color:var(--n-beige)}
+
   /* el manifiesto va sobre una superficie de bosque, separada por un filete de latón */
-  .lp-manifiesto{padding:34px 30px 52px;background:var(--n-verde-prof);
-    border-top:1px solid var(--n-linea-fuerte);border-bottom:1px solid var(--n-linea)}
+  .lp-manifiesto{padding:44px 30px 52px}
   .lp-label{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--n-beige);margin:0 0 16px;display:flex;align-items:center;gap:12px}
   .lp-label::before{content:"";width:22px;height:1px;background:var(--n-beige)}
-  .lp-manifiesto-title{font-family:var(--serif);font-weight:300;font-size:31px;line-height:1.1;color:var(--n-texto);margin-bottom:26px}
+  .lp-manifiesto-title{font-family:var(--display);font-weight:400;font-size:23px;letter-spacing:.11em;text-transform:uppercase;line-height:1.3;color:var(--n-texto);margin-bottom:26px}
   .lp-manifiesto-body p{font-family:var(--serif);font-weight:300;font-size:15.5px;line-height:1.85;color:var(--n-texto-soft);margin-bottom:19px}
   .lp-manifiesto-body p:first-of-type::first-letter{font-size:50px;float:left;line-height:.8;padding:7px 11px 0 0;color:var(--n-beige);font-weight:400}
   .lp-manifiesto-body p:last-child{margin-bottom:0}
@@ -118,7 +171,7 @@
   .lp-orn i{width:7px;height:7px;border:1px solid var(--n-beige);transform:rotate(45deg);flex:0 0 auto}
 
   .lp-foot{padding:32px 30px 52px;text-align:center}
-  .lp-foot-mark{font-family:var(--serif);font-size:27px;color:var(--n-beige);letter-spacing:.14em}
+  .lp-foot-mark{font-family:var(--display);font-weight:500;font-size:24px;color:var(--n-beige);letter-spacing:.14em}
   .lp-foot-t{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--n-texto-soft);margin-top:10px}
 
   /* ---------------- COLECCIÓN ---------------- */
@@ -126,7 +179,7 @@
       radial-gradient(110% 40% at 50% 0%, rgba(78,93,58,.26), transparent 60%),
       linear-gradient(180deg,#141C11 0%, var(--n-negro) 40%)}
   .col-head{display:flex;align-items:flex-end;justify-content:space-between;padding:26px 22px 6px}
-  .col-head h2{font-family:var(--serif);font-weight:400;font-size:28px;color:var(--n-texto);text-transform:uppercase;letter-spacing:.05em}
+  .col-head h2{font-family:var(--display);font-weight:500;font-size:23px;letter-spacing:.13em;color:var(--n-texto);text-transform:uppercase;letter-spacing:.05em}
   .col-head .ov{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--n-beige);margin-bottom:7px}
   .icon-btn{width:38px;height:38px;border:1px solid var(--linea-dark);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--crema-soft);background:none;cursor:pointer}
   .icon-btn svg{width:17px;height:17px}
@@ -167,7 +220,7 @@
   .card .img .grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 34%,rgba(10,15,8,.55) 62%,rgba(8,12,7,.95) 100%)}
   .card .cap{position:absolute;left:0;right:0;bottom:0;padding:12px 13px;z-index:2}
   .card .cap .code{font-size:9px;letter-spacing:.14em;color:var(--n-beige);margin-bottom:3px}
-  .card .cap .nm{font-family:var(--serif);font-size:15px;color:var(--n-texto);line-height:1.08}
+  .card .cap .nm{font-family:var(--display);font-weight:500;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--n-texto);line-height:1.08}
   .card .cap .meta{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--n-texto-soft);margin-top:4px}
   .card .cap .st{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;letter-spacing:.04em;
     color:var(--n-texto-soft);margin-top:5px}
@@ -208,7 +261,7 @@
   /* banda oscura con el nombre, entre la foto y la hoja de contenido */
   .f-namebar{background:var(--chrome2);padding:17px 24px 19px;border-bottom:1px solid var(--linea-bronce);position:relative;z-index:2}
   .f-namebar .f-over{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--oro);margin-bottom:9px}
-  .f-namebar h2{font-family:var(--serif);font-weight:400;font-size:26px;color:var(--n-beige-claro);letter-spacing:.05em;
+  .f-namebar h2{font-family:var(--display);font-weight:500;font-size:21px;color:var(--n-beige-claro);letter-spacing:.05em;
     line-height:1.05;text-transform:uppercase}
   .f-namebar .sci{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--n-texto-soft);margin-top:5px}
 
@@ -284,7 +337,7 @@
   .modal{background:var(--marfil);max-width:340px;width:100%;padding:30px 26px;border-radius:18px;text-align:center;position:relative;box-shadow:0 30px 70px rgba(0,0,0,.5)}
   .modal .x{position:absolute;top:10px;right:16px;background:none;border:none;font-size:22px;color:var(--tinta-suave);cursor:pointer;line-height:1}
   .modal .m-over{font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--bronce);font-weight:600;margin-bottom:10px}
-  .modal h4{font-family:var(--serif);font-weight:400;font-size:22px;color:var(--oliva);margin-bottom:6px}
+  .modal h4{font-family:var(--display);font-weight:500;font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:var(--oliva);margin-bottom:6px}
   .modal p.sub{font-size:12.5px;color:var(--tinta-suave);margin-bottom:22px;line-height:1.5}
   .pin{display:flex;gap:9px;justify-content:center;margin-bottom:8px}
   .pin input{width:46px;height:54px;text-align:center;font-family:var(--serif);font-size:24px;color:var(--oliva);border:1px solid var(--linea-bronce);background:#fff;border-radius:8px}
@@ -377,10 +430,23 @@
         </div>
         <div class="lp-kicker">Colección privada</div>
         <h1 class="lp-title">Pabellón<em>414</em></h1>
+        <div class="lp-rule"><i></i></div>
         <p class="lp-sub">Un archivo de expediciones. Territorio, memoria y respeto por lo salvaje.</p>
         <button class="lp-cta" onclick="goTab('coleccion')">Explorar la colección <span>&rarr;</span></button>
       </div>
       <div class="lp-scroll">Desliza</div>
+    </section>
+
+    <section class="lp-band reveal" id="lpBand">
+      <div class="bi"><span class="n" data-count="0">0</span><span class="l">Piezas</span></div>
+      <div class="bi"><span class="n" data-count="0">0</span><span class="l">Salas</span></div>
+      <div class="bi"><span class="n" data-count="0">0</span><span class="l">Continentes</span></div>
+    </section>
+
+    <section class="lp-dest reveal">
+      <div class="lp-label">De la colección</div>
+      <h2 class="lp-h2">Piezas destacadas</h2>
+      <div class="lp-rail" id="lpRail"></div>
     </section>
 
     <section class="lp-manifiesto reveal">
@@ -391,6 +457,12 @@
         <p>Cuando la caza se regula y se dignifica, no solo se conserva fauna: se conserva hábitat, porque para que exista caza debe existir territorio sano; se conserva memoria, porque el saber del cazador mayor no se pierde; y se conserva valor, porque un venado vivo, visible y respetado, protege más bosque que cualquier prohibición.</p>
         <p>La caza ética genera intercambio de conocimientos, ordena el uso del espacio y devuelve equilibrio. En este modelo, el animal no representa muerte: representa todo lo que fue necesario cuidar para que esté ahí.</p>
       </div>
+    </section>
+
+    <section class="lp-salas reveal">
+      <div class="lp-label">El pabellón</div>
+      <h2 class="lp-h2">Salas y sectores</h2>
+      <div id="lpSalas"></div>
     </section>
 
     <div class="lp-orn reveal"><i></i></div>
@@ -514,6 +586,58 @@ function buildStats(){
     <div class="cs"><span class="cs-n">${salas}</span><span class="cs-l">Salas</span></div>
     <div class="cs"><span class="cs-n">${cont}</span><span class="cs-l">Continentes</span></div>`;
 }
+/* ---------- PORTADA: cifras, destacados y salas ---------- */
+function buildHome(){
+  const salas=[...new Set(DATA.map(a=>a.sala).filter(Boolean))];
+  const conts=[...new Set(DATA.map(a=>a.continente).filter(Boolean))];
+  const ns=$("#lpBand").querySelectorAll(".n");
+  [DATA.length,salas.length,conts.length].forEach((v,i)=>{ if(ns[i]) ns[i].dataset.count=v; });
+  animarCifras();
+
+  /* destacados: primero las que tienen foto */
+  const dest=[...DATA].sort((a,b)=>(b.fotos>0)-(a.fotos>0)).slice(0,8);
+  $("#lpRail").innerHTML = dest.length ? dest.map(a=>`
+    <button class="rc" onclick="goFicha('${a.id}')">
+      <div class="ph ${gradFor(a.id)}">
+        ${a.fotos>0?`<img src="${a.imagenes[0]}" alt="${a.nombreComun}" loading="lazy" onload="this.classList.add('ld')" onerror="this.remove()">`:""}
+        <div class="g"></div>
+        <div class="cp">${a.codigo?`<div class="cd">${a.codigo}</div>`:""}<div class="nm">${a.nombreComun}</div><div class="mt">${a.pais||""}</div></div>
+      </div>
+    </button>`).join("") : "";
+
+  /* salas con su conteo, tocables para filtrar la colección */
+  const porSala={};
+  DATA.forEach(a=>{ if(a.sala) porSala[a.sala]=(porSala[a.sala]||0)+1; });
+  const ar='<svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg>';
+  $("#lpSalas").innerHTML = Object.keys(porSala).sort().map(s=>`
+    <button class="lp-sala" onclick="verSala('${s.replace(/'/g,"\\'")}')">
+      <span class="sn">${s}</span><span class="sc">${porSala[s]}</span>${ar}
+    </button>`).join("") || `<p class="lp-manifiesto-body" style="color:var(--n-texto-soft)">Aún no hay salas registradas.</p>`;
+}
+/* cuenta de 0 al valor final cuando la banda entra en pantalla */
+function animarCifras(){
+  const band=$("#lpBand"); if(!band) return;
+  const correr=()=>{
+    band.querySelectorAll(".n").forEach(el=>{
+      const fin=parseInt(el.dataset.count||"0",10), t0=performance.now(), dur=1100;
+      (function paso(t){
+        const p=Math.min((t-t0)/dur,1);
+        el.textContent=Math.round(fin*(1-Math.pow(1-p,3)));   // desaceleración suave
+        if(p<1) requestAnimationFrame(paso);
+      })(t0);
+    });
+  };
+  if("IntersectionObserver" in window){
+    const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ correr(); io.disconnect(); } }),{threshold:.4});
+    io.observe(band);
+  }else correr();
+}
+/* desde la portada: ver una sala concreta en la colección */
+function verSala(sala){
+  state.sala=sala; state.q=""; $("#search").value="";
+  buildFilters(); renderGrid(); updateClear(); goTab("coleccion");
+}
+
 function initHome(){
   const els=document.querySelectorAll("#view-inicio .reveal");
   if("IntersectionObserver" in window){
@@ -725,7 +849,7 @@ async function init(){
   initHome();                                    // la portada no depende de los datos
   try{ DATA = await fetchPiezas(); }
   catch(err){ console.error(err); DATA = []; }
-  buildStats();buildFilters();renderGrid();
+  buildStats();buildFilters();renderGrid();buildHome();
   router();
 }
 init();
