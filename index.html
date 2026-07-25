@@ -242,6 +242,51 @@
   .ok .check svg{width:22px;height:22px;color:#fff}
   .ok .placeholder{background:var(--arena);border:1px dashed var(--linea-bronce);padding:16px;border-radius:10px;margin-top:14px;font-size:12.5px;color:var(--tinta-suave);line-height:1.55}
 
+  /* ---------------- LOGO / ISOTIPO ---------------- */
+  .logo-mark{width:100%;height:100%;display:block;color:var(--n-beige)}
+  .lp-logo{width:74px;height:74px;margin-bottom:20px;animation:markIn 1.1s cubic-bezier(.22,.61,.36,1) both}
+  @keyframes markIn{from{opacity:0;transform:translateY(10px) scale(.9)}to{opacity:1;transform:none}}
+  .lp-foot-mark-svg{width:46px;height:46px;margin:0 auto 8px}
+
+  /* ---------------- CARGA (esqueletos) ---------------- */
+  @keyframes shimmer{to{background-position:200% 0}}
+  .sk{position:relative;overflow:hidden;border-radius:14px;
+    background:linear-gradient(90deg,rgba(230,217,192,.05) 25%,rgba(230,217,192,.11) 37%,rgba(230,217,192,.05) 63%);
+    background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite}
+  .sk-card{aspect-ratio:3/4}
+  .sk-line{height:11px;border-radius:6px;margin-top:9px}
+  .sk-line.w60{width:60%}.sk-line.w40{width:40%}
+
+  /* ---------------- IMÁGENES: entrada suave, sin saltos ---------------- */
+  .img img,.gtile img,.f-hero>img.foto{opacity:0;transition:opacity .55s ease}
+  .img img.ld,.gtile img.ld,.f-hero>img.foto.ld{opacity:1}
+
+  /* ---------------- PULIDO / MICROINTERACCIONES ---------------- */
+  .card .img{transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s}
+  .card:hover .img{border-color:var(--n-beige-marron)}
+  .card .cap .nm{transition:color .25s}
+  .card:hover .cap .nm{color:var(--n-beige-claro)}
+  .icon-btn{transition:border-color .25s,color .25s,transform .2s}
+  .icon-btn:hover{border-color:var(--n-beige);color:var(--n-beige)}
+  .icon-btn:active{transform:scale(.94)}
+  .filters select{transition:border-color .25s,background-color .25s,color .25s}
+  .searchbox input{transition:border-color .25s,background .25s}
+  .nav button{transition:color .25s}
+  .nav button svg{transition:transform .25s cubic-bezier(.22,.61,.36,1)}
+  .nav button.on svg{transform:translateY(-2px)}
+  .tab{transition:color .25s}
+  .tab.on::after{animation:tabIn .3s cubic-bezier(.22,.61,.36,1) both}
+  @keyframes tabIn{from{transform:scaleX(.3);opacity:0}to{transform:scaleX(1);opacity:1}}
+  .navarrow{transition:background .25s,transform .2s}
+  .navarrow:active{transform:translateY(-50%) scale(.9)}
+  .lp-cta{box-shadow:0 10px 30px rgba(192,150,100,.16)}
+
+  /* entrada escalonada de la ficha */
+  .f-body>*{animation:rise .5s cubic-bezier(.22,.61,.36,1) both}
+  .f-body>.f-name{animation-delay:.04s}
+  .f-body>.quick{animation-delay:.10s}
+  .f-body>.tabs{animation-delay:.16s}
+
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -265,7 +310,18 @@
         </svg>
       </div>
       <div class="lp-hero-inner reveal">
-        <div class="lp-crest"></div>
+        <div class="lp-logo">
+          <svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-label="Pabellón 414">
+            <defs><clipPath id="hexH"><path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z"/></clipPath></defs>
+            <g clip-path="url(#hexH)" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 72 L45 30 L65 53 L73 44.5 L98 68"/>
+              <path d="M0 75 C 20 65, 40 85, 60 77 S 88 67, 100 73"/>
+              <path d="M0 85 C 24 75, 44 93, 66 85 S 92 79, 100 83"/>
+            </g>
+            <path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z"
+                  stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+          </svg>
+        </div>
         <div class="lp-kicker">Colección privada</div>
         <h1 class="lp-title">Pabellón<em>414</em></h1>
         <p class="lp-sub">Un archivo de expediciones. Territorio, memoria y respeto por lo salvaje.</p>
@@ -285,6 +341,18 @@
     </section>
 
     <section class="lp-foot reveal">
+      <div class="lp-foot-mark-svg">
+        <svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+          <defs><clipPath id="hexF"><path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z"/></clipPath></defs>
+          <g clip-path="url(#hexF)" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 72 L45 30 L65 53 L73 44.5 L98 68"/>
+            <path d="M0 75 C 20 65, 40 85, 60 77 S 88 67, 100 73"/>
+            <path d="M0 85 C 24 75, 44 93, 66 85 S 92 79, 100 83"/>
+          </g>
+          <path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z"
+                stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <div class="lp-foot-mark">414</div>
       <div class="lp-foot-t">Pabellón 414 · Archivo documental</div>
     </section>
@@ -362,8 +430,15 @@ const $=s=>document.querySelector(s);
 
 /* gradiente de respaldo estable a partir del id (si falta la foto) */
 function gradFor(id){const v=["v0","v1","v2","v3","v4","v5"];let h=0;for(let i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;return v[h%v.length];}
-/* etiqueta de imagen: usa la URL de Supabase Storage (a.imagenes[n-1]) */
-function img(a,n){const u=(a.imagenes||[])[n-1];return u?`<img src="${u}" alt="${a.nombreComun}" loading="lazy" onerror="this.remove()">`:"";}
+/* etiqueta de imagen: usa la URL de Supabase Storage (a.imagenes[n-1]).
+   .ld se agrega al cargar para que aparezca con un fundido suave. */
+function img(a,n){const u=(a.imagenes||[])[n-1];return u?`<img src="${u}" alt="${a.nombreComun}" loading="lazy" onload="this.classList.add('ld')" onerror="this.remove()">`:"";}
+
+/* esqueletos mientras se consultan los datos */
+function skeletonGrid(n=6){
+  return Array.from({length:n}).map(()=>`
+    <div class="sk-wrap"><div class="sk sk-card"></div><div class="sk sk-line w60"></div><div class="sk sk-line w40"></div></div>`).join("");
+}
 
 /* ---------- INICIO / ESTADÍSTICAS ---------- */
 function buildStats(){
@@ -429,7 +504,7 @@ function renderFicha(a){
         <button class="icon-btn key" onclick="location.href='admin.html#pieza='+encodeURIComponent('${a.id}')" aria-label="Administración">${I.key}</button>
       </div>
     </div>
-    <div class="f-hero ${gradFor(a.id)}" id="fhero"><div class="ph-ico-wrap">${I.photo}<span class="ph-cap">${a.fotos>0?"Fotografía":"Sin fotografía"}</span></div>${a.fotos>0?`<img class="foto" src="${a.imagenes[0]}" alt="${a.nombreComun}" onerror="this.style.display='none'">`:""}${a.fotos>1?`<button class="navarrow prev" onclick="heroStep(-1)" aria-label="Anterior">‹</button><button class="navarrow next" onclick="heroStep(1)" aria-label="Siguiente">›</button>`:""}${a.fotos>0?`<div class="counter">1 / ${a.fotos}</div>`:""}</div>
+    <div class="f-hero ${gradFor(a.id)}" id="fhero"><div class="ph-ico-wrap">${I.photo}<span class="ph-cap">${a.fotos>0?"Fotografía":"Sin fotografía"}</span></div>${a.fotos>0?`<img class="foto" src="${a.imagenes[0]}" alt="${a.nombreComun}" onload="this.classList.add('ld')" onerror="this.style.display='none'">`:""}${a.fotos>1?`<button class="navarrow prev" onclick="heroStep(-1)" aria-label="Anterior">‹</button><button class="navarrow next" onclick="heroStep(1)" aria-label="Siguiente">›</button>`:""}${a.fotos>0?`<div class="counter">1 / ${a.fotos}</div>`:""}</div>
 
     <div class="f-body">
       <div class="f-name"><div class="f-over">${a.sala||""}${a.continente?" · "+a.continente:""}</div><h2>${a.nombreComun}</h2><div class="sci">${a.nombreCientifico||""}</div></div>
@@ -465,7 +540,7 @@ function renderFicha(a){
 
       <div class="tabpane" data-p="galeria">
         <div class="pane-label">Galería · ${a.fotos||0} imágenes</div>
-        <div class="gallery">${a.fotos>0?a.imagenes.map((u,i)=>`<div class="gtile ${gradFor(a.id)}">${I.photo}<img src="${u}" alt="${a.nombreComun} ${i+1}" loading="lazy" onerror="this.remove()"><span class="gn">${i+1}</span></div>`).join(""):`<p class="tax-note">Sin fotografías por ahora.</p>`}</div>
+        <div class="gallery">${a.fotos>0?a.imagenes.map((u,i)=>`<div class="gtile ${gradFor(a.id)}">${I.photo}<img src="${u}" alt="${a.nombreComun} ${i+1}" loading="lazy" onload="this.classList.add('ld')" onerror="this.remove()"><span class="gn">${i+1}</span></div>`).join(""):`<p class="tax-note">Sin fotografías por ahora.</p>`}</div>
       </div>
 
       <div class="tabpane" data-p="mas">
@@ -495,6 +570,8 @@ function heroShow(n){
   let im=hero.querySelector("img.foto");
   if(!im){im=document.createElement("img");im.className="foto";hero.insertBefore(im,hero.querySelector(".counter"));}
   im.style.display="block";
+  im.classList.remove("ld");
+  im.onload=function(){this.classList.add("ld")};
   im.onerror=function(){this.style.display="none"};
   im.src=s.imagenes[s.idx-1];
   const c=hero.querySelector(".counter");if(c)c.textContent=s.idx+" / "+s.fotos;
@@ -575,9 +652,11 @@ $("#clear").addEventListener("click",()=>{state.q="";filterDefs.forEach(f=>state
 $("#overlay").addEventListener("click",e=>{if(e.target.id==="overlay")closeAdmin();});
 
 async function init(){
+  $("#grid").innerHTML=skeletonGrid();          // se ve algo mientras carga
+  initHome();                                    // la portada no depende de los datos
   try{ DATA = await fetchPiezas(); }
   catch(err){ console.error(err); DATA = []; }
-  buildStats();buildFilters();renderGrid();initHome();
+  buildStats();buildFilters();renderGrid();
   router();
 }
 init();
