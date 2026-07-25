@@ -28,17 +28,26 @@
     --serif:'Fraunces',Georgia,serif;
     --sans:'Hanken Grotesk',system-ui,sans-serif;
     --nav-h:66px;
-    --n-negro:#191418;
-    --n-beige:#C09664;
+    /* ── paleta de cacería: verde bosque, corteza, cuero y crema ── */
+    --n-negro:#0F150E;          /* verde bosque casi negro (fondo) */
+    --n-verde-prof:#141C11;     /* superficie profunda */
+    --n-verde:#1C2716;          /* superficie */
+    --n-verde-claro:#26331C;    /* superficie elevada */
+    --n-musgo:#3E4E2E;          /* musgo */
+    --n-oliva:#4F5D3A;
+    --n-corteza:#6B4E32;        /* corteza / marrón cálido */
+    --n-cuero:#8A6A44;          /* cuero */
+    --n-beige:#C9A26B;          /* latón / dorado cálido */
     --n-beige-claro:#DFC18B;
-    --n-marron:#705238;
-    --n-marron-gris:#42413D;
+    --n-marron:#5C452E;
+    --n-marron-gris:#3A3B31;
     --n-taupe:#6B655C;
     --n-gris:#4D4A47;
     --n-beige-marron:#89785E;
-    --n-texto:#E6D9C0;
-    --n-texto-soft:rgba(230,217,192,.6);
-    --n-linea:rgba(137,120,94,.24);
+    --n-texto:#EDE6D6;          /* crema */
+    --n-texto-soft:rgba(237,230,214,.62);
+    --n-linea:rgba(201,162,107,.20);
+    --n-linea-fuerte:rgba(201,162,107,.36);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
@@ -51,21 +60,41 @@
   .ph-ico{width:30px;height:30px;color:rgba(237,231,214,.4)}
 
   /* ---------------- INICIO / LANDING ---------------- */
-  #view-inicio{background:var(--n-negro)}
+  /* fondo de bosque: capas de verde con luz cálida filtrándose */
+  #view-inicio{background:
+      radial-gradient(120% 70% at 50% -10%, rgba(78,93,58,.34), transparent 62%),
+      radial-gradient(90% 55% at 50% 108%, rgba(107,78,50,.22), transparent 70%),
+      linear-gradient(180deg,#141C11 0%, var(--n-negro) 46%, #0C1109 100%)}
   .reveal{opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s ease}
   .reveal.in{opacity:1;transform:none}
 
-  .lp-hero{position:relative;min-height:86vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 30px 64px;overflow:hidden}
-  .lp-glow{position:absolute;inset:0;background:radial-gradient(72% 46% at 50% 18%, rgba(192,150,100,.16), transparent 70%);pointer-events:none}
-  .lp-topo{position:absolute;left:50%;top:6%;width:150%;max-width:660px;transform:translateX(-50%);color:var(--n-beige);opacity:.13;pointer-events:none;will-change:transform}
+  .lp-hero{position:relative;min-height:88vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:44px 30px 68px;overflow:hidden}
+  /* haz de luz cálido entre los árboles */
+  .lp-glow{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(64% 42% at 50% 14%, rgba(201,162,107,.20), transparent 68%)}
+  /* viñeta que cierra los bordes, como sotobosque en sombra */
+  .lp-hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(120% 88% at 50% 40%, transparent 52%, rgba(8,12,7,.72) 100%)}
+  .lp-topo{position:absolute;left:50%;top:6%;width:150%;max-width:660px;transform:translateX(-50%);color:var(--n-musgo);opacity:.5;pointer-events:none;will-change:transform}
   .lp-topo svg{width:100%;height:auto;display:block}
   .lp-hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
   .lp-crest{width:13px;height:13px;border:1px solid var(--n-beige);transform:rotate(45deg);margin-bottom:24px}
-  .lp-kicker{font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--n-beige);margin-bottom:18px}
-  .lp-title{font-family:var(--serif);font-weight:300;font-size:40px;line-height:1;color:var(--n-texto);letter-spacing:.01em}
-  .lp-title em{display:block;font-style:normal;font-weight:300;font-size:82px;line-height:.9;color:var(--n-beige-claro);letter-spacing:.06em;margin-top:6px}
-  .lp-sub{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--n-texto-soft);margin-top:24px;max-width:290px;line-height:1.6}
-  .lp-cta{margin-top:34px;display:inline-flex;align-items:center;gap:10px;background:var(--n-beige);color:#20160c;border:none;font-family:var(--sans);font-weight:700;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;padding:15px 26px;border-radius:40px;cursor:pointer;transition:transform .2s,background .2s}
+  /* filete ornamental sobre el epígrafe, como en un lodge */
+  .lp-kicker{font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--n-beige);margin-bottom:18px;
+    display:flex;align-items:center;gap:13px}
+  .lp-kicker::before,.lp-kicker::after{content:"";width:26px;height:1px;background:linear-gradient(90deg,transparent,var(--n-beige))}
+  .lp-kicker::after{background:linear-gradient(90deg,var(--n-beige),transparent)}
+  .lp-title{font-family:var(--serif);font-weight:300;font-size:38px;line-height:1;color:var(--n-texto);letter-spacing:.03em;text-transform:uppercase}
+  .lp-title em{display:block;font-style:normal;font-weight:300;font-size:84px;line-height:.9;letter-spacing:.06em;margin-top:8px;
+    background:linear-gradient(180deg,#F0DCB0,var(--n-beige) 62%,#A67F4C);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .lp-sub{font-family:var(--serif);font-style:italic;font-size:15.5px;color:var(--n-texto-soft);margin-top:24px;max-width:300px;line-height:1.65}
+  .lp-cta{margin-top:36px;display:inline-flex;align-items:center;gap:10px;
+    background:linear-gradient(180deg,var(--n-beige-claro),var(--n-beige));color:#231705;border:none;
+    font-family:var(--sans);font-weight:700;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+    padding:16px 28px;border-radius:40px;cursor:pointer;transition:transform .2s,filter .2s,box-shadow .2s;
+    box-shadow:0 12px 30px rgba(201,162,107,.22)}
+  .lp-cta:hover{filter:brightness(1.06);box-shadow:0 16px 38px rgba(201,162,107,.3)}
   .lp-cta span{transition:transform .2s}
   .lp-cta:hover{background:var(--n-beige-claro)}
   .lp-cta:hover span{transform:translateX(4px)}
@@ -74,25 +103,35 @@
   .lp-scroll::after{content:"";display:block;width:1px;height:22px;background:linear-gradient(var(--n-beige),transparent);margin:9px auto 0;animation:scrollpulse 2s ease-in-out infinite}
   @keyframes scrollpulse{0%,100%{opacity:.25;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
 
-  .lp-manifiesto{padding:22px 30px 48px;border-top:1px solid var(--n-linea)}
-  .lp-label{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--n-beige);margin:10px 0 16px;display:flex;align-items:center;gap:12px}
+  /* el manifiesto va sobre una superficie de bosque, separada por un filete de latón */
+  .lp-manifiesto{padding:34px 30px 52px;background:var(--n-verde-prof);
+    border-top:1px solid var(--n-linea-fuerte);border-bottom:1px solid var(--n-linea)}
+  .lp-label{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--n-beige);margin:0 0 16px;display:flex;align-items:center;gap:12px}
   .lp-label::before{content:"";width:22px;height:1px;background:var(--n-beige)}
-  .lp-manifiesto-title{font-family:var(--serif);font-weight:300;font-size:30px;line-height:1.08;color:var(--n-texto);margin-bottom:24px}
-  .lp-manifiesto-body p{font-family:var(--serif);font-weight:300;font-size:15.5px;line-height:1.82;color:var(--n-texto-soft);margin-bottom:18px}
-  .lp-manifiesto-body p:first-of-type::first-letter{font-size:46px;float:left;line-height:.82;padding:6px 10px 0 0;color:var(--n-beige);font-weight:400}
+  .lp-manifiesto-title{font-family:var(--serif);font-weight:300;font-size:31px;line-height:1.1;color:var(--n-texto);margin-bottom:26px}
+  .lp-manifiesto-body p{font-family:var(--serif);font-weight:300;font-size:15.5px;line-height:1.85;color:var(--n-texto-soft);margin-bottom:19px}
+  .lp-manifiesto-body p:first-of-type::first-letter{font-size:50px;float:left;line-height:.8;padding:7px 11px 0 0;color:var(--n-beige);font-weight:400}
   .lp-manifiesto-body p:last-child{margin-bottom:0}
+  /* ornamento de rombo entre secciones */
+  .lp-orn{display:flex;align-items:center;gap:14px;padding:30px 30px 0}
+  .lp-orn::before,.lp-orn::after{content:"";flex:1;height:1px;background:var(--n-linea)}
+  .lp-orn i{width:7px;height:7px;border:1px solid var(--n-beige);transform:rotate(45deg);flex:0 0 auto}
 
-  .lp-foot{padding:36px 30px 48px;text-align:center;border-top:1px solid var(--n-linea)}
-  .lp-foot-mark{font-family:var(--serif);font-size:26px;color:var(--n-beige);letter-spacing:.12em}
+  .lp-foot{padding:32px 30px 52px;text-align:center}
+  .lp-foot-mark{font-family:var(--serif);font-size:27px;color:var(--n-beige);letter-spacing:.14em}
   .lp-foot-t{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--n-texto-soft);margin-top:10px}
 
   /* ---------------- COLECCIÓN ---------------- */
-  #view-coleccion{background:var(--n-negro)}
-  .col-head{display:flex;align-items:center;justify-content:space-between;padding:26px 22px 4px}
-  .col-head h2{font-family:var(--serif);font-weight:400;font-size:27px;color:var(--n-texto)}
+  #view-coleccion{background:
+      radial-gradient(110% 40% at 50% 0%, rgba(78,93,58,.26), transparent 60%),
+      linear-gradient(180deg,#141C11 0%, var(--n-negro) 40%)}
+  .col-head{display:flex;align-items:flex-end;justify-content:space-between;padding:26px 22px 6px}
+  .col-head h2{font-family:var(--serif);font-weight:400;font-size:28px;color:var(--n-texto);text-transform:uppercase;letter-spacing:.05em}
+  .col-head .ov{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--n-beige);margin-bottom:7px}
   .icon-btn{width:38px;height:38px;border:1px solid var(--linea-dark);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--crema-soft);background:none;cursor:pointer}
   .icon-btn svg{width:17px;height:17px}
-  .col-stats{display:flex;align-items:center;padding:18px 22px 4px}
+  .col-stats{display:flex;align-items:center;padding:16px 18px;margin:16px 22px 4px;
+    background:var(--n-verde);border:1px solid var(--n-linea);border-radius:14px}
   .col-stats .cs{flex:1;text-align:center;position:relative}
   .col-stats .cs + .cs::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:26px;background:var(--n-linea)}
   .col-stats .cs-n{display:block;font-family:var(--serif);font-size:26px;color:var(--n-beige-claro);line-height:1}
@@ -100,18 +139,19 @@
   .searchbox{position:relative;margin:16px 22px 12px}
   .searchbox svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--n-texto-soft)}
   .searchbox input{width:100%;padding:13px 14px 13px 42px;border:1px solid var(--n-linea);border-radius:11px;
-    background:rgba(230,217,192,.05);color:var(--n-texto);font-family:var(--sans);font-size:14px}
+    background:var(--n-verde);color:var(--n-texto);font-family:var(--sans);font-size:14px}
   .searchbox input::placeholder{color:rgba(230,217,192,.4)}
   .searchbox input:focus{outline:none;border-color:var(--n-beige)}
   .filters{display:flex;gap:8px;overflow-x:auto;padding:0 22px 6px;scrollbar-width:none}
   .filters::-webkit-scrollbar{display:none}
   .filters select{appearance:none;-webkit-appearance:none;flex:0 0 auto;font-family:var(--sans);font-size:11.5px;font-weight:600;
-    letter-spacing:.04em;color:var(--n-texto-soft);background:transparent;border:1px solid var(--n-linea);border-radius:40px;
-    padding:9px 30px 9px 15px;cursor:pointer;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23C09664' stroke-width='1.5'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+    letter-spacing:.04em;color:var(--n-texto-soft);background-color:var(--n-verde);border:1px solid var(--n-linea);border-radius:40px;
+    padding:9px 30px 9px 15px;cursor:pointer;transition:border-color .25s,color .25s,background-color .25s;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23C9A26B' stroke-width='1.5'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 13px center}
+  .filters select:hover{border-color:var(--n-linea-fuerte);color:var(--n-texto)}
   .filters select:focus{outline:none}
-  .filters select.set{background-color:var(--n-beige);color:#20160c;border-color:var(--n-beige);
+  .filters select.set{background-color:var(--n-beige);color:#231705;border-color:var(--n-beige);
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%2320160c' stroke-width='1.6'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E")}
   .count-row{display:flex;justify-content:space-between;align-items:center;padding:10px 24px 2px}
   .count{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--n-texto-soft)}
@@ -123,7 +163,8 @@
   @keyframes rise{to{opacity:1;transform:none}}
   .card .img{position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden;border:1px solid var(--n-linea);transition:transform .3s}
   .card:active .img{transform:scale(.98)}
-  .card .img .grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 38%,rgba(15,10,12,.92) 100%)}
+  /* degradado verde profundo para que el texto se lea sobre la foto */
+  .card .img .grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 34%,rgba(10,15,8,.55) 62%,rgba(8,12,7,.95) 100%)}
   .card .cap{position:absolute;left:0;right:0;bottom:0;padding:12px 13px;z-index:2}
   .card .cap .code{font-size:9px;letter-spacing:.14em;color:var(--n-beige);margin-bottom:3px}
   .card .cap .nm{font-family:var(--serif);font-size:15px;color:var(--n-texto);line-height:1.08}
@@ -138,12 +179,12 @@
   .empty{grid-column:1/-1;text-align:center;padding:50px 10px;color:var(--n-texto-soft);font-style:italic;font-family:var(--serif)}
 
   /* placeholder gradientes variados */
-  .v0{background:radial-gradient(120% 100% at 60% 10%,#4a4126,#23271a 70%,#161a0f)}
-  .v1{background:radial-gradient(120% 100% at 40% 20%,#3c4a30,#222a18 70%,#141810)}
-  .v2{background:radial-gradient(120% 100% at 70% 15%,#5a3f2c,#2a2114 70%,#15110b)}
-  .v3{background:radial-gradient(120% 100% at 50% 0%,#454b34,#262a1a 70%,#13170d)}
-  .v4{background:radial-gradient(120% 100% at 55% 20%,#52432a,#272117 70%,#15120c)}
-  .v5{background:radial-gradient(120% 100% at 45% 10%,#3f4a3a,#222a1f 70%,#121710)}
+  .v0{background:radial-gradient(120% 100% at 60% 10%,#4E5D3A,#232C18 70%,#141A0F)}
+  .v1{background:radial-gradient(120% 100% at 40% 20%,#3E4E2E,#1F2916 70%,#121810)}
+  .v2{background:radial-gradient(120% 100% at 70% 15%,#6B4E32,#2C2216 70%,#16110B)}
+  .v3{background:radial-gradient(120% 100% at 50% 0%,#5A6B3F,#262E1A 70%,#131A0D)}
+  .v4{background:radial-gradient(120% 100% at 55% 20%,#8A6A44,#2E2417 70%,#17120C)}
+  .v5{background:radial-gradient(120% 100% at 45% 10%,#44553A,#212B1C 70%,#121710)}
   /* foto real encima del recuadro de respaldo */
   .img img,.f-hero>img,.gtile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 
@@ -224,7 +265,7 @@
 
   /* ---------------- BOTTOM NAV ---------------- */
   .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:var(--nav-h);
-    background:rgba(25,20,24,.94);backdrop-filter:blur(10px);border-top:1px solid var(--n-linea);
+    background:rgba(15,21,14,.95);backdrop-filter:blur(10px);border-top:1px solid var(--n-linea);
     display:flex;z-index:40;padding-bottom:env(safe-area-inset-bottom)}
   .nav button{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:var(--n-texto-soft);font-family:var(--sans)}
   .nav button svg{width:21px;height:21px;stroke-width:1.6}
@@ -352,6 +393,8 @@
       </div>
     </section>
 
+    <div class="lp-orn reveal"><i></i></div>
+
     <section class="lp-foot reveal">
       <div class="lp-foot-mark-svg">
         <svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
@@ -375,7 +418,7 @@
   <div id="view-coleccion" class="screen">
    <div class="scroll">
     <div class="col-head">
-      <h2>Colección</h2>
+      <div><div class="ov">Archivo de expediciones</div><h2>Colección</h2></div>
       <button class="icon-btn" onclick="document.getElementById('search').focus()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5h18M6 12h12M10 19h4"/></svg></button>
     </div>
     <div class="col-stats" id="colStats"></div>
