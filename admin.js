@@ -71,35 +71,79 @@ sb.auth.getSession().then(({data})=>{ if(data.session) showApp(); });
 async function showApp(){
   $("#login").classList.add("hide");
   $("#app").classList.remove("hide");
-  setNav("piezas"); showSection("listView");
+  const deep = location.hash.match(/^#pieza=(.+)$/);
   await loadList();
-  // deep-link desde el sitio público: admin.html#pieza=<id>
-  const m = location.hash.match(/^#pieza=(.+)$/);
-  if(m){ openEditor(decodeURIComponent(m[1])); history.replaceState(null,"","admin.html"); }
+  if(deep){                                   // deep-link desde el sitio público
+    setNav("piezas");
+    openEditor(decodeURIComponent(deep[1]));
+    history.replaceState(null,"","admin.html");
+  }else{
+    setNav("inicio"); showSection("homeView"); loadHome();
+  }
 }
 
 /* ═══════════════ NAVEGACIÓN PRINCIPAL ═══════════════ */
 function showSection(name){
-  ["listView","editView","mantListView","mantDetailView"].forEach(v=>$("#"+v).classList.toggle("hide", v!==name));
+  ["homeView","listView","editView","mantListView","mantDetailView"].forEach(v=>$("#"+v).classList.toggle("hide", v!==name));
   window.scrollTo(0,0);
 }
-function setNav(which){ $("#navPiezas").classList.toggle("on",which==="piezas"); $("#navMant").classList.toggle("on",which==="mant"); }
+function setNav(which){
+  $("#navInicio").classList.toggle("on",which==="inicio");
+  $("#navPiezas").classList.toggle("on",which==="piezas");
+  $("#navMant").classList.toggle("on",which==="mant");
+}
+$("#navInicio").addEventListener("click", ()=>{ setNav("inicio"); showSection("homeView"); loadHome(); });
 $("#navPiezas").addEventListener("click", ()=>{ setNav("piezas"); showSection("listView"); loadList(); });
 $("#navMant").addEventListener("click", ()=>{ setNav("mant"); showSection("mantListView"); enterMant(); });
+
+/* ═══════════════ INICIO / DASHBOARD ═══════════════ */
+function hace(iso){
+  if(!iso) return "";
+  const d=new Date(iso), ahora=new Date(), min=Math.round((ahora-d)/60000);
+  const hhmm=d.toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"});
+  if(min<1) return "Recién";
+  if(min<60) return `Hace ${min} min`;
+  const mismoDia=d.toDateString()===ahora.toDateString();
+  if(mismoDia) return `Hoy ${hhmm}`;
+  const ayer=new Date(ahora); ayer.setDate(ahora.getDate()-1);
+  if(d.toDateString()===ayer.toDateString()) return `Ayer ${hhmm}`;
+  return d.toLocaleDateString("es",{day:"2-digit",month:"short",year:"numeric"});
+}
+async function loadHome(){
+  const [pz,mt] = await Promise.all([
+    sb.from("piezas").select("id,codigo,nombre_comun,estado_pieza,updated_at").order("updated_at",{ascending:false}),
+    sb.from("mantenimientos").select("id,estado,fecha_programada")
+  ]);
+  const piezas=pz.data||[], mants=mt.data||[], hoy=today();
+  const pend=mants.filter(m=>m.estado!=="realizado");
+  const vencidos=pend.filter(m=>m.fecha_programada && m.fecha_programada<hoy).length;
+  const enMes=pend.filter(m=>{
+    if(!m.fecha_programada) return false;
+    const lim=new Date(); lim.setDate(lim.getDate()+30);
+    return m.fecha_programada>=hoy && m.fecha_programada<=lim.toISOString().slice(0,10);
+  }).length;
+
+  $("#homeKpis").innerHTML=`
+    <div class="kpi"><div class="n">${piezas.length}</div><div class="l">Total de trofeos</div></div>
+    <div class="kpi ${pend.length?"warn":""}"><div class="n">${pend.length}</div><div class="l">Mantenimientos pendientes</div>
+      ${pend.length?`<svg class="flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.2v.1"/></svg>`:""}</div>
+    <div class="kpi"><div class="n">${enMes}</div><div class="l">Próximas tareas (30 días)</div></div>
+    <div class="kpi ${vencidos?"danger":""}"><div class="n">${vencidos}</div><div class="l">Tareas vencidas</div></div>`;
+
+  const act=piezas.slice(0,6);
+  $("#homeAct").innerHTML = act.length
+    ? act.map(p=>`<div class="act"><span class="code">${p.codigo||p.id}</span>
+        <span class="txt">${p.nombre_comun||""} · actualizado</span>
+        <span class="when">${hace(p.updated_at)}</span></div>`).join("")
+    : `<div class="act"><span class="txt">Todavía no hay actividad. Empezá cargando una pieza.</span></div>`;
+}
 
 /* ═══════════════ LISTA DE PIEZAS ═══════════════ */
 async function loadList(){
   const { data, error } = await sb.from("piezas").select("*, imagenes(url,orden)").order("orden_display",{ascending:true});
   if(error){ toast("Error cargando piezas"); console.error(error); return; }
   PIEZAS = data||[];
-  renderStats();
   renderList();
-}
-function renderStats(){
-  const el=$("#adminStats"); if(!el) return;
-  const salas=new Set(PIEZAS.map(p=>p.sala).filter(Boolean)).size;
-  const cont=new Set(PIEZAS.map(p=>p.continente).filter(Boolean)).size;
-  el.innerHTML=`<span><b>${PIEZAS.length}</b> Piezas</span><span>·</span><span><b>${salas}</b> Salas</span><span>·</span><span><b>${cont}</b> Continentes</span>`;
 }
 function renderList(){
   const q=($("#adminSearch").value||"").toLowerCase();
@@ -371,13 +415,27 @@ $$("#mantTabs button").forEach(b=>b.addEventListener("click",()=>{
 function enterMant(){
   $$("#mantTabs button").forEach(x=>x.classList.toggle("on", x.dataset.mt==="agenda"));
   $("#mantAgenda").classList.remove("hide"); $("#mantPiezasList").classList.add("hide");
-  loadAgenda(); loadMantList();
+  loadAgenda(); loadMantList(); loadMantStats();
+}
+
+/* resumen por condición de las piezas */
+async function loadMantStats(){
+  const { data } = await sb.from("piezas").select("estado_pieza");
+  const p=data||[];
+  const ex=p.filter(x=>x.estado_pieza==="Excelente"||x.estado_pieza==="Bueno").length;
+  const rev=p.filter(x=>x.estado_pieza==="Requiere atención").length;
+  const urg=p.filter(x=>x.estado_pieza==="En restauración").length;
+  const el=$("#mantStats"); if(!el) return;
+  el.innerHTML=`
+    <div class="mstat ok"><div class="n">${ex}</div><div class="l">En buen estado</div></div>
+    <div class="mstat warn"><div class="n">${rev}</div><div class="l">Revisar</div></div>
+    <div class="mstat bad"><div class="n">${urg}</div><div class="l">Urgente</div></div>`;
 }
 
 /* Agenda: todos los mantenimientos pendientes de todas las piezas */
 async function loadAgenda(){
   const { data, error } = await sb.from("mantenimientos")
-    .select("*, piezas(id,nombre_comun,codigo)")
+    .select("*, piezas(id,nombre_comun,codigo, imagenes(url,orden))")
     .neq("estado","realizado")
     .order("fecha_programada",{ascending:true,nullsFirst:false});
   if(error){ console.error(error); return; }
@@ -385,16 +443,26 @@ async function loadAgenda(){
 }
 function renderAgenda(items){
   const c=$("#mantAgenda"), hoy=today();
-  if(!items.length){ c.innerHTML=`<div class="empty" style="padding:44px">No hay mantenimientos pendientes. 🎉<br><span style="font-size:12px">Programalos desde “Por pieza”.</span></div>`; return; }
+  if(!items.length){ c.innerHTML=`<div class="empty">No hay tareas pendientes.<br><span style="font-size:12.5px;font-style:normal">Programalas desde “Por pieza”.</span></div>`; return; }
   c.innerHTML=items.map(m=>{
-    const pz=m.piezas||{}, due=m.fecha_programada&&m.fecha_programada<=hoy;
+    const pz=m.piezas||{};
+    const img=(pz.imagenes||[]).slice().sort((a,b)=>(a.orden||0)-(b.orden||0))[0];
+    const f=m.fecha_programada;
+    const vencido=f&&f<hoy, esHoy=f===hoy;
+    const color=vencido?"var(--rojo)":esHoy?"var(--ambar)":"var(--oro)";
     return `<div class="card">
-      <div class="c-top">
-        <span class="c-tipo">${pz.nombre_comun||"—"}</span>
-        <span class="tag prog">${m.fecha_programada?fmtDate(m.fecha_programada):"Sin fecha"}</span>
+      <div class="c-media">
+        <div class="thumb">${img?`<img src="${img.url}" alt="">`:""}</div>
+        <div style="flex:1;min-width:0">
+          <div class="c-tipo" style="font-size:16px">${pz.nombre_comun||"—"}</div>
+          <div class="c-date">${pz.codigo?pz.codigo+" · ":""}${m.tipo||"Mantenimiento"}</div>
+        </div>
+        <div style="text-align:right;flex:0 0 auto">
+          <div style="font-size:12.5px;font-weight:600;color:${color}">${f?fmtDate(f):"Sin fecha"}</div>
+          ${vencido?`<div style="font-size:10.5px;color:var(--rojo);font-weight:600;letter-spacing:.06em">VENCIDO</div>`:esHoy?`<div style="font-size:10.5px;color:var(--ambar);font-weight:600;letter-spacing:.06em">HOY</div>`:""}
+        </div>
       </div>
-      <div class="c-date">${m.tipo||"Mantenimiento"}${due?' · <span style="color:var(--warn)">⚠ vencido</span>':''}</div>
-      ${m.descripcion?`<div class="c-desc" style="margin-top:6px">${m.descripcion}</div>`:""}
+      ${m.descripcion?`<div class="c-desc" style="margin-top:10px">${m.descripcion}</div>`:""}
       <div class="c-foot">
         ${m.responsable?`<span class="c-date">👤 ${m.responsable}</span>`:""}
         <button class="link" onclick="markDone('${m.id}')">Marcar realizado</button>
