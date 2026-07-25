@@ -139,8 +139,12 @@
   /* ---------- DASHBOARD ---------- */
   .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:30px}
   .kpi{background:#fff;border:1px solid var(--linea);border-radius:var(--r-lg);padding:18px 20px;position:relative;
-    animation:rise .45s var(--ease) both;transition:transform .22s var(--ease),box-shadow .22s}
+    animation:rise .45s var(--ease) both;transition:transform .22s var(--ease),box-shadow .22s,border-color .22s;
+    font-family:inherit;text-align:left;width:100%;display:block;color:inherit}
   .kpi:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(44,44,38,.07)}
+  .kpi.click{cursor:pointer}
+  .kpi.click:hover{border-color:var(--linea-oro)}
+  .kpi.click:active{transform:translateY(0) scale(.99)}
   .kpi:nth-child(2){animation-delay:.05s}.kpi:nth-child(3){animation-delay:.1s}.kpi:nth-child(4){animation-delay:.15s}
   .kpi .n{font-family:var(--serif);font-weight:400;font-size:38px;line-height:1;color:var(--tinta)}
   .kpi .l{font-size:11.5px;color:var(--tinta-soft);margin-top:7px;line-height:1.35}
@@ -154,9 +158,11 @@
     border-bottom:1px solid var(--linea)}
   .block-head h3{font-family:var(--serif);font-weight:400;font-size:19px}
   .act{display:flex;align-items:center;gap:14px;padding:13px 20px;border-bottom:1px solid var(--linea);
-    font-size:13.5px;transition:background .2s}
+    font-size:13.5px;transition:background .2s;width:100%;text-align:left;background:none;border-left:none;
+    border-right:none;border-top:none;font-family:inherit;color:inherit;cursor:pointer}
   .act:last-child{border-bottom:none}
   .act:hover{background:var(--crema)}
+  .act:active{background:var(--crema2)}
   .act .code{font-weight:700;font-size:11.5px;letter-spacing:.1em;color:var(--oro);flex:0 0 auto}
   .act .txt{flex:1;color:var(--tinta-soft);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .act .when{font-size:11.5px;color:var(--tinta-soft2);flex:0 0 auto}
@@ -566,7 +572,10 @@
       <!-- ===== CONSERVACIÓN ===== -->
       <section id="mantListView" class="hide">
         <div class="eyebrow">Control y seguimiento de mantenimiento</div>
-        <div class="list-head"><h2 class="serif">Conservación</h2></div>
+        <div class="list-head">
+          <h2 class="serif">Conservación</h2>
+          <button class="btn" id="addMantGlobal">+ Registrar mantenimiento</button>
+        </div>
         <div class="mstats" id="mantStats"></div>
         <div class="tabbar" id="mantTabs">
           <button data-mt="agenda" class="on">Próximas tareas</button>
@@ -610,6 +619,7 @@
 <div class="overlay" id="mantOverlay">
   <div class="modal">
     <h3 class="serif" id="mantModalTitle">Programar mantenimiento</h3>
+    <div class="field hide" id="mPiezaField"><label>Pieza *</label><select id="m_pieza"></select></div>
     <div class="g2">
       <div class="field"><label>Tipo</label><input id="m_tipo" placeholder="Limpieza preventiva…"></div>
       <div class="field"><label>Responsable</label><input id="m_responsable"></div>

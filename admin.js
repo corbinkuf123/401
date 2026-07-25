@@ -124,19 +124,25 @@ async function loadHome(){
   }).length;
 
   $("#homeKpis").innerHTML=`
-    <div class="kpi"><div class="n">${piezas.length}</div><div class="l">Total de trofeos</div></div>
-    <div class="kpi ${pend.length?"warn":""}"><div class="n">${pend.length}</div><div class="l">Mantenimientos pendientes</div>
-      ${pend.length?`<svg class="flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.2v.1"/></svg>`:""}</div>
-    <div class="kpi"><div class="n">${enMes}</div><div class="l">Próximas tareas (30 días)</div></div>
-    <div class="kpi ${vencidos?"danger":""}"><div class="n">${vencidos}</div><div class="l">Tareas vencidas</div></div>`;
+    <button class="kpi click" onclick="irA('piezas')"><div class="n">${piezas.length}</div><div class="l">Total de trofeos</div></button>
+    <button class="kpi click ${pend.length?"warn":""}" onclick="irA('mant')"><div class="n">${pend.length}</div><div class="l">Mantenimientos pendientes</div>
+      ${pend.length?`<svg class="flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.2v.1"/></svg>`:""}</button>
+    <button class="kpi click" onclick="irA('mant')"><div class="n">${enMes}</div><div class="l">Próximas tareas (30 días)</div></button>
+    <button class="kpi click ${vencidos?"danger":""}" onclick="irA('mant')"><div class="n">${vencidos}</div><div class="l">Tareas vencidas</div></button>`;
 
   const act=piezas.slice(0,6);
   $("#homeAct").innerHTML = act.length
-    ? act.map(p=>`<div class="act"><span class="code">${p.codigo||p.id}</span>
+    ? act.map(p=>`<button class="act" onclick="openEditor('${p.id}')"><span class="code">${p.codigo||p.id}</span>
         <span class="txt">${p.nombre_comun||""} · actualizado</span>
-        <span class="when">${hace(p.updated_at)}</span></div>`).join("")
+        <span class="when">${hace(p.updated_at)}</span></button>`).join("")
     : `<div class="act"><span class="txt">Todavía no hay actividad. Empezá cargando una pieza.</span></div>`;
 }
+/* atajos desde el dashboard */
+function irA(destino){
+  if(destino==="piezas"){ setNav("piezas"); showSection("listView"); loadList(); }
+  else { setNav("mant"); showSection("mantListView"); enterMant(); }
+}
+window.irA=irA;
 
 /* ═══════════════ LISTA DE PIEZAS ═══════════════ */
 async function loadList(){
@@ -205,6 +211,7 @@ async function openEditor(id){
   $("#qrLocked").classList.toggle("hide", !!p);
   $("#qrArea").classList.toggle("hide", !p);
   goTab("datos");
+  setNav("piezas");
   showSection("editView");
 
   if(p){ await loadFotos(); renderQR(); }
@@ -517,27 +524,49 @@ function mantCard(m){
   </div>`;
 }
 const mantOverlay=$("#mantOverlay");
-function openMantModal(m){
+/* global=true ⇒ se está creando desde la pantalla de Conservación,
+   así que hay que elegir a qué pieza pertenece. */
+function openMantModal(m, global){
   mantEditId = m ? m.id : null;
-  $("#mantModalTitle").textContent = m ? "Editar mantenimiento" : "Programar mantenimiento";
+  $("#mantModalTitle").textContent = m ? "Editar mantenimiento" : "Registrar mantenimiento";
   $("#m_tipo").value=m?.tipo||""; $("#m_responsable").value=m?.responsable||"";
   $("#m_desc").value=m?.descripcion||""; $("#m_estado").value=m?.estado||"programado";
   $("#m_fecha").value = m ? (m.estado==="realizado"?m.fecha_realizado:m.fecha_programada)||"" : "";
+
+  const necesitaPieza = global || (!m && !mSelId);
+  const campo=$("#mPiezaField"), sel=$("#m_pieza");
+  campo.classList.toggle("hide", !necesitaPieza);
+  if(necesitaPieza){
+    const lista=(PIEZAS.length?PIEZAS:MANT_PIEZAS).slice()
+      .sort((a,b)=>(a.nombre_comun||"").localeCompare(b.nombre_comun||""));
+    sel.innerHTML=`<option value="">— elegir pieza —</option>`+
+      lista.map(p=>`<option value="${p.id}">${p.nombre_comun||p.id}${p.codigo?" · "+p.codigo:""}</option>`).join("");
+    sel.value = m?.pieza_id || mSelId || "";
+  }
   syncFechaLabel();
   mantOverlay.classList.add("show");
 }
 $("#m_estado").addEventListener("change", syncFechaLabel);
 function syncFechaLabel(){ $("#m_fechaLabel").textContent = $("#m_estado").value==="realizado" ? "Fecha realizado" : "Fecha prevista"; }
 $("#addMantBtn").addEventListener("click", ()=>openMantModal(null));
+$("#addMantGlobal").addEventListener("click", ()=>{
+  if(!PIEZAS.length && !MANT_PIEZAS.length){ toast("Primero cargá una pieza"); return; }
+  openMantModal(null, true);
+});
 $("#mantCancel").addEventListener("click", ()=>mantOverlay.classList.remove("show"));
 mantOverlay.addEventListener("click", e=>{ if(e.target===mantOverlay) mantOverlay.classList.remove("show"); });
 $("#mantSave").addEventListener("click", async ()=>{
+  const usaSelector = !$("#mPiezaField").classList.contains("hide");
+  const piezaId = usaSelector ? $("#m_pieza").value : mSelId;
+  if(!piezaId){ toast("Elegí a qué pieza corresponde"); return; }
   const estado=$("#m_estado").value, fecha=$("#m_fecha").value||null;
-  const body={ pieza_id:mSelId, tipo:$("#m_tipo").value.trim(), responsable:$("#m_responsable").value.trim(),
+  const body={ pieza_id:piezaId, tipo:$("#m_tipo").value.trim(), responsable:$("#m_responsable").value.trim(),
     descripcion:$("#m_desc").value.trim(), estado,
     fecha_programada: estado==="programado"?fecha:null, fecha_realizado: estado==="realizado"?fecha:null };
+  const btn=$("#mantSave"); btn.disabled=true; btn.innerHTML='<span class="spin"></span>';
   const q = mantEditId ? sb.from("mantenimientos").update(body).eq("id",mantEditId) : sb.from("mantenimientos").insert(body);
   const { error } = await q;
+  btn.disabled=false; btn.textContent="Guardar";
   if(error){ toast("Error al guardar"); console.error(error); return; }
   mantOverlay.classList.remove("show"); toast("Mantenimiento guardado"); refreshMant();
 });
