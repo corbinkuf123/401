@@ -68,124 +68,112 @@
   .ph-ico{width:30px;height:30px;color:rgba(237,231,214,.4)}
 
   /* ---------------- INICIO / LANDING ---------------- */
+  /* Patrón: Portfolio Grid · Estilo: Editorial Grid / Magazine
+     Visuales primero, cuadrícula asimétrica, tipografía de imprenta. */
   #view-inicio{background:var(--n-negro)}
-  .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform .9s cubic-bezier(.22,.61,.36,1)}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
   .reveal.in{opacity:1;transform:none}
 
-  /* ══════ LÁMINAS A PANTALLA COMPLETA ══════ */
-  .plate{position:relative;height:100svh;min-height:520px;overflow:hidden;background:#0B100A;
-    display:flex;flex-direction:column;justify-content:flex-end;
-    border:none;padding:0;width:100%;font-family:inherit;text-align:left;color:inherit;cursor:pointer}
-  .plate img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
-    opacity:0;transition:opacity 1.4s ease,transform 1.2s cubic-bezier(.22,.61,.36,1)}
-  .plate img.ld{opacity:.94}
-  .plate:hover img.ld{transform:scale(1.03)}
-  .pl-veil{position:absolute;inset:0;
-    background:linear-gradient(180deg,rgba(9,13,8,.62) 0%,rgba(9,13,8,.12) 34%,rgba(9,13,8,.78) 72%,rgba(9,13,8,.96) 100%)}
-  /* filete de latón interior, como el passe-partout de una lámina */
-  .pl-frame{position:absolute;inset:15px;border:1px solid rgba(201,162,107,.28);pointer-events:none}
-  /* numeración de lámina, en vertical sobre el margen */
-  .pl-num{position:absolute;top:32px;right:0;writing-mode:vertical-rl;font-family:var(--display);
-    font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:rgba(201,162,107,.85);
-    padding:0 26px 0 0;z-index:3}
-
-  .pl-cap{position:relative;z-index:3;padding:0 32px 74px}
-  .pl-code{font-size:8.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--n-beige);margin-bottom:12px}
-  .pl-name{font-family:var(--display);font-weight:400;font-size:40px;line-height:1.04;color:var(--n-texto);
-    letter-spacing:.005em}
-  .pl-sci{font-family:var(--serif);font-style:italic;font-size:15px;color:rgba(237,230,214,.66);margin-top:7px}
-  .pl-meta{display:flex;align-items:center;gap:10px;margin-top:16px;font-size:9px;letter-spacing:.24em;
-    text-transform:uppercase;color:rgba(237,230,214,.6)}
-  .pl-meta i{width:3px;height:3px;background:var(--n-beige);transform:rotate(45deg);flex:0 0 auto}
-  .pl-go{display:inline-flex;align-items:center;gap:9px;margin-top:22px;font-family:var(--sans);font-weight:700;
-    font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--n-beige);
-    border-bottom:1px solid rgba(201,162,107,.45);padding-bottom:6px;transition:gap .25s}
-  .plate:hover .pl-go{gap:14px}
-
-  /* ── lámina de portada ── */
-  .plate-hero{justify-content:center;align-items:center;text-align:center;cursor:default}
-  /* acercamiento lento en la fotografía de portada */
-  .plate-hero img{animation:kenburns 30s ease-out both}
-  .plate-hero:hover img.ld{transform:none}
-  @keyframes kenburns{from{transform:scale(1.14)}to{transform:scale(1)}}
-  .plate-hero .ph-inner{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;padding:0 30px}
-  .ph-logo{width:56px;height:56px;margin-bottom:24px;animation:hIn .9s cubic-bezier(.22,.61,.36,1) both}
-  .ph-kick{font-size:8.5px;letter-spacing:.46em;text-transform:uppercase;color:var(--n-beige);
-    display:flex;align-items:center;gap:13px;animation:hIn .9s .1s cubic-bezier(.22,.61,.36,1) both}
-  .ph-kick::before,.ph-kick::after{content:"";width:20px;height:1px;background:var(--n-beige);opacity:.55}
-  .ph-title{margin-top:20px;font-family:var(--display);font-weight:400;font-size:20px;line-height:1;
-    color:var(--n-texto);letter-spacing:.38em;text-transform:uppercase;text-indent:.38em;
-    animation:hIn .9s .18s cubic-bezier(.22,.61,.36,1) both}
-  .ph-title em{display:block;font-style:normal;font-weight:500;font-size:92px;line-height:.94;
-    letter-spacing:.04em;text-indent:.04em;margin-top:8px;
+  /* ══ CABECERA (compacta: la obra es la protagonista) ══ */
+  .hd{position:relative;height:62svh;min-height:400px;overflow:hidden;background:#0B100A;
+    display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 28px 40px}
+  .hd img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
+    transition:opacity 1.5s ease;animation:kb 34s ease-out both}
+  .hd img.ld{opacity:.88}
+  @keyframes kb{from{transform:scale(1.12)}to{transform:scale(1)}}
+  .hd-veil{position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(9,13,8,.58) 0%,rgba(9,13,8,.18) 38%,rgba(9,13,8,.86) 82%,var(--n-negro) 100%)}
+  .hd-in{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
+  .hd-logo{width:48px;height:48px;margin-bottom:18px;animation:hIn .8s cubic-bezier(.16,1,.3,1) both}
+  .hd-kick{font-size:8.5px;letter-spacing:.46em;text-transform:uppercase;color:var(--n-beige);
+    display:flex;align-items:center;gap:12px;animation:hIn .8s .08s cubic-bezier(.16,1,.3,1) both}
+  .hd-kick::before,.hd-kick::after{content:"";width:18px;height:1px;background:var(--n-beige);opacity:.55}
+  .hd-t{margin-top:16px;font-family:var(--display);font-weight:400;font-size:18px;line-height:1;color:var(--n-texto);
+    letter-spacing:.4em;text-transform:uppercase;text-indent:.4em;animation:hIn .8s .16s cubic-bezier(.16,1,.3,1) both}
+  .hd-t em{display:block;font-style:normal;font-weight:500;font-size:76px;line-height:.95;letter-spacing:.04em;
+    text-indent:.04em;margin-top:8px;
     background:linear-gradient(175deg,#F7EACB 5%,var(--n-beige-claro) 36%,var(--n-beige) 64%,#8B6939 100%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 20px 46px rgba(0,0,0,.55)}
-  @keyframes hIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
-  .ph-rule{width:118px;margin-top:22px;display:flex;align-items:center;gap:9px;
-    animation:hIn .9s .26s cubic-bezier(.22,.61,.36,1) both}
-  .ph-rule::before,.ph-rule::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--n-beige),transparent)}
-  .ph-rule i{width:5px;height:5px;border:1px solid var(--n-beige);transform:rotate(45deg);flex:0 0 auto}
-  .ph-sub{font-family:var(--serif);font-style:italic;font-size:15.5px;color:rgba(237,230,214,.76);
-    margin-top:18px;max-width:288px;line-height:1.75;animation:hIn .9s .34s cubic-bezier(.22,.61,.36,1) both}
-  .ph-scroll{position:absolute;bottom:26px;left:0;right:0;text-align:center;font-size:8px;letter-spacing:.34em;
-    text-transform:uppercase;color:rgba(237,230,214,.46);z-index:3}
-  .ph-scroll::after{content:"";display:block;width:1px;height:24px;
-    background:linear-gradient(var(--n-beige),transparent);margin:9px auto 0;animation:scrollpulse 2.2s ease-in-out infinite}
-  @keyframes scrollpulse{0%,100%{opacity:.22;transform:scaleY(.55)}50%{opacity:1;transform:scaleY(1)}}
+    -webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 18px 40px rgba(0,0,0,.5)}
+  @keyframes hIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  .hd-sub{font-family:var(--serif);font-style:italic;font-size:14.5px;color:rgba(237,230,214,.74);
+    margin-top:14px;max-width:280px;line-height:1.7;animation:hIn .8s .26s cubic-bezier(.16,1,.3,1) both}
 
-  /* ══════ CATÁLOGO IMPRESO (pergamino) ══════ */
-  .cat{background:var(--pergamino);color:var(--tinta-p);padding:56px 30px 60px;position:relative}
-  .cat::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;
+  /* ══ BARRA DE DATOS (regla de imprenta) ══ */
+  .mast{display:flex;align-items:center;justify-content:center;gap:14px;padding:15px 24px;
+    background:#0B100A;border-top:1px solid var(--n-linea-fuerte);border-bottom:1px solid var(--n-linea-fuerte);
+    font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--n-texto-soft);flex-wrap:wrap}
+  .mast b{font-family:var(--display);font-weight:500;font-size:13px;letter-spacing:.04em;color:var(--n-beige)}
+  .mast i{width:3px;height:3px;background:var(--n-beige);transform:rotate(45deg);flex:0 0 auto}
+
+  /* ══ CUADRÍCULA EDITORIAL ASIMÉTRICA ══ */
+  .eg-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding:38px 22px 16px}
+  .eg-lab{font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--n-beige);margin-bottom:8px}
+  .eg-h{font-family:var(--display);font-weight:400;font-size:27px;line-height:1.15;color:var(--n-texto)}
+  .eg{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 22px}
+  .eg .t{position:relative;overflow:hidden;background:var(--n-verde);border:none;padding:0;cursor:pointer;
+    aspect-ratio:3/4;opacity:0;transform:translateY(18px) scale(.96);
+    animation:tIn .55s cubic-bezier(.34,1.4,.64,1) forwards}
+  @keyframes tIn{to{opacity:1;transform:none}}
+  /* ritmo de revista: piezas 1 y 6 a todo el ancho */
+  .eg .t:nth-child(1),.eg .t:nth-child(6){grid-column:1/-1;aspect-ratio:16/11}
+  .eg .t:nth-child(1){animation-delay:.02s}.eg .t:nth-child(2){animation-delay:.08s}
+  .eg .t:nth-child(3){animation-delay:.14s}.eg .t:nth-child(4){animation-delay:.20s}
+  .eg .t:nth-child(5){animation-delay:.26s}.eg .t:nth-child(6){animation-delay:.32s}
+  .eg .t:nth-child(7){animation-delay:.38s}.eg .t:nth-child(8){animation-delay:.44s}
+  .eg .t:nth-child(n+9){animation-delay:.5s}
+  .eg .t img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+    opacity:0;transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1)}
+  .eg .t img.ld{opacity:1}
+  .eg .t:hover img.ld{transform:scale(1.05)}
+  .eg .t .g{position:absolute;inset:0;background:linear-gradient(180deg,transparent 36%,rgba(8,12,7,.94) 100%)}
+  .eg .t .c{position:absolute;left:0;right:0;bottom:0;padding:13px 14px;z-index:2;text-align:left}
+  .eg .t .cd{font-size:7.5px;letter-spacing:.22em;color:var(--n-beige);margin-bottom:5px}
+  .eg .t .nm{font-family:var(--display);font-weight:500;font-size:15px;color:var(--n-texto);line-height:1.18}
+  .eg .t:nth-child(1) .nm,.eg .t:nth-child(6) .nm{font-size:22px}
+  .eg .t .mt{font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(237,230,214,.62);margin-top:5px}
+  .eg-more{margin:24px 22px 0;width:calc(100% - 44px);display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    background:none;border:1px solid var(--n-linea-fuerte);color:var(--n-beige);font-family:var(--sans);
+    font-weight:700;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:16px 22px;
+    cursor:pointer;transition:background .25s,color .25s}
+  .eg-more span{transition:transform .2s}
+  .eg-more:hover{background:var(--n-beige);color:#241806}
+  .eg-more:hover span{transform:translateX(4px)}
+
+  /* ══ FILTRO POR SALA (índice impreso) ══ */
+  .idx-sec{margin-top:44px;padding:38px 22px 42px;background:var(--pergamino);color:var(--tinta-p);position:relative}
+  .idx-sec::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
     background-image:radial-gradient(rgba(120,100,70,.06) 1px,transparent 1px);background-size:3px 3px}
-  .cat > *{position:relative}
-  .cat-label{font-size:8.5px;letter-spacing:.4em;text-transform:uppercase;color:var(--bronce);
-    display:flex;align-items:center;gap:12px;margin-bottom:16px}
-  .cat-label::before{content:"";width:20px;height:1px;background:var(--bronce)}
-  .cat-h{font-family:var(--display);font-weight:400;font-size:34px;line-height:1.14;color:var(--verde-p)}
-  .cat-line{margin-top:14px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(92,87,71,.85)}
-  .cat-line b{font-family:var(--display);font-weight:500;font-size:13px;letter-spacing:.06em;color:var(--bronce)}
-  .cat-rule{height:1px;background:rgba(90,75,50,.28);margin:26px 0 6px}
-
-  /* índice con puntos guía, como la tabla de contenidos de un catálogo */
-  .idx{margin-top:8px}
-  .idx-row{display:flex;align-items:baseline;gap:10px;padding:14px 0;width:100%;background:none;
-    border:none;border-bottom:1px solid rgba(90,75,50,.15);font-family:inherit;text-align:left;
-    color:inherit;cursor:pointer;transition:padding-left .25s ease}
+  .idx-sec > *{position:relative}
+  .idx-lab{font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--bronce);margin-bottom:9px}
+  .idx-h{font-family:var(--display);font-weight:400;font-size:27px;line-height:1.15;color:var(--verde-p);margin-bottom:20px}
+  .idx-row{display:flex;align-items:baseline;gap:10px;padding:13px 0;width:100%;background:none;border:none;
+    border-bottom:1px solid rgba(90,75,50,.15);font-family:inherit;text-align:left;color:inherit;cursor:pointer;
+    transition:padding-left .25s ease}
   .idx-row:hover{padding-left:6px}
   .idx-row:last-child{border-bottom:none}
-  .idx-n{font-family:var(--display);font-size:11px;color:var(--bronce);flex:0 0 auto;letter-spacing:.1em}
-  .idx-name{font-family:var(--serif);font-size:15.5px;color:var(--verde-p);line-height:1.3;flex:0 0 auto;max-width:64%}
-  .idx-dots{flex:1;border-bottom:1px dotted rgba(90,75,50,.45);transform:translateY(-5px);min-width:14px}
-  .idx-c{font-family:var(--display);font-weight:500;font-size:15px;color:var(--bronce);flex:0 0 auto}
+  .idx-n{font-family:var(--display);font-size:10.5px;color:var(--bronce);flex:0 0 auto;letter-spacing:.1em}
+  .idx-name{font-family:var(--serif);font-size:15px;color:var(--verde-p);line-height:1.3;flex:0 0 auto;max-width:62%}
+  .idx-dots{flex:1;border-bottom:1px dotted rgba(90,75,50,.45);transform:translateY(-5px);min-width:12px}
+  .idx-c{font-family:var(--display);font-weight:500;font-size:14px;color:var(--bronce);flex:0 0 auto}
 
-  .cat-cta{margin-top:30px;display:inline-flex;align-items:center;gap:10px;background:var(--verde-p);
-    color:var(--pergamino);border:none;font-family:var(--sans);font-weight:700;font-size:10px;
-    letter-spacing:.2em;text-transform:uppercase;padding:15px 26px;border-radius:1px;cursor:pointer;
-    transition:background .25s,transform .2s}
-  .cat-cta span{transition:transform .2s}
-  .cat-cta:hover{background:#2C3A21}
-  .cat-cta:hover span{transform:translateX(4px)}
-  .cat-cta:active{transform:scale(.98)}
-
-  /* ══════ MANIFIESTO (bosque, editorial) ══════ */
-  .mani{background:var(--n-negro);padding:60px 30px 64px;border-top:1px solid var(--n-linea)}
-  .mani .cat-label{color:var(--n-beige)}
-  .mani .cat-label::before{background:var(--n-beige)}
-  .mani-h{font-family:var(--display);font-weight:400;font-size:32px;line-height:1.16;color:var(--n-texto);margin-bottom:24px}
-  .mani p{font-family:var(--serif);font-weight:400;font-size:15.5px;line-height:1.92;
-    color:rgba(237,230,214,.72);margin-bottom:19px}
+  /* ══ MANIFIESTO EDITORIAL ══ */
+  .mani{background:var(--n-negro);padding:52px 26px 56px}
+  .mani-lab{font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--n-beige);margin-bottom:10px}
+  .mani-h{font-family:var(--display);font-weight:400;font-size:29px;line-height:1.18;color:var(--n-texto);margin-bottom:22px}
+  .mani p{font-family:var(--serif);font-weight:400;font-size:15px;line-height:1.95;
+    color:rgba(237,230,214,.72);margin-bottom:18px}
   .mani p:last-of-type{margin-bottom:0}
-  .mani p:first-of-type::first-letter{font-family:var(--display);font-size:58px;float:left;line-height:.76;
-    padding:8px 13px 0 0;color:var(--n-beige);font-weight:500}
-  .mani-quote{margin-top:34px;padding-top:26px;border-top:1px solid var(--n-linea);
-    font-family:var(--display);font-style:italic;font-weight:400;font-size:21px;line-height:1.5;
+  .mani p:first-of-type::first-letter{font-family:var(--display);font-size:56px;float:left;line-height:.78;
+    padding:8px 12px 0 0;color:var(--n-beige);font-weight:500}
+  .mani-q{margin-top:32px;padding-top:24px;border-top:1px solid var(--n-linea);
+    font-family:var(--display);font-style:italic;font-weight:400;font-size:19px;line-height:1.55;
     color:var(--n-beige-claro);text-align:center}
 
-  /* ══════ PIE ══════ */
-  .lp-foot{padding:44px 30px 56px;text-align:center;background:#090D08;border-top:1px solid var(--n-linea)}
-  .lp-foot-mark-svg{width:40px;height:40px;margin:0 auto 12px}
-  .lp-foot-mark{font-family:var(--display);font-weight:400;font-size:23px;color:var(--n-beige);letter-spacing:.24em}
-  .lp-foot-t{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--n-texto-soft);margin-top:11px}
+  /* ══ PIE ══ */
+  .lp-foot{padding:40px 30px 54px;text-align:center;background:#090D08;border-top:1px solid var(--n-linea)}
+  .lp-foot-mark-svg{width:38px;height:38px;margin:0 auto 11px}
+  .lp-foot-mark{font-family:var(--display);font-weight:400;font-size:22px;color:var(--n-beige);letter-spacing:.24em}
+  .lp-foot-t{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--n-texto-soft);margin-top:10px}
 
   /* ---------------- COLECCIÓN ---------------- */
   #view-coleccion{background:
@@ -416,63 +404,68 @@
   <div id="view-inicio" class="screen active">
    <div class="scroll">
 
-    <!-- LÁMINA DE PORTADA -->
-    <section class="plate plate-hero">
+    <!-- CABECERA -->
+    <header class="hd">
       <img id="heroImg" alt="" aria-hidden="true">
-      <div class="pl-veil"></div>
-      <div class="pl-frame"></div>
-      <div class="ph-inner">
-        <div class="ph-logo"><svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-            <defs><clipPath id="hexH"><path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z"/></clipPath></defs>
-            <g clip-path="url(#hexH)" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 72 L45 30 L65 53 L73 44.5 L98 68"/>
-              <path d="M0 75 C 20 65, 40 85, 60 77 S 88 67, 100 73"/>
-              <path d="M0 85 C 24 75, 44 93, 66 85 S 92 79, 100 83"/>
-            </g>
-            <path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-          </svg></div>
-        <div class="ph-kick">Colección privada</div>
-        <h1 class="ph-title">Pabellón<em>414</em></h1>
-        <div class="ph-rule"><i></i></div>
-        <p class="ph-sub">Un archivo de expediciones. Territorio, memoria y respeto por lo salvaje.</p>
+      <div class="hd-veil"></div>
+      <div class="hd-in">
+        <div class="hd-logo"><svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+          <defs><clipPath id="hexH"><path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z"/></clipPath></defs>
+          <g clip-path="url(#hexH)" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 72 L45 30 L65 53 L73 44.5 L98 68"/>
+            <path d="M0 75 C 20 65, 40 85, 60 77 S 88 67, 100 73"/>
+            <path d="M0 85 C 24 75, 44 93, 66 85 S 92 79, 100 83"/>
+          </g>
+          <path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+        </svg></div>
+        <div class="hd-kick">Colección privada</div>
+        <h1 class="hd-t">Pabellón<em>414</em></h1>
+        <p class="hd-sub">Un archivo de expediciones. Territorio, memoria y respeto por lo salvaje.</p>
       </div>
-      <div class="ph-scroll">Desliza</div>
+    </header>
+
+    <!-- BARRA DE DATOS -->
+    <div class="mast" id="mast"></div>
+
+    <!-- CUADRÍCULA EDITORIAL -->
+    <section class="reveal">
+      <div class="eg-head">
+        <div>
+          <div class="eg-lab">El archivo</div>
+          <h2 class="eg-h">La colección</h2>
+        </div>
+      </div>
+      <div class="eg" id="eg"></div>
+      <button class="eg-more" onclick="goTab('coleccion')" id="egMore">Ver toda la colección <span>&rarr;</span></button>
     </section>
 
-    <!-- LÁMINAS DE PIEZAS (se generan desde la colección) -->
-    <div id="lpPlates"></div>
-
-    <!-- CATÁLOGO / ÍNDICE DEL PABELLÓN -->
-    <section class="cat reveal">
-      <div class="cat-label">El archivo</div>
-      <h2 class="cat-h">Índice del pabellón</h2>
-      <div class="cat-line" id="catLine"></div>
-      <div class="cat-rule"></div>
-      <div class="idx" id="lpIndex"></div>
-      <button class="cat-cta" onclick="goTab('coleccion')">Ver toda la colección <span>&rarr;</span></button>
+    <!-- ÍNDICE POR SALA -->
+    <section class="idx-sec reveal">
+      <div class="idx-lab">Recorrido</div>
+      <h2 class="idx-h">Salas del pabellón</h2>
+      <div id="lpIndex"></div>
     </section>
 
     <!-- MANIFIESTO -->
     <section class="mani reveal">
-      <div class="cat-label">Nuestra visión</div>
+      <div class="mani-lab">Nuestra visión</div>
       <h2 class="mani-h">Más que un trofeo</h2>
       <p>La caza, en nuestro territorio, nunca ha sido solo un acto de obtener &ldquo;un trofeo&rdquo;. Es una forma de leer el paisaje, de mantener vivos saberes que no están escritos en ningún manual: rastros, vientos, refugios, ciclos. Es parte de una cosmovisión donde el animal no es proteína, sino un otro con el que se establece relación.</p>
       <p>Cuando la caza se regula y se dignifica, no solo se conserva fauna: se conserva hábitat, porque para que exista caza debe existir territorio sano; se conserva memoria, porque el saber del cazador mayor no se pierde; y se conserva valor, porque un venado vivo, visible y respetado, protege más bosque que cualquier prohibición.</p>
-      <p>La caza ética genera intercambio de conocimientos, ordena el uso del espacio y devuelve equilibrio.</p>
-      <div class="mani-quote">&ldquo;El animal no representa muerte: representa todo lo que fue necesario cuidar para que esté ahí.&rdquo;</div>
+      <div class="mani-q">&ldquo;El animal no representa muerte: representa todo lo que fue necesario cuidar para que esté ahí.&rdquo;</div>
     </section>
 
     <!-- PIE -->
     <section class="lp-foot reveal">
       <div class="lp-foot-mark-svg"><svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-            <defs><clipPath id="hexF"><path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z"/></clipPath></defs>
-            <g clip-path="url(#hexF)" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 72 L45 30 L65 53 L73 44.5 L98 68"/>
-              <path d="M0 75 C 20 65, 40 85, 60 77 S 88 67, 100 73"/>
-              <path d="M0 85 C 24 75, 44 93, 66 85 S 92 79, 100 83"/>
-            </g>
-            <path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-          </svg></div>
+          <defs><clipPath id="hexF"><path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z"/></clipPath></defs>
+          <g clip-path="url(#hexF)" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 72 L45 30 L65 53 L73 44.5 L98 68"/>
+            <path d="M0 75 C 20 65, 40 85, 60 77 S 88 67, 100 73"/>
+            <path d="M0 85 C 24 75, 44 93, 66 85 S 92 79, 100 83"/>
+          </g>
+          <path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+        </svg></div>
       <div class="lp-foot-mark">414</div>
       <div class="lp-foot-t">Pabellón 414 · Archivo documental</div>
     </section>
@@ -579,42 +572,41 @@ function buildStats(){
     <div class="cs"><span class="cs-n">${salas}</span><span class="cs-l">Salas</span></div>
     <div class="cs"><span class="cs-n">${cont}</span><span class="cs-l">Continentes</span></div>`;
 }
-/* ---------- PORTADA: láminas + índice del pabellón ---------- */
-const ROMANOS=["I","II","III","IV","V","VI"];
-
+/* ---------- PORTADA: cuadrícula editorial + índice ---------- */
 function buildHome(){
   const conFoto=DATA.filter(a=>a.fotos>0);
+  const resto=DATA.filter(a=>a.fotos===0);
 
-  /* fotografía de la lámina de portada */
+  /* fotografía de cabecera */
   const hero=$("#heroImg");
   if(hero && conFoto.length){
     hero.onload=()=>hero.classList.add("ld");
     hero.src=conFoto[0].imagenes[0];
   }
 
-  /* láminas: las siguientes piezas con fotografía */
-  const laminas=conFoto.slice(1,4);
-  $("#lpPlates").innerHTML = laminas.map((a,i)=>`
-    <button class="plate reveal" onclick="goFicha('${a.id}')">
-      <img src="${a.imagenes[0]}" alt="${a.nombreComun}" loading="lazy" onload="this.classList.add('ld')">
-      <div class="pl-veil"></div>
-      <div class="pl-frame"></div>
-      <div class="pl-num">Lámina ${ROMANOS[i]||i+1}</div>
-      <div class="pl-cap">
-        ${a.codigo?`<div class="pl-code">${a.codigo}</div>`:""}
-        <h3 class="pl-name">${a.nombreComun}</h3>
-        ${a.nombreCientifico?`<div class="pl-sci">${a.nombreCientifico}</div>`:""}
-        <div class="pl-meta">${[a.pais,a.anio].filter(Boolean).join(" <i></i> ")||""}</div>
-        <span class="pl-go">Ver ficha &rarr;</span>
-      </div>
-    </button>`).join("");
-
-  /* cifras del catálogo */
+  /* barra de datos */
   const salas=[...new Set(DATA.map(a=>a.sala).filter(Boolean))];
   const conts=[...new Set(DATA.map(a=>a.continente).filter(Boolean))];
-  $("#catLine").innerHTML=`<b>${DATA.length}</b> piezas &nbsp;·&nbsp; <b>${salas.length}</b> salas &nbsp;·&nbsp; <b>${conts.length}</b> continentes`;
+  $("#mast").innerHTML=`<span><b>${DATA.length}</b> Piezas</span><i></i>`+
+    `<span><b>${salas.length}</b> Salas</span><i></i>`+
+    `<span><b>${conts.length}</b> Continentes</span>`;
 
-  /* índice tipográfico por sala, con puntos guía */
+  /* cuadrícula editorial: hasta 9 piezas, las que tienen foto primero */
+  const sel=[...conFoto.slice(1), ...resto].slice(0,9);
+  $("#eg").innerHTML = sel.map(a=>`
+    <button class="t ${gradFor(a.id)}" onclick="goFicha('${a.id}')">
+      ${a.fotos>0?`<img src="${a.imagenes[0]}" alt="${a.nombreComun}" loading="lazy" onload="this.classList.add('ld')" onerror="this.remove()">`:""}
+      <div class="g"></div>
+      <div class="c">
+        ${a.codigo?`<div class="cd">${a.codigo}</div>`:""}
+        <div class="nm">${a.nombreComun}</div>
+        <div class="mt">${[a.pais,a.anio].filter(Boolean).join(" · ")}</div>
+      </div>
+    </button>`).join("");
+  const mas=$("#egMore");
+  if(mas) mas.innerHTML=`Ver las ${DATA.length} piezas <span>&rarr;</span>`;
+
+  /* índice de salas con puntos guía */
   const porSala={};
   DATA.forEach(a=>{ if(a.sala) porSala[a.sala]=(porSala[a.sala]||0)+1; });
   const nombres=Object.keys(porSala).sort();
