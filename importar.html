@@ -312,7 +312,8 @@ $("#updBtn").addEventListener("click", async ()=>{
   $("#runBtn").disabled=true; $("#updBtn").disabled=true; $("#checkBtn").disabled=true;
   LOG.innerHTML=""; log("── Completando fichas existentes ──","hd");
 
-  let tocadas=0, intactas=0, ausentes=0, nuevasTareas=0, err=0;
+  let tocadas=0, intactas=0, ausentes=0, err=0;
+  let nuevasTareas=0, tareasAlDia=0, cerradas=0, dupTareas=0;
 
   for(let i=0;i<lista.length;i++){
     const p=lista[i];
@@ -354,19 +355,42 @@ $("#updBtn").addEventListener("click", async ()=>{
       intactas++;
     }
 
-    /* si no tiene ninguna revisión programada, se le crea la que corresponda */
-    const { count }=await sb.from("mantenimientos")
-      .select("*",{count:"exact",head:true}).eq("pieza_id",p.id);
-    if(!count && p.faltan && p.faltan.length){
-      const n=p.faltan.length;
-      const dias = n>=8 ? 15 : n>=4 ? 30 : 45;
-      const f=new Date(); f.setDate(f.getDate()+dias);
-      const tipo = p.faltan.includes("confirmar nombre científico") ? "Verificar identificación"
-                 : n===1                                           ? "Cargar fotografías"
-                 :                                                   "Completar ficha";
+    /* Poner al día la revisión automática de esta pieza.
+       Solo se tocan las generadas por esta herramienta, que se
+       reconocen porque su descripción empieza por "Falta poner:".
+       Las revisiones escritas a mano quedan intactas. */
+    const n=p.faltan ? p.faltan.length : 0;
+    const desc = n ? "Falta poner: "+p.faltan.join(", ")+"." : null;
+    const tipo = n===1 ? "Cargar fotografías" : "Completar ficha";
+    const dias = n>=8 ? 15 : n>=4 ? 30 : 45;
+    const f=new Date(); f.setDate(f.getDate()+dias);
+
+    const { data:autos }=await sb.from("mantenimientos")
+      .select("id,descripcion")
+      .eq("pieza_id",p.id).eq("estado","programado")
+      .like("descripcion","Falta poner:%");
+
+    if(autos && autos.length){
+      if(!n){
+        /* ya no falta nada: se cierra en vez de dejarla colgada */
+        for(const a of autos){
+          await sb.from("mantenimientos").update({
+            estado:"realizado", fecha_realizado:new Date().toISOString().slice(0,10)
+          }).eq("id",a.id);
+          cerradas++;
+        }
+      }else{
+        /* se refresca la primera y se descartan las repetidas */
+        const { error:e4 }=await sb.from("mantenimientos").update({
+          tipo, descripcion:desc, fecha_programada:f.toISOString().slice(0,10)
+        }).eq("id",autos[0].id);
+        if(e4){ err++; log(`  ! revisión de ${p.nombre_comun}: ${e4.message}`,"er"); }
+        else if(autos[0].descripcion!==desc) tareasAlDia++;
+        for(const a of autos.slice(1)){ await sb.from("mantenimientos").delete().eq("id",a.id); dupTareas++; }
+      }
+    }else if(n){
       const { error:e3 }=await sb.from("mantenimientos").insert({
-        pieza_id:p.id, tipo,
-        descripcion:"Falta poner: "+p.faltan.join(", ")+".",
+        pieza_id:p.id, tipo, descripcion:desc,
         estado:"programado", fecha_programada:f.toISOString().slice(0,10)
       });
       if(!e3) nuevasTareas++;
@@ -376,13 +400,16 @@ $("#updBtn").addEventListener("click", async ()=>{
   progreso(1);
   log("");
   log("── Resultado ──","hd");
-  log(`fichas completadas:   ${tocadas}`,"ok");
-  log(`ya estaban completas: ${intactas}`);
-  if(ausentes) log(`no estaban en la base: ${ausentes}`);
-  if(err)      log(`con error:            ${err}`,"er");
-  log(`revisiones nuevas:    ${nuevasTareas}`,"ok");
+  log(`fichas completadas:    ${tocadas}`,"ok");
+  log(`ya estaban completas:  ${intactas}`);
+  if(ausentes)    log(`no estaban en la base: ${ausentes}`);
+  if(err)         log(`con error:             ${err}`,"er");
+  log(`revisiones al día:     ${tareasAlDia}`,"ok");
+  if(nuevasTareas) log(`revisiones nuevas:     ${nuevasTareas}`,"ok");
+  if(cerradas)     log(`revisiones cerradas:   ${cerradas}`,"ok");
+  if(dupTareas)    log(`duplicadas eliminadas: ${dupTareas}`);
   log("");
-  log("Listo. Mirá una ficha en la web para comprobarlo.","hd");
+  log("Listo. Mirá la agenda de Conservación para comprobarlo.","hd");
 
   $("#runBtn").disabled=false; $("#updBtn").disabled=false; $("#checkBtn").disabled=false;
 });
