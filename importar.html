@@ -117,8 +117,14 @@ a{color:var(--oro)}
 
     <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap">
       <button class="go" id="runBtn">Importar ahora</button>
+      <button id="updBtn">Completar las que ya existen</button>
       <button id="checkBtn">Ver qué hay en la base</button>
     </div>
+    <p class="ph" style="margin-top:14px">
+      <b style="color:var(--marfil)">Importar</b> crea las piezas que falten y salta las que ya estén.
+      <b style="color:var(--marfil)">Completar</b> añade a las existentes solo los campos que estén vacíos:
+      nunca pisa nada que hayas escrito vos, ni toca las fotos.
+    </p>
     <div class="bar hide" id="bar"><i></i></div>
     <div class="log hide" id="log"></div>
   </div>
@@ -293,6 +299,92 @@ $("#runBtn").addEventListener("click", async ()=>{
   log("Listo. Las fotos se suben desde el panel de administración.","hd");
 
   $("#runBtn").disabled=false; $("#checkBtn").disabled=false;
+});
+
+/* ---------- completar las piezas que ya existen ----------
+   Solo rellena huecos: lee cada pieza, compara campo por campo y
+   escribe únicamente donde la base tiene vacío. Nada de lo que el
+   administrador haya escrito a mano se sobrescribe. */
+$("#updBtn").addEventListener("click", async ()=>{
+  const lista=PIEZAS.filter(p=>p.clase!=="rojo");
+  if(!confirm(`Se van a revisar ${lista.length} piezas y completar solo los campos vacíos. ¿Continuar?`)) return;
+
+  $("#runBtn").disabled=true; $("#updBtn").disabled=true; $("#checkBtn").disabled=true;
+  LOG.innerHTML=""; log("── Completando fichas existentes ──","hd");
+
+  let tocadas=0, intactas=0, ausentes=0, nuevasTareas=0, err=0;
+
+  for(let i=0;i<lista.length;i++){
+    const p=lista[i];
+    progreso((i+1)/lista.length);
+
+    const { data:actual, error:e1 }=await sb.from("piezas").select("*").eq("id",p.id).maybeSingle();
+    if(e1){ err++; log(`✗ ${p.nombre_comun}: ${e1.message}`,"er"); continue; }
+    if(!actual){ ausentes++; log(`· ${p.nombre_comun}: no está en la base (usá Importar)`); continue; }
+
+    const cambios={};
+    const vacio = v => v===null || v===undefined || v==="";
+
+    if(vacio(actual.nombre_cientifico) && p.nombre_cientifico) cambios.nombre_cientifico=p.nombre_cientifico;
+    if(vacio(actual.especie)          && p.especie)            cambios.especie=p.especie;
+    if(vacio(actual.historia)         && p.historia)           cambios.historia=p.historia;
+    if(vacio(actual.region)           && p.region)             cambios.region=p.region;
+    if(vacio(actual.documentos)       && p.documentos)         cambios.documentos=p.documentos;
+    if(vacio(actual.pais)             && p.pais)               cambios.pais=p.pais;
+    if(vacio(actual.continente)       && p.continente)         cambios.continente=p.continente;
+    if(vacio(actual.anio)             && p.anio)               cambios.anio=p.anio;
+
+    /* los jsonb se fusionan clave por clave, sin borrar las existentes */
+    for(const campo of ["bio","caza","taxidermia"]){
+      const base=actual[campo]||{}, nuevo=p[campo]||{};
+      const mez={...base};
+      let cambio=false;
+      for(const k of Object.keys(nuevo)){
+        if(vacio(base[k]) && !vacio(nuevo[k])){ mez[k]=nuevo[k]; cambio=true; }
+      }
+      if(cambio) cambios[campo]=mez;
+    }
+
+    if(Object.keys(cambios).length){
+      const { error:e2 }=await sb.from("piezas").update(cambios).eq("id",p.id);
+      if(e2){ err++; log(`✗ ${p.nombre_comun}: ${e2.message}`,"er"); continue; }
+      tocadas++;
+      log(`✓ ${p.nombre_comun} · ${Object.keys(cambios).join(", ")}`,"ok");
+    }else{
+      intactas++;
+    }
+
+    /* si no tiene ninguna revisión programada, se le crea la que corresponda */
+    const { count }=await sb.from("mantenimientos")
+      .select("*",{count:"exact",head:true}).eq("pieza_id",p.id);
+    if(!count && p.faltan && p.faltan.length){
+      const n=p.faltan.length;
+      const dias = n>=8 ? 15 : n>=4 ? 30 : 45;
+      const f=new Date(); f.setDate(f.getDate()+dias);
+      const tipo = p.faltan.includes("confirmar nombre científico") ? "Verificar identificación"
+                 : n===1                                           ? "Cargar fotografías"
+                 :                                                   "Completar ficha";
+      const { error:e3 }=await sb.from("mantenimientos").insert({
+        pieza_id:p.id, tipo,
+        descripcion:"Falta poner: "+p.faltan.join(", ")+".",
+        estado:"programado", fecha_programada:f.toISOString().slice(0,10)
+      });
+      if(!e3) nuevasTareas++;
+    }
+  }
+
+  progreso(1);
+  log("");
+  log("── Resultado ──","hd");
+  log(`fichas completadas:   ${tocadas}`,"ok");
+  log(`ya estaban completas: ${intactas}`);
+  if(ausentes) log(`no estaban en la base: ${ausentes}`);
+  if(err)      log(`con error:            ${err}`,"er");
+  log(`revisiones nuevas:    ${nuevasTareas}`,"ok");
+  log("");
+  log("Listo. Mirá una ficha en la web para comprobarlo.","hd");
+
+  $("#runBtn").disabled=false; $("#updBtn").disabled=false; $("#checkBtn").disabled=false;
 });
 
 /* si ya había sesión abierta, saltar el acceso */
