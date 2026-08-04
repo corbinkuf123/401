@@ -93,18 +93,31 @@ body{
 /* ═══ PORTADA ═══ */
 #view-inicio{background:var(--base)}
 
-/* — retrato de apertura: mitad superior — */
-.opener{padding:14px var(--marco) 0}
-.opener .ph{height:53svh;min-height:380px}
-.opener .ph img{animation:breathe 30s ease-out both}
-@keyframes breathe{from{transform:scale(1.08)}to{transform:scale(1)}}
-.opener .cap{position:absolute;left:26px;right:26px;bottom:26px;z-index:2}
-.opener .cap .eyebrow{margin-bottom:9px;display:block}
-.opener .cap .nm{font-family:var(--serif);font-weight:400;font-size:25px;line-height:1.1;color:var(--marfil)}
+/* — retrato de apertura —
+   Sin marco ni esquinas: la fotografía nace del propio fondo y se
+   disuelve en él por los cuatro lados, así que no hay borde que
+   la recorte. Va rotando entre todas las fotos del pabellón. */
+.opener{position:relative;height:64svh;min-height:430px;overflow:hidden;background:var(--base)}
+.op-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  opacity:0;transition:opacity 1.6s cubic-bezier(.4,0,.2,1);
+  animation:breathe 22s ease-out both}
+.op-img.on{opacity:1}
+@keyframes breathe{from{transform:scale(1.07)}to{transform:scale(1)}}
+/* la disolución: viñeta suave alrededor y caída al fondo por abajo */
+.op-fade{position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:
+    linear-gradient(to top,var(--base) 0%,rgba(17,17,17,.72) 18%,rgba(17,17,17,.2) 46%,transparent 68%),
+    radial-gradient(128% 88% at 50% 32%,transparent 38%,rgba(17,17,17,.82) 100%)}
+.opener .cap{position:absolute;left:var(--aire);right:var(--aire);bottom:30px;z-index:2;
+  cursor:pointer;text-align:center}
+.opener .cap .eyebrow{margin-bottom:10px;display:block}
+.opener .cap .nm{font-family:var(--serif);font-weight:400;font-size:27px;line-height:1.1;
+  color:var(--marfil);transition:color .4s}
+.opener .cap:hover .nm{color:var(--oro)}
 
 /* — identidad — */
-.ident{padding:48px var(--aire) 0;text-align:center}
-.ident .marca{width:54px;height:54px;margin:0 auto 26px}
+.ident{padding:44px var(--aire) 0;text-align:center}
+.ident .marca{width:104px;height:104px;margin:0 auto 30px}
 .ident .h-xl{margin-bottom:14px}
 .ident .rule{width:26px;height:1px;background:var(--oro);margin:26px auto 0;opacity:.5}
 .ident .sub{font-family:var(--serif);font-style:italic;font-weight:300;font-size:19px;
@@ -169,7 +182,7 @@ body{
 
 /* — cita editorial — */
 .quote{padding:76px var(--aire) 70px;text-align:center}
-.quote .marca{width:30px;height:30px;margin:0 auto 26px;opacity:.6}
+.quote .marca{width:44px;height:44px;margin:0 auto 26px;opacity:.6}
 .quote p{font-family:var(--serif);font-style:italic;font-weight:300;font-size:25px;
   line-height:1.52;color:var(--marfil)}
 .quote .by{font-family:var(--sans);font-weight:500;font-size:8.5px;letter-spacing:.3em;
@@ -399,14 +412,12 @@ body{
   <div id="view-inicio" class="screen active">
    <div class="scroll">
 
-    <!-- retrato de apertura -->
+    <!-- retrato de apertura: rota entre todas las fotos del pabellón -->
     <div class="opener">
-      <div class="ph" id="opener">
-        <div class="fallback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 7h3l1.5-2h7L17 7h3v12H4z"/><circle cx="12" cy="13" r="3"/></svg></div>
-        <img id="openerImg" alt="">
-        <div class="vt"></div>
-        <div class="cap" id="openerCap"></div>
-      </div>
+      <img class="op-img" id="opA" alt="">
+      <img class="op-img" id="opB" alt="" aria-hidden="true">
+      <div class="op-fade"></div>
+      <div class="cap" id="openerCap"></div>
     </div>
 
     <!-- identidad -->
@@ -571,17 +582,7 @@ function fotoTag(url,alt,eager){
 function buildHome(){
   const conFoto = DATA.filter(a=>a.fotos>0);
 
-  /* retrato de apertura: la pieza más fotografiada abre el archivo */
-  const abre = conFoto[0];
-  if(abre){
-    const img=$("#openerImg");
-    img.onload=()=>img.classList.add("ld");
-    img.src=abre.imagenes[0];
-    img.alt=abre.nombreComun;
-    $("#openerCap").innerHTML=
-      `<span class="eyebrow">${esc([abre.pais,abre.anio].filter(Boolean).join(" · "))}</span>
-       <div class="nm">${esc(abre.nombreComun)}</div>`;
-  }
+  iniciarPortada();
 
   /* cifras */
   const salas=new Set(DATA.map(a=>a.sala).filter(Boolean)).size;
@@ -619,6 +620,51 @@ function buildHome(){
       <span class="rc">${porSala[s]}</span>
     </button>`).join("")
     : `<p class="body" style="padding:0 var(--aire)">Aún no hay salas registradas.</p>`;
+}
+
+/* Rotación de la apertura.
+   Reúne todas las fotos del pabellón, las baraja y las va fundiendo
+   con dos capas: mientras una se ve, la otra carga por detrás, así
+   el cambio nunca muestra un hueco. El pie sigue a la foto y lleva
+   a su ficha. */
+let opTimer=null;
+function iniciarPortada(){
+  if(opTimer){ clearInterval(opTimer); opTimer=null; }
+
+  const pool=[];
+  DATA.forEach(a=>(a.imagenes||[]).forEach(u=>pool.push({u,a})));
+  if(!pool.length) return;
+
+  for(let i=pool.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [pool[i],pool[j]]=[pool[j],pool[i]];
+  }
+
+  const capas=[$("#opA"),$("#opB")], cap=$("#openerCap");
+  let n=0, cual=0;
+
+  function mostrar(i){
+    const it=pool[i%pool.length], el=capas[cual];
+    el.onload=()=>{
+      capas.forEach(c=>c.classList.remove("on"));
+      el.classList.add("on");
+      cual=1-cual;
+    };
+    el.alt=it.a.nombreComun;
+    el.src=it.u;
+    const pie=[it.a.pais,it.a.anio].filter(Boolean).join(" · ");
+    cap.innerHTML=`${pie?`<span class="eyebrow">${esc(pie)}</span>`:""}
+                   <div class="nm">${esc(it.a.nombreComun)}</div>`;
+    cap.onclick=()=>goFicha(it.a.id);
+  }
+
+  mostrar(0);
+
+  /* con movimiento reducido se queda una sola foto fija */
+  const quieto=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(pool.length>1 && !quieto){
+    opTimer=setInterval(()=>mostrar(++n),3800);
+  }
 }
 
 function verSala(sala){
