@@ -4,839 +4,872 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#111111">
 <title>Pabellón 414 · Archivo Digital</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --chrome:#13170D;
-    --chrome2:#1c2113;
-    --chrome3:#262d1a;
-    --marfil:#F4F1E8;
-    --arena:#E7DFC9;
-    --oliva:#4F5D3A;
-    --bronce:#8A6A44;
-    --oro:#C2A36B;
-    --tinta:#2F2F2F;
-    --tinta-suave:#5a5750;
-    --crema:#EDE7D6;
-    --crema-soft:rgba(237,231,214,.58);
-    --linea:rgba(79,93,58,.18);
-    --linea-bronce:rgba(138,106,68,.35);
-    --linea-dark:rgba(237,231,214,.12);
-    /* Playfair Display: serif formal de alto contraste, para títulos
-       Lora: serif seria y legible, para lectura */
-    --display:'Playfair Display',Georgia,serif;
-    --serif:'Lora',Georgia,serif;
-    --sans:'Hanken Grotesk',system-ui,sans-serif;
-    --nav-h:66px;
-    /* ── paleta de cacería: verde bosque, corteza, cuero y crema ── */
-    --n-negro:#0F150E;          /* verde bosque casi negro (fondo) */
-    --n-verde-prof:#141C11;     /* superficie profunda */
-    --n-verde:#1C2716;          /* superficie */
-    --n-verde-claro:#26331C;    /* superficie elevada */
-    --n-musgo:#3E4E2E;          /* musgo */
-    --n-oliva:#4F5D3A;
-    --n-corteza:#6B4E32;        /* corteza / marrón cálido */
-    --n-cuero:#8A6A44;          /* cuero */
-    --n-beige:#C9A26B;          /* latón / dorado cálido */
-    --n-beige-claro:#DFC18B;
-    --n-marron:#5C452E;
-    --n-marron-gris:#3A3B31;
-    --n-taupe:#6B655C;
-    --n-gris:#4D4A47;
-    --n-beige-marron:#89785E;
-    --n-texto:#EDE6D6;          /* crema */
-    --n-texto-soft:rgba(237,230,214,.62);
-    --n-linea:rgba(201,162,107,.20);
-    --n-linea-fuerte:rgba(201,162,107,.36);
-    /* secciones claras: pergamino */
-    --pergamino:#EDE4D0;
-    --tinta-p:#2B2E23;
-    --tinta-p-soft:#5C5747;
-    --verde-p:#3A4A2C;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
-  body{font-family:var(--sans);background:#090D08;color:var(--tinta);min-height:100vh;-webkit-font-smoothing:antialiased}
-  .app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--chrome);position:relative;overflow-x:hidden}
-  .scroll{min-height:100vh;padding-bottom:calc(var(--nav-h) + 14px)}
-  .screen{display:none}
-  .screen.active{display:block;animation:fade .45s ease both}
-  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .ph-ico{width:30px;height:30px;color:rgba(237,231,214,.4)}
+/* ═══════════════════════════════════════════════════════════
+   PABELLÓN 414 — Archivo Digital
+   Dirección: editorial de lujo, silenciosa, atemporal.
+   Fotografía primero · negro mate · champán cálido.
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  /* ── color ── */
+  --base:#111111;          /* carbón mate */
+  --base-2:#181818;        /* casi negro */
+  --card:#202020;          /* grafito muy oscuro */
+  --oro:#B89A63;           /* champán cálido */
+  --bronce:#8C6A43;        /* bronce */
+  --marfil:#F2EFE8;        /* marfil cálido */
+  --gris:#9A948D;          /* gris apagado */
+  --linea:rgba(154,148,141,.16);
+  --linea-fina:rgba(154,148,141,.10);
+  --oro-linea:rgba(184,154,99,.34);
 
-  /* ---------------- INICIO / LANDING ---------------- */
-  /* Patrón: Portfolio Grid · Estilo: Editorial Grid / Magazine
-     Visuales primero, cuadrícula asimétrica, tipografía de imprenta. */
-  #view-inicio{background:var(--n-negro)}
-  .reveal{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
-  .reveal.in{opacity:1;transform:none}
+  /* ── tipografía ── */
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',-apple-system,system-ui,sans-serif;
 
-  /* ══ CABECERA (compacta: la obra es la protagonista) ══ */
-  .hd{position:relative;height:62svh;min-height:400px;overflow:hidden;background:#0B100A;
-    display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:0 28px 40px}
-  .hd img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
-    transition:opacity 1.5s ease;animation:kb 34s ease-out both}
-  .hd img.ld{opacity:.88}
-  @keyframes kb{from{transform:scale(1.12)}to{transform:scale(1)}}
-  .hd-veil{position:absolute;inset:0;
-    background:linear-gradient(180deg,rgba(9,13,8,.58) 0%,rgba(9,13,8,.18) 38%,rgba(9,13,8,.86) 82%,var(--n-negro) 100%)}
-  .hd-in{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
-  .hd-logo{width:48px;height:48px;margin-bottom:18px;animation:hIn .8s cubic-bezier(.16,1,.3,1) both}
-  .hd-kick{font-size:8.5px;letter-spacing:.46em;text-transform:uppercase;color:var(--n-beige);
-    display:flex;align-items:center;gap:12px;animation:hIn .8s .08s cubic-bezier(.16,1,.3,1) both}
-  .hd-kick::before,.hd-kick::after{content:"";width:18px;height:1px;background:var(--n-beige);opacity:.55}
-  .hd-t{margin-top:16px;font-family:var(--display);font-weight:400;font-size:18px;line-height:1;color:var(--n-texto);
-    letter-spacing:.4em;text-transform:uppercase;text-indent:.4em;animation:hIn .8s .16s cubic-bezier(.16,1,.3,1) both}
-  .hd-t em{display:block;font-style:normal;font-weight:500;font-size:76px;line-height:.95;letter-spacing:.04em;
-    text-indent:.04em;margin-top:8px;
-    background:linear-gradient(175deg,#F7EACB 5%,var(--n-beige-claro) 36%,var(--n-beige) 64%,#8B6939 100%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 18px 40px rgba(0,0,0,.5)}
-  @keyframes hIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-  .hd-sub{font-family:var(--serif);font-style:italic;font-size:14.5px;color:rgba(237,230,214,.74);
-    margin-top:14px;max-width:280px;line-height:1.7;animation:hIn .8s .26s cubic-bezier(.16,1,.3,1) both}
+  /* ── métrica ── */
+  --marco:20px;            /* margen lateral de las fotos */
+  --aire:28px;             /* margen lateral del texto */
+  --radio:24px;            /* radio de la marca */
+  --nav-h:74px;
+}
 
-  /* ══ BARRA DE DATOS (regla de imprenta) ══ */
-  .mast{display:flex;align-items:center;justify-content:center;gap:14px;padding:15px 24px;
-    background:#0B100A;border-top:1px solid var(--n-linea-fuerte);border-bottom:1px solid var(--n-linea-fuerte);
-    font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--n-texto-soft);flex-wrap:wrap}
-  .mast b{font-family:var(--display);font-weight:500;font-size:13px;letter-spacing:.04em;color:var(--n-beige)}
-  .mast i{width:3px;height:3px;background:var(--n-beige);transform:rotate(45deg);flex:0 0 auto}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--sans);font-weight:300;
+  background:#0A0A0A;color:var(--marfil);
+  min-height:100vh;-webkit-font-smoothing:antialiased;
+  letter-spacing:.01em;
+}
+.app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--base);position:relative;overflow-x:hidden}
+.scroll{min-height:100vh;padding-bottom:calc(var(--nav-h) + 20px)}
+.screen{display:none}
+.screen.active{display:block;animation:enter .6s cubic-bezier(.2,.8,.25,1) both}
+@keyframes enter{from{opacity:0}to{opacity:1}}
 
-  /* ══ CUADRÍCULA EDITORIAL ASIMÉTRICA ══ */
-  .eg-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding:38px 22px 16px}
-  .eg-lab{font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--n-beige);margin-bottom:8px}
-  .eg-h{font-family:var(--display);font-weight:400;font-size:27px;line-height:1.15;color:var(--n-texto)}
-  .eg{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 22px}
-  .eg .t{position:relative;overflow:hidden;background:var(--n-verde);border:none;padding:0;cursor:pointer;
-    aspect-ratio:3/4;opacity:0;transform:translateY(18px) scale(.96);
-    animation:tIn .55s cubic-bezier(.34,1.4,.64,1) forwards}
-  @keyframes tIn{to{opacity:1;transform:none}}
-  /* ritmo de revista: piezas 1 y 6 a todo el ancho */
-  .eg .t:nth-child(1),.eg .t:nth-child(6){grid-column:1/-1;aspect-ratio:16/11}
-  .eg .t:nth-child(1){animation-delay:.02s}.eg .t:nth-child(2){animation-delay:.08s}
-  .eg .t:nth-child(3){animation-delay:.14s}.eg .t:nth-child(4){animation-delay:.20s}
-  .eg .t:nth-child(5){animation-delay:.26s}.eg .t:nth-child(6){animation-delay:.32s}
-  .eg .t:nth-child(7){animation-delay:.38s}.eg .t:nth-child(8){animation-delay:.44s}
-  .eg .t:nth-child(n+9){animation-delay:.5s}
-  .eg .t img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
-    opacity:0;transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1)}
-  .eg .t img.ld{opacity:1}
-  .eg .t:hover img.ld{transform:scale(1.05)}
-  .eg .t .g{position:absolute;inset:0;background:linear-gradient(180deg,transparent 36%,rgba(8,12,7,.94) 100%)}
-  .eg .t .c{position:absolute;left:0;right:0;bottom:0;padding:13px 14px;z-index:2;text-align:left}
-  .eg .t .cd{font-size:7.5px;letter-spacing:.22em;color:var(--n-beige);margin-bottom:5px}
-  .eg .t .nm{font-family:var(--display);font-weight:500;font-size:15px;color:var(--n-texto);line-height:1.18}
-  .eg .t:nth-child(1) .nm,.eg .t:nth-child(6) .nm{font-size:22px}
-  .eg .t .mt{font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(237,230,214,.62);margin-top:5px}
-  .eg-more{margin:24px 22px 0;width:calc(100% - 44px);display:inline-flex;align-items:center;justify-content:center;gap:10px;
-    background:none;border:1px solid var(--n-linea-fuerte);color:var(--n-beige);font-family:var(--sans);
-    font-weight:700;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:16px 22px;
-    cursor:pointer;transition:background .25s,color .25s}
-  .eg-more span{transition:transform .2s}
-  .eg-more:hover{background:var(--n-beige);color:#241806}
-  .eg-more:hover span{transform:translateX(4px)}
+/* ── grano + papel: una sola capa fija, muy tenue ── */
+.grain{
+  position:fixed;inset:0;pointer-events:none;z-index:90;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
 
-  /* ══ FILTRO POR SALA (índice impreso) ══ */
-  .idx-sec{margin-top:44px;padding:38px 22px 42px;background:var(--pergamino);color:var(--tinta-p);position:relative}
-  .idx-sec::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
-    background-image:radial-gradient(rgba(120,100,70,.06) 1px,transparent 1px);background-size:3px 3px}
-  .idx-sec > *{position:relative}
-  .idx-lab{font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--bronce);margin-bottom:9px}
-  .idx-h{font-family:var(--display);font-weight:400;font-size:27px;line-height:1.15;color:var(--verde-p);margin-bottom:20px}
-  .idx-row{display:flex;align-items:baseline;gap:10px;padding:13px 0;width:100%;background:none;border:none;
-    border-bottom:1px solid rgba(90,75,50,.15);font-family:inherit;text-align:left;color:inherit;cursor:pointer;
-    transition:padding-left .25s ease}
-  .idx-row:hover{padding-left:6px}
-  .idx-row:last-child{border-bottom:none}
-  .idx-n{font-family:var(--display);font-size:10.5px;color:var(--bronce);flex:0 0 auto;letter-spacing:.1em}
-  .idx-name{font-family:var(--serif);font-size:15px;color:var(--verde-p);line-height:1.3;flex:0 0 auto;max-width:62%}
-  .idx-dots{flex:1;border-bottom:1px dotted rgba(90,75,50,.45);transform:translateY(-5px);min-width:12px}
-  .idx-c{font-family:var(--display);font-weight:500;font-size:14px;color:var(--bronce);flex:0 0 auto}
+/* ═══ TIPOGRAFÍA BASE ═══ */
+.eyebrow{
+  font-family:var(--sans);font-weight:500;font-size:9px;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--oro);
+}
+.eyebrow.mute{color:var(--gris)}
+.h-xl{font-family:var(--serif);font-weight:300;font-size:66px;line-height:.94;letter-spacing:-.005em;color:var(--marfil)}
+.h-lg{font-family:var(--serif);font-weight:300;font-size:40px;line-height:1.06;color:var(--marfil)}
+.h-md{font-family:var(--serif);font-weight:400;font-size:27px;line-height:1.18;color:var(--marfil)}
+.body{font-family:var(--sans);font-weight:300;font-size:14.5px;line-height:2;color:var(--gris)}
 
-  /* ══ MANIFIESTO EDITORIAL ══ */
-  .mani{background:var(--n-negro);padding:52px 26px 56px}
-  .mani-lab{font-size:8.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--n-beige);margin-bottom:10px}
-  .mani-h{font-family:var(--display);font-weight:400;font-size:29px;line-height:1.18;color:var(--n-texto);margin-bottom:22px}
-  .mani p{font-family:var(--serif);font-weight:400;font-size:15px;line-height:1.95;
-    color:rgba(237,230,214,.72);margin-bottom:18px}
-  .mani p:last-of-type{margin-bottom:0}
-  .mani p:first-of-type::first-letter{font-family:var(--display);font-size:56px;float:left;line-height:.78;
-    padding:8px 12px 0 0;color:var(--n-beige);font-weight:500}
-  .mani-q{margin-top:32px;padding-top:24px;border-top:1px solid var(--n-linea);
-    font-family:var(--display);font-style:italic;font-weight:400;font-size:19px;line-height:1.55;
-    color:var(--n-beige-claro);text-align:center}
+/* ═══ MARCA · ASTA DE CIERVO ═══ */
+.antler{display:block;color:var(--oro)}
+.antler path{vector-effect:non-scaling-stroke}
 
-  /* ══ PIE ══ */
-  .lp-foot{padding:40px 30px 54px;text-align:center;background:#090D08;border-top:1px solid var(--n-linea)}
-  .lp-foot-mark-svg{width:38px;height:38px;margin:0 auto 11px}
-  .lp-foot-mark{font-family:var(--display);font-weight:400;font-size:22px;color:var(--n-beige);letter-spacing:.24em}
-  .lp-foot-t{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--n-texto-soft);margin-top:10px}
+/* ═══ FOTOGRAFÍA ═══ */
+/* La foto es siempre el elemento principal: sangra casi de borde a
+   borde, con esquinas redondeadas y viñeta natural en los bordes. */
+.ph{position:relative;overflow:hidden;border-radius:var(--radio);background:var(--base-2)}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  opacity:0;transition:opacity 1.1s cubic-bezier(.2,.8,.25,1),transform 1.2s cubic-bezier(.2,.8,.25,1)}
+.ph img.ld{opacity:1}
+/* viñeta natural — el único degradado permitido */
+.ph::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  box-shadow:inset 0 0 90px 24px rgba(10,10,10,.5)}
+.ph .vt{position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(to top,rgba(10,10,10,.88) 0%,rgba(10,10,10,.34) 34%,transparent 62%)}
+.ph .fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(154,148,141,.3)}
+.ph .fallback svg{width:26px;height:26px}
 
-  /* ---------------- COLECCIÓN ---------------- */
-  #view-coleccion{background:
-      radial-gradient(110% 40% at 50% 0%, rgba(78,93,58,.26), transparent 60%),
-      linear-gradient(180deg,#141C11 0%, var(--n-negro) 40%)}
-  .col-head{display:flex;align-items:flex-end;justify-content:space-between;padding:26px 22px 6px}
-  .col-head h2{font-family:var(--display);font-weight:500;font-size:23px;letter-spacing:.13em;color:var(--n-texto);text-transform:uppercase;letter-spacing:.05em}
-  .col-head .ov{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--n-beige);margin-bottom:7px}
-  .icon-btn{width:38px;height:38px;border:1px solid var(--linea-dark);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--crema-soft);background:none;cursor:pointer}
-  .icon-btn svg{width:17px;height:17px}
-  .col-stats{display:flex;align-items:center;padding:16px 18px;margin:16px 22px 4px;
-    background:var(--n-verde);border:1px solid var(--n-linea);border-radius:14px}
-  .col-stats .cs{flex:1;text-align:center;position:relative}
-  .col-stats .cs + .cs::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:26px;background:var(--n-linea)}
-  .col-stats .cs-n{display:block;font-family:var(--serif);font-size:26px;color:var(--n-beige-claro);line-height:1}
-  .col-stats .cs-l{display:block;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--n-texto-soft);margin-top:6px}
-  .searchbox{position:relative;margin:16px 22px 12px}
-  .searchbox svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--n-texto-soft)}
-  .searchbox input{width:100%;padding:13px 14px 13px 42px;border:1px solid var(--n-linea);border-radius:11px;
-    background:var(--n-verde);color:var(--n-texto);font-family:var(--sans);font-size:14px}
-  .searchbox input::placeholder{color:rgba(230,217,192,.4)}
-  .searchbox input:focus{outline:none;border-color:var(--n-beige)}
-  .filters{display:flex;gap:8px;overflow-x:auto;padding:0 22px 6px;scrollbar-width:none}
-  .filters::-webkit-scrollbar{display:none}
-  .filters select{appearance:none;-webkit-appearance:none;flex:0 0 auto;font-family:var(--sans);font-size:11.5px;font-weight:600;
-    letter-spacing:.04em;color:var(--n-texto-soft);background-color:var(--n-verde);border:1px solid var(--n-linea);border-radius:40px;
-    padding:9px 30px 9px 15px;cursor:pointer;transition:border-color .25s,color .25s,background-color .25s;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%23C9A26B' stroke-width='1.5'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
-    background-repeat:no-repeat;background-position:right 13px center}
-  .filters select:hover{border-color:var(--n-linea-fuerte);color:var(--n-texto)}
-  .filters select:focus{outline:none}
-  .filters select.set{background-color:var(--n-beige);color:#231705;border-color:var(--n-beige);
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%2320160c' stroke-width='1.6'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E")}
-  .count-row{display:flex;justify-content:space-between;align-items:center;padding:10px 24px 2px}
-  .count{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--n-texto-soft)}
-  .clear{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--n-beige);background:none;border:none;cursor:pointer;font-family:var(--sans);font-weight:600;display:none}
-  .clear.show{display:inline}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px 22px 30px}
-  .card{cursor:pointer;border:none;background:none;padding:0;font-family:inherit;text-align:left;
-    opacity:0;transform:translateY(14px);animation:rise .5s ease forwards}
-  @keyframes rise{to{opacity:1;transform:none}}
-  .card .img{position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden;border:1px solid var(--n-linea);transition:transform .3s}
-  .card:active .img{transform:scale(.98)}
-  /* degradado verde profundo para que el texto se lea sobre la foto */
-  .card .img .grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 34%,rgba(10,15,8,.55) 62%,rgba(8,12,7,.95) 100%)}
-  .card .cap{position:absolute;left:0;right:0;bottom:0;padding:12px 13px;z-index:2}
-  .card .cap .code{font-size:9px;letter-spacing:.14em;color:var(--n-beige);margin-bottom:3px}
-  .card .cap .nm{font-family:var(--display);font-weight:500;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--n-texto);line-height:1.08}
-  .card .cap .meta{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--n-texto-soft);margin-top:4px}
-  .card .cap .st{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;letter-spacing:.04em;
-    color:var(--n-texto-soft);margin-top:5px}
-  .card .cap .st::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
-  .card .cap .st.ex{color:#8fbf72}
-  .card .cap .st.at{color:#e0b463}
-  .card .cap .st.re{color:#e08b7f}
-  .ph-ico-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-  .empty{grid-column:1/-1;text-align:center;padding:50px 10px;color:var(--n-texto-soft);font-style:italic;font-family:var(--serif)}
+/* ═══ PORTADA ═══ */
+#view-inicio{background:var(--base)}
 
-  /* placeholder gradientes variados */
-  .v0{background:radial-gradient(120% 100% at 60% 10%,#4E5D3A,#232C18 70%,#141A0F)}
-  .v1{background:radial-gradient(120% 100% at 40% 20%,#3E4E2E,#1F2916 70%,#121810)}
-  .v2{background:radial-gradient(120% 100% at 70% 15%,#6B4E32,#2C2216 70%,#16110B)}
-  .v3{background:radial-gradient(120% 100% at 50% 0%,#5A6B3F,#262E1A 70%,#131A0D)}
-  .v4{background:radial-gradient(120% 100% at 55% 20%,#8A6A44,#2E2417 70%,#17120C)}
-  .v5{background:radial-gradient(120% 100% at 45% 10%,#44553A,#212B1C 70%,#121710)}
-  /* foto real encima del recuadro de respaldo */
-  .img img,.f-hero>img,.gtile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+/* — retrato de apertura: mitad superior — */
+.opener{padding:14px var(--marco) 0}
+.opener .ph{height:53svh;min-height:380px}
+.opener .ph img{animation:breathe 30s ease-out both}
+@keyframes breathe{from{transform:scale(1.08)}to{transform:scale(1)}}
+.opener .cap{position:absolute;left:26px;right:26px;bottom:26px;z-index:2}
+.opener .cap .eyebrow{margin-bottom:9px;display:block}
+.opener .cap .nm{font-family:var(--serif);font-weight:400;font-size:25px;line-height:1.1;color:var(--marfil)}
 
-  /* ---------------- FICHA ---------------- */
-  #view-ficha{background:var(--chrome)}
-  .f-top{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 14px}
-  .f-top .code{font-size:12px;letter-spacing:.2em;color:var(--crema);font-weight:600}
-  .f-actions{display:flex;gap:8px}
-  .icon-btn.key{color:var(--oro);border-color:var(--linea-bronce)}
-  .f-hero{position:relative;height:322px;overflow:hidden}
-  .f-hero .ph-ico-wrap{flex-direction:column;gap:12px}
-  .f-hero .ph-ico{width:46px;height:46px}
-  .f-hero .ph-cap{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(237,231,214,.45)}
-  .f-hero .counter{position:absolute;bottom:24px;right:18px;background:rgba(12,15,8,.66);color:var(--crema);
-    font-size:11px;letter-spacing:.08em;padding:5px 12px;border-radius:30px;backdrop-filter:blur(4px)}
-  .navarrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:none;
-    background:rgba(12,15,8,.42);color:var(--crema);font-family:var(--serif);font-size:22px;line-height:1;
-    display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(3px);z-index:3;padding-bottom:3px}
-  .navarrow.prev{left:12px}.navarrow.next{right:12px}
+/* — identidad — */
+.ident{padding:48px var(--aire) 0;text-align:center}
+.ident .antler{width:54px;height:54px;margin:0 auto 26px}
+.ident .h-xl{margin-bottom:14px}
+.ident .rule{width:26px;height:1px;background:var(--oro);margin:26px auto 0;opacity:.5}
+.ident .sub{font-family:var(--serif);font-style:italic;font-weight:300;font-size:19px;
+  line-height:1.6;color:var(--gris);max-width:290px;margin:0 auto}
 
-  /* banda oscura con el nombre, entre la foto y la hoja de contenido */
-  .f-namebar{background:var(--chrome2);padding:17px 24px 19px;border-bottom:1px solid var(--linea-bronce);position:relative;z-index:2}
-  .f-namebar .f-over{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--oro);margin-bottom:9px}
-  .f-namebar h2{font-family:var(--display);font-weight:500;font-size:21px;color:var(--n-beige-claro);letter-spacing:.05em;
-    line-height:1.05;text-transform:uppercase}
-  .f-namebar .sci{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--n-texto-soft);margin-top:5px}
+/* — manifiesto — */
+.manifest{padding:52px var(--aire) 0}
+.manifest .body{margin-bottom:20px}
+.manifest .body:last-child{margin-bottom:0}
+.manifest .lead{color:rgba(242,239,232,.82)}
 
-  .f-body{background:var(--marfil);border-radius:22px 22px 0 0;margin-top:-14px;position:relative;z-index:3;padding-top:10px;min-height:60vh}
-  .quick{display:flex;gap:18px;padding:16px 24px 2px;flex-wrap:wrap}
-  .quick .q{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--tinta-suave)}
-  .quick .q svg{width:15px;height:15px;color:var(--bronce);stroke-width:1.5}
+/* — cifras: tres columnas — */
+.figures{display:grid;grid-template-columns:repeat(3,1fr);margin:52px var(--aire) 0;
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea)}
+.figures div{padding:26px 6px;text-align:center;position:relative}
+.figures div + div::before{content:"";position:absolute;left:0;top:26px;bottom:26px;width:1px;background:var(--linea-fina)}
+.figures .n{font-family:var(--serif);font-weight:300;font-size:38px;line-height:1;color:var(--marfil);display:block}
+.figures .l{font-family:var(--sans);font-weight:500;font-size:8.5px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--gris);display:block;margin-top:11px}
 
-  /* pestañas con ícono arriba (formato de la referencia) */
-  .tabs{display:flex;gap:2px;overflow-x:auto;padding:14px 12px 0;scrollbar-width:none;border-bottom:1px solid var(--linea)}
-  .tabs::-webkit-scrollbar{display:none}
-  .tab{flex:1 0 auto;min-width:66px;background:none;border:none;font-family:var(--sans);font-size:10.5px;font-weight:600;
-    letter-spacing:.03em;color:var(--tinta-suave);padding:9px 6px 11px;cursor:pointer;position:relative;
-    display:flex;flex-direction:column;align-items:center;gap:6px}
-  .tab svg{width:19px;height:19px;stroke-width:1.5;transition:transform .25s cubic-bezier(.22,.61,.36,1)}
-  .tab.on{color:var(--oliva)}
-  .tab.on svg{color:var(--bronce);transform:translateY(-1px)}
-  .tab.on::after{content:"";position:absolute;left:10px;right:10px;bottom:-1px;height:2px;background:var(--bronce);border-radius:2px}
-  .tabpane{display:none;padding:22px 24px 30px;animation:fade .35s ease both}
-  .tabpane.on{display:block}
+/* — piezas destacadas — */
+.feat{padding:64px 0 0}
+.feat-head{padding:0 var(--aire) 26px}
+.feat-head .eyebrow{display:block;margin-bottom:12px}
+.feat-list{display:flex;flex-direction:column;gap:16px;padding:0 var(--marco)}
+.spec{display:block;width:100%;background:none;border:none;padding:0;cursor:pointer;text-align:left;
+  font-family:inherit;color:inherit}
+.spec .ph{height:270px}
+.spec:nth-child(even) .ph{height:216px}
+.spec .cap{position:absolute;left:24px;right:24px;bottom:24px;z-index:2}
+.spec .code{font-family:var(--sans);font-weight:500;font-size:8.5px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--oro);display:block;margin-bottom:10px}
+.spec .nm{font-family:var(--serif);font-weight:400;font-size:29px;line-height:1.04;color:var(--marfil)}
+.spec .meta{font-family:var(--sans);font-weight:300;font-size:11.5px;letter-spacing:.1em;
+  color:var(--gris);margin-top:9px}
+.spec .ph img{transition:opacity 1.1s ease,transform .9s cubic-bezier(.2,.8,.25,1)}
+.spec:hover .ph img.ld{transform:scale(1.03)}
 
-  .pane-label{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--bronce);font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:10px}
-  .pane-label::after{content:"";flex:1;height:1px;background:var(--linea)}
-  .bio-row{display:flex;align-items:flex-start;gap:13px;padding:11px 0;border-bottom:1px dotted var(--linea)}
-  .bio-row:last-child{border-bottom:none}
-  .bio-row svg{width:17px;height:17px;color:var(--bronce);flex:0 0 auto;margin-top:1px;stroke-width:1.5}
-  .bio-row .k{flex:0 0 86px;font-size:11px;letter-spacing:.06em;color:var(--tinta-suave)}
-  .bio-row .v{flex:1;font-size:14px;color:var(--tinta)}
+/* — botón — */
+.btn{display:flex;align-items:center;justify-content:space-between;gap:16px;width:calc(100% - var(--aire)*2);
+  margin:34px var(--aire) 0;padding:21px 26px;background:var(--base-2);
+  border:1px solid var(--oro-linea);border-radius:14px;cursor:pointer;
+  font-family:var(--sans);font-weight:500;font-size:10px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--oro);
+  transition:background .45s cubic-bezier(.2,.8,.25,1),border-color .45s,color .45s}
+.btn svg{width:15px;height:15px;flex:0 0 auto;transition:transform .45s cubic-bezier(.2,.8,.25,1)}
+.btn:hover{background:var(--card);border-color:var(--oro);color:var(--marfil)}
+.btn:hover svg{transform:translateX(5px)}
 
-  .historia p{font-family:var(--serif);font-weight:300;font-size:16px;line-height:1.72;color:var(--tinta);margin-bottom:14px}
-  .historia p:first-of-type::first-letter{font-size:46px;float:left;line-height:.82;padding:6px 9px 0 0;color:var(--bronce)}
-  .pull{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--oliva);text-align:center;margin-top:6px;padding-top:18px;border-top:1px solid var(--linea-bronce);line-height:1.5}
+/* — salas — */
+.rooms{padding:64px 0 0}
+.rooms-head{padding:0 var(--aire) 8px}
+.rooms-head .eyebrow{display:block;margin-bottom:12px}
+.room{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;
+  padding:22px var(--aire);background:none;border:none;border-bottom:1px solid var(--linea-fina);
+  cursor:pointer;font-family:inherit;text-align:left;color:inherit;
+  transition:background .4s cubic-bezier(.2,.8,.25,1)}
+.room:first-of-type{border-top:1px solid var(--linea-fina)}
+.room:hover{background:var(--base-2)}
+.room .rn{font-family:var(--serif);font-weight:400;font-size:17px;line-height:1.3;color:var(--marfil);flex:1}
+.room .rc{font-family:var(--serif);font-weight:300;font-size:19px;color:var(--oro);flex:0 0 auto}
 
-  .caza-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--linea);border:1px solid var(--linea);border-radius:8px;overflow:hidden}
-  .stat{background:var(--marfil);padding:13px 14px;display:flex;align-items:center;gap:11px}
-  .stat svg{width:17px;height:17px;color:var(--oliva);flex:0 0 auto;stroke-width:1.4}
-  .stat .lab{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta-suave)}
-  .stat .val{font-size:13px;color:var(--tinta);font-weight:500;line-height:1.15}
+/* — cita editorial — */
+.quote{padding:76px var(--aire) 70px;text-align:center}
+.quote .antler{width:26px;height:26px;margin:0 auto 26px;opacity:.55}
+.quote p{font-family:var(--serif);font-style:italic;font-weight:300;font-size:25px;
+  line-height:1.52;color:var(--marfil)}
+.quote .by{font-family:var(--sans);font-weight:500;font-size:8.5px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--gris);margin-top:28px}
 
-  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .gtile{aspect-ratio:1;border-radius:12px;border:1px solid var(--linea);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-  .gtile .ph-ico{width:24px;height:24px;color:rgba(138,106,68,.5)}
-  .gtile .gn{position:absolute;bottom:8px;right:10px;font-size:9px;letter-spacing:.1em;color:var(--bronce)}
+/* — pie — */
+.foot{padding:44px var(--aire) 54px;text-align:center;border-top:1px solid var(--linea-fina)}
+.foot .m{font-family:var(--serif);font-weight:300;font-size:26px;letter-spacing:.2em;color:var(--oro)}
+.foot .t{font-family:var(--sans);font-weight:400;font-size:8.5px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--gris);margin-top:13px}
 
-  .tax-note{font-size:14px;color:var(--tinta-suave);line-height:1.65;font-style:italic;font-family:var(--serif);margin-top:6px}
-  .docs{margin-top:6px}
-  .doc{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--linea);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;width:100%;font-family:inherit;text-align:left}
-  .doc:last-child{border-bottom:none}
-  .doc svg{width:18px;height:18px;color:var(--bronce);flex:0 0 auto}
-  .doc .dn{flex:1;font-size:13.5px;color:var(--tinta)}
-  .doc .tag{font-size:9px;letter-spacing:.1em;color:var(--tinta-suave);border:1px solid var(--linea);padding:2px 7px;border-radius:3px}
-  .mas-sub{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--bronce);font-weight:600;margin:22px 0 12px}
-  .mas-sub:first-child{margin-top:0}
+/* ═══ COLECCIÓN ═══ */
+#view-coleccion{background:var(--base)}
+.col-top{padding:38px var(--aire) 0}
+.col-top .eyebrow{display:block;margin-bottom:12px}
 
-  /* ---------------- BOTTOM NAV ---------------- */
-  .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:var(--nav-h);
-    background:rgba(15,21,14,.95);backdrop-filter:blur(10px);border-top:1px solid var(--n-linea);
-    display:flex;z-index:40;padding-bottom:env(safe-area-inset-bottom)}
-  .nav button{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:var(--n-texto-soft);font-family:var(--sans)}
-  .nav button svg{width:21px;height:21px;stroke-width:1.6}
-  .nav button .lbl{font-size:10px;letter-spacing:.08em}
-  .nav button.on{color:var(--n-beige)}
+/* buscador amplio */
+.search{position:relative;margin:32px var(--aire) 0}
+.search svg{position:absolute;left:20px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;color:var(--gris);pointer-events:none}
+.search input{width:100%;padding:19px 20px 19px 50px;background:var(--base-2);
+  border:1px solid var(--linea);border-radius:14px;color:var(--marfil);
+  font-family:var(--sans);font-weight:300;font-size:15px;letter-spacing:.01em;
+  transition:border-color .4s,background .4s}
+.search input::placeholder{color:var(--gris)}
+.search input:focus{outline:none;border-color:var(--oro-linea);background:var(--card)}
 
-  /* Toast */
-  .toast{position:fixed;bottom:calc(var(--nav-h) + 18px);left:50%;transform:translateX(-50%) translateY(20px);
-    background:var(--n-marron);color:var(--n-texto);font-size:12px;letter-spacing:.04em;padding:11px 20px;border-radius:30px;
-    opacity:0;pointer-events:none;transition:.3s;z-index:60}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* cinco desplegables */
+.filters{display:flex;gap:9px;overflow-x:auto;padding:16px var(--aire) 4px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filters select{appearance:none;-webkit-appearance:none;flex:0 0 auto;
+  font-family:var(--sans);font-weight:400;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gris);background-color:transparent;
+  border:1px solid var(--linea);border-radius:9px;padding:11px 32px 11px 15px;cursor:pointer;
+  transition:border-color .4s,color .4s,background-color .4s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='6' fill='none' stroke='%239A948D' stroke-width='1.2'%3E%3Cpath d='M1 1l3.5 3.5L8 1'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center}
+.filters select:hover{border-color:var(--oro-linea);color:var(--marfil)}
+.filters select:focus{outline:none}
+.filters select.set{border-color:var(--oro);color:var(--oro);background-color:rgba(184,154,99,.07);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='6' fill='none' stroke='%23B89A63' stroke-width='1.4'%3E%3Cpath d='M1 1l3.5 3.5L8 1'/%3E%3C/svg%3E")}
 
-  /* Admin */
-  .overlay{position:fixed;top:0;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(10,13,7,.66);backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;padding:64px 24px 24px;z-index:100;overflow-y:auto}
-  .overlay.show{display:flex;animation:fade .25s ease}
-  .modal{background:var(--marfil);max-width:340px;width:100%;padding:30px 26px;border-radius:18px;text-align:center;position:relative;box-shadow:0 30px 70px rgba(0,0,0,.5)}
-  .modal .x{position:absolute;top:10px;right:16px;background:none;border:none;font-size:22px;color:var(--tinta-suave);cursor:pointer;line-height:1}
-  .modal .m-over{font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--bronce);font-weight:600;margin-bottom:10px}
-  .modal h4{font-family:var(--display);font-weight:500;font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:var(--oliva);margin-bottom:6px}
-  .modal p.sub{font-size:12.5px;color:var(--tinta-suave);margin-bottom:22px;line-height:1.5}
-  .pin{display:flex;gap:9px;justify-content:center;margin-bottom:8px}
-  .pin input{width:46px;height:54px;text-align:center;font-family:var(--serif);font-size:24px;color:var(--oliva);border:1px solid var(--linea-bronce);background:#fff;border-radius:8px}
-  .pin input:focus{outline:none;border-color:var(--oliva);box-shadow:0 0 0 3px rgba(79,93,58,.12)}
-  .pin.err{animation:shake .4s}
-  @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
-  .pin-msg{font-size:11.5px;color:#a14a3c;height:16px}
-  .ok .check{width:46px;height:46px;border-radius:50%;background:var(--oliva);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
-  .ok .check svg{width:22px;height:22px;color:#fff}
-  .ok .placeholder{background:var(--arena);border:1px dashed var(--linea-bronce);padding:16px;border-radius:10px;margin-top:14px;font-size:12.5px;color:var(--tinta-suave);line-height:1.55}
+.tally{display:flex;justify-content:space-between;align-items:center;padding:22px var(--aire) 4px}
+.tally .n{font-family:var(--sans);font-weight:500;font-size:9px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--gris)}
+.tally .clr{font-family:var(--sans);font-weight:500;font-size:9px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--oro);background:none;border:none;cursor:pointer;display:none}
+.tally .clr.show{display:inline-block}
 
-  /* ---------------- LOGO / ISOTIPO ---------------- */
-  .logo-mark{width:100%;height:100%;display:block;color:var(--n-beige)}
-  .lp-logo{width:74px;height:74px;margin-bottom:20px;animation:markIn 1.1s cubic-bezier(.22,.61,.36,1) both}
-  @keyframes markIn{from{opacity:0;transform:translateY(10px) scale(.9)}to{opacity:1;transform:none}}
-  .lp-foot-mark-svg{width:46px;height:46px;margin:0 auto 8px}
+/* rejilla de fichas */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px var(--marco) 40px}
+.card{background:var(--card);border-radius:18px;overflow:hidden;cursor:pointer;
+  border:none;padding:0;font-family:inherit;text-align:left;color:inherit;
+  box-shadow:0 14px 34px rgba(0,0,0,.42);
+  opacity:0;transform:translateY(16px);animation:lift .7s cubic-bezier(.2,.8,.25,1) forwards;
+  transition:transform .45s cubic-bezier(.2,.8,.25,1)}
+@keyframes lift{to{opacity:1;transform:none}}
+.card:hover{transform:translateY(-3px)}
+.card .ph{border-radius:18px 18px 0 0;aspect-ratio:1/1}
+.card .ph::after{box-shadow:inset 0 0 50px 14px rgba(10,10,10,.42)}
+.card .info{padding:15px 15px 17px}
+.card .code{font-family:var(--sans);font-weight:500;font-size:8px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--oro);display:block}
+.card .nm{font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.14;
+  color:var(--marfil);margin-top:8px}
+.card .ctry{font-family:var(--sans);font-weight:300;font-size:11px;letter-spacing:.06em;
+  color:var(--gris);margin-top:6px}
+.card .st{display:flex;align-items:center;gap:7px;margin-top:12px;padding-top:12px;
+  border-top:1px solid var(--linea-fina);
+  font-family:var(--sans);font-weight:400;font-size:9.5px;letter-spacing:.05em;color:var(--gris)}
+.card .st::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor;flex:0 0 auto}
+.card .st.ex{color:#8FA37B}
+.card .st.at{color:var(--oro)}
+.card .st.re{color:#B08268}
+.empty{grid-column:1/-1;text-align:center;padding:70px 20px;color:var(--gris);
+  font-family:var(--serif);font-style:italic;font-size:18px}
 
-  /* ---------------- CARGA (esqueletos) ---------------- */
-  @keyframes shimmer{to{background-position:200% 0}}
-  .sk{position:relative;overflow:hidden;border-radius:14px;
-    background:linear-gradient(90deg,rgba(230,217,192,.05) 25%,rgba(230,217,192,.11) 37%,rgba(230,217,192,.05) 63%);
-    background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite}
-  .sk-card{aspect-ratio:3/4}
-  .sk-line{height:11px;border-radius:6px;margin-top:9px}
-  .sk-line.w60{width:60%}.sk-line.w40{width:40%}
+/* ═══ FICHA ═══ */
+#view-ficha{background:var(--base)}
+.f-bar{display:flex;align-items:center;justify-content:space-between;padding:20px var(--marco) 14px}
+.f-bar .code{font-family:var(--sans);font-weight:500;font-size:9px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--gris)}
+.f-acts{display:flex;gap:9px}
+.ib{width:40px;height:40px;border:1px solid var(--linea);border-radius:12px;background:none;
+  display:flex;align-items:center;justify-content:center;color:var(--gris);cursor:pointer;
+  transition:border-color .4s,color .4s}
+.ib svg{width:16px;height:16px}
+.ib:hover{border-color:var(--oro-linea);color:var(--oro)}
+.ib.key{color:var(--bronce)}
 
-  /* ---------------- IMÁGENES: entrada suave, sin saltos ---------------- */
-  .img img,.gtile img,.f-hero>img.foto{opacity:0;transition:opacity .55s ease}
-  .img img.ld,.gtile img.ld,.f-hero>img.foto.ld{opacity:1}
+/* carrusel de apertura */
+.f-hero{padding:0 var(--marco)}
+.f-hero .ph{height:56svh;min-height:400px}
+.f-slides{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none;z-index:1;border-radius:inherit}
+.f-slides::-webkit-scrollbar{display:none}
+.f-slide{flex:0 0 100%;position:relative;scroll-snap-align:center}
+.f-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity 1s ease}
+.f-slide img.ld{opacity:1}
+.f-dots{position:absolute;bottom:24px;left:0;right:0;z-index:3;display:flex;
+  justify-content:center;gap:7px;pointer-events:none}
+.f-dots i{width:5px;height:5px;border-radius:50%;background:rgba(242,239,232,.32);
+  transition:background .4s,width .4s}
+.f-dots i.on{background:var(--oro);width:16px;border-radius:3px}
 
-  /* ---------------- PULIDO / MICROINTERACCIONES ---------------- */
-  .card .img{transition:transform .35s cubic-bezier(.22,.61,.36,1),border-color .3s}
-  .card:hover .img{border-color:var(--n-beige-marron)}
-  .card .cap .nm{transition:color .25s}
-  .card:hover .cap .nm{color:var(--n-beige-claro)}
-  .icon-btn{transition:border-color .25s,color .25s,transform .2s}
-  .icon-btn:hover{border-color:var(--n-beige);color:var(--n-beige)}
-  .icon-btn:active{transform:scale(.94)}
-  .filters select{transition:border-color .25s,background-color .25s,color .25s}
-  .searchbox input{transition:border-color .25s,background .25s}
-  .nav button{transition:color .25s}
-  .nav button svg{transition:transform .25s cubic-bezier(.22,.61,.36,1)}
-  .nav button.on svg{transform:translateY(-2px)}
-  .tab{transition:color .25s}
-  .tab.on::after{animation:tabIn .3s cubic-bezier(.22,.61,.36,1) both}
-  @keyframes tabIn{from{transform:scaleX(.3);opacity:0}to{transform:scaleX(1);opacity:1}}
-  .navarrow{transition:background .25s,transform .2s}
-  .navarrow:active{transform:translateY(-50%) scale(.9)}
-  .lp-cta{box-shadow:0 10px 30px rgba(192,150,100,.16)}
+/* titular */
+.f-title{padding:38px var(--aire) 0}
+.f-title .eyebrow{display:block;margin-bottom:15px}
+.f-title h2{font-family:var(--serif);font-weight:300;font-size:46px;line-height:.98;color:var(--marfil)}
+.f-title .sci{font-family:var(--serif);font-style:italic;font-weight:300;font-size:19px;
+  color:var(--gris);margin-top:13px}
 
-  /* entrada escalonada de la ficha */
-  .f-namebar{animation:rise .5s cubic-bezier(.22,.61,.36,1) both;animation-delay:.04s}
-  .f-body>.quick{animation:rise .5s cubic-bezier(.22,.61,.36,1) both;animation-delay:.10s}
-  .f-body>.tabs{animation:rise .5s cubic-bezier(.22,.61,.36,1) both;animation-delay:.16s}
+/* fila de datos rápidos */
+.f-quick{display:flex;gap:30px;padding:32px var(--aire) 0;flex-wrap:wrap}
+.f-quick div{display:flex;flex-direction:column;gap:7px}
+.f-quick .k{font-family:var(--sans);font-weight:500;font-size:8px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--gris)}
+.f-quick .v{font-family:var(--serif);font-weight:400;font-size:17px;color:var(--marfil)}
 
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* pestañas */
+.tabs{display:flex;gap:30px;overflow-x:auto;padding:36px var(--aire) 0;scrollbar-width:none;
+  border-bottom:1px solid var(--linea-fina);margin-top:4px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;background:none;border:none;cursor:pointer;padding:0 0 15px;position:relative;
+  font-family:var(--sans);font-weight:500;font-size:9.5px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--gris);transition:color .4s}
+.tab.on{color:var(--oro)}
+.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--oro);
+  animation:draw .5s cubic-bezier(.2,.8,.25,1) both}
+@keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.pane{display:none;padding:40px var(--aire) 20px;animation:enter .5s cubic-bezier(.2,.8,.25,1) both}
+.pane.on{display:block}
+
+/* historia — maquetación de revista */
+.story p{font-family:var(--serif);font-weight:300;font-size:19px;line-height:1.82;
+  color:rgba(242,239,232,.84);margin-bottom:28px}
+.story p:first-of-type::first-letter{font-family:var(--serif);font-weight:300;font-size:74px;
+  float:left;line-height:.72;padding:12px 16px 0 0;color:var(--oro)}
+.pull{margin-top:14px;padding:34px 0 0;border-top:1px solid var(--linea);
+  font-family:var(--serif);font-style:italic;font-weight:300;font-size:24px;line-height:1.5;
+  color:var(--oro);text-align:center}
+
+/* biología — seis tarjetas */
+.bio{display:flex;flex-direction:column;gap:1px;background:var(--linea-fina);
+  border-radius:16px;overflow:hidden}
+.bio .r{display:flex;align-items:flex-start;gap:16px;padding:20px 20px;background:var(--base-2)}
+.bio .r svg{width:17px;height:17px;color:var(--bronce);flex:0 0 auto;margin-top:3px}
+.bio .r .k{font-family:var(--sans);font-weight:500;font-size:8.5px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--gris);display:block;margin-bottom:7px}
+.bio .r .v{font-family:var(--serif);font-weight:400;font-size:17px;line-height:1.36;color:var(--marfil)}
+
+/* cacería — dos columnas, sin tabla */
+.hunt{display:grid;grid-template-columns:1fr 1fr;gap:34px 26px}
+.hunt div .k{font-family:var(--sans);font-weight:500;font-size:8px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--gris);display:block;margin-bottom:9px}
+.hunt div .v{font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.24;color:var(--marfil)}
+
+/* galería */
+.gal{display:flex;flex-direction:column;gap:14px}
+.gal .ph{height:280px;border-radius:18px}
+.gal .gn{position:absolute;bottom:18px;right:20px;z-index:2;
+  font-family:var(--sans);font-weight:500;font-size:8.5px;letter-spacing:.24em;color:var(--oro)}
+
+/* más — tarjetas oscuras */
+.blk{background:var(--base-2);border-radius:16px;padding:24px 22px;margin-bottom:14px}
+.blk:last-child{margin-bottom:0}
+.blk .bh{font-family:var(--sans);font-weight:500;font-size:8.5px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--oro);margin-bottom:18px}
+.blk .l{display:flex;justify-content:space-between;align-items:baseline;gap:18px;
+  padding:12px 0;border-bottom:1px solid var(--linea-fina)}
+.blk .l:last-child{border-bottom:none;padding-bottom:0}
+.blk .l:first-of-type{padding-top:0}
+.blk .l .k{font-family:var(--sans);font-weight:300;font-size:11.5px;letter-spacing:.06em;color:var(--gris)}
+.blk .l .v{font-family:var(--serif);font-weight:400;font-size:16px;color:var(--marfil);text-align:right}
+.blk .note{font-family:var(--serif);font-style:italic;font-weight:300;font-size:16px;
+  line-height:1.7;color:var(--gris)}
+.blk .doc{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--linea-fina);
+  width:100%;background:none;border-left:none;border-right:none;border-top:none;
+  font-family:inherit;text-align:left;color:inherit;cursor:pointer}
+.blk .doc:last-child{border-bottom:none}
+.blk .doc svg{width:16px;height:16px;color:var(--bronce);flex:0 0 auto}
+.blk .doc span{font-family:var(--serif);font-weight:400;font-size:16px;color:var(--marfil)}
+
+/* ═══ NAVEGACIÓN ═══ */
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;
+  height:var(--nav-h);background:var(--base);border-top:1px solid var(--linea-fina);
+  display:flex;z-index:60;padding-bottom:env(safe-area-inset-bottom)}
+.nav button{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;color:var(--gris);font-family:var(--sans);
+  transition:color .4s}
+.nav button svg{width:19px;height:19px;transition:transform .4s cubic-bezier(.2,.8,.25,1)}
+.nav button .l{font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;font-weight:500}
+.nav button.on{color:var(--oro)}
+.nav button.on svg{transform:translateY(-2px)}
+
+/* ═══ AVISO ═══ */
+.toast{position:fixed;bottom:calc(var(--nav-h) + 22px);left:50%;
+  transform:translateX(-50%) translateY(14px);background:var(--card);
+  border:1px solid var(--linea);color:var(--marfil);
+  font-family:var(--sans);font-weight:400;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;padding:14px 26px;border-radius:12px;
+  opacity:0;pointer-events:none;transition:.45s cubic-bezier(.2,.8,.25,1);z-index:80}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ═══ CARGA ═══ */
+@keyframes sweep{to{background-position:200% 0}}
+.sk{border-radius:18px;background:linear-gradient(90deg,#181818 25%,#202020 37%,#181818 63%);
+  background-size:200% 100%;animation:sweep 1.8s ease-in-out infinite}
+.sk-c{aspect-ratio:1/1;border-radius:18px 18px 0 0}
+.sk-w{background:var(--card);border-radius:18px;overflow:hidden}
+.sk-l{height:9px;margin:14px 15px 0;border-radius:4px;
+  background:linear-gradient(90deg,#1d1d1d 25%,#252525 37%,#1d1d1d 63%);background-size:200% 100%;
+  animation:sweep 1.8s ease-in-out infinite}
+.sk-l.a{width:38%}.sk-l.b{width:74%;height:13px}.sk-l.c{width:50%;margin-bottom:18px}
+
+/* ═══ ACCESIBILIDAD ═══ */
+:focus-visible{outline:1px solid var(--oro);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+
 <div class="app">
 
-  <!-- ===================== INICIO / PABELLÓN ===================== -->
+  <!-- ══════════ PORTADA ══════════ -->
   <div id="view-inicio" class="screen active">
    <div class="scroll">
 
-    <!-- CABECERA -->
-    <header class="hd">
-      <img id="heroImg" alt="" aria-hidden="true">
-      <div class="hd-veil"></div>
-      <div class="hd-in">
-        <div class="hd-logo"><svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-          <defs><clipPath id="hexH"><path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z"/></clipPath></defs>
-          <g clip-path="url(#hexH)" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 72 L45 30 L65 53 L73 44.5 L98 68"/>
-            <path d="M0 75 C 20 65, 40 85, 60 77 S 88 67, 100 73"/>
-            <path d="M0 85 C 24 75, 44 93, 66 85 S 92 79, 100 83"/>
-          </g>
-          <path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-        </svg></div>
-        <div class="hd-kick">Colección privada</div>
-        <h1 class="hd-t">Pabellón<em>414</em></h1>
-        <p class="hd-sub">Un archivo de expediciones. Territorio, memoria y respeto por lo salvaje.</p>
+    <!-- retrato de apertura -->
+    <div class="opener">
+      <div class="ph" id="opener">
+        <div class="fallback"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 7h3l1.5-2h7L17 7h3v12H4z"/><circle cx="12" cy="13" r="3"/></svg></div>
+        <img id="openerImg" alt="">
+        <div class="vt"></div>
+        <div class="cap" id="openerCap"></div>
       </div>
-    </header>
+    </div>
 
-    <!-- BARRA DE DATOS -->
-    <div class="mast" id="mast"></div>
+    <!-- identidad -->
+    <div class="ident">
+      <svg class="antler" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M50 94 C50 80 46 71 40 63 C34 55 30.5 45 30.5 33"/>
+          <path d="M40 63 C32 61 26 56 22 48"/>
+          <path d="M34.5 52 C27 51 21 46 17.5 39"/>
+          <path d="M31 41 C24.5 39 19.5 34 16.5 27"/>
+          <path d="M50 94 C50 80 54 71 60 63 C66 55 69.5 45 69.5 33"/>
+          <path d="M60 63 C68 61 74 56 78 48"/>
+          <path d="M65.5 52 C73 51 79 46 82.5 39"/>
+          <path d="M69 41 C75.5 39 80.5 34 83.5 27"/>
+        </g>
+      </svg>
+      <h1 class="h-xl">Pabellón<br>414</h1>
+      <div class="rule"></div>
+      <p class="sub" style="margin-top:26px">Colección privada de expediciones</p>
+    </div>
 
-    <!-- CUADRÍCULA EDITORIAL -->
-    <section class="reveal">
-      <div class="eg-head">
-        <div>
-          <div class="eg-lab">El archivo</div>
-          <h2 class="eg-h">La colección</h2>
-        </div>
+    <!-- manifiesto -->
+    <div class="manifest">
+      <p class="body lead">La caza, en nuestro territorio, nunca ha sido solo obtener un trofeo. Es una forma de leer el paisaje y de mantener vivos saberes que no están escritos en ningún manual: rastros, vientos, refugios, ciclos.</p>
+      <p class="body">Cuando la caza se regula y se dignifica, no solo se conserva fauna. Se conserva hábitat, porque para que exista caza debe existir territorio sano. Se conserva memoria, porque el saber del cazador mayor no se pierde.</p>
+    </div>
+
+    <!-- cifras -->
+    <div class="figures" id="figures"></div>
+
+    <!-- piezas destacadas -->
+    <section class="feat">
+      <div class="feat-head">
+        <span class="eyebrow">Selección</span>
+        <h2 class="h-lg">Piezas del archivo</h2>
       </div>
-      <div class="eg" id="eg"></div>
-      <button class="eg-more" onclick="goTab('coleccion')" id="egMore">Ver toda la colección <span>&rarr;</span></button>
+      <div class="feat-list" id="featList"></div>
+      <button class="btn" id="allBtn" onclick="goTab('coleccion')">
+        <span>Ver la colección</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+      </button>
     </section>
 
-    <!-- ÍNDICE POR SALA -->
-    <section class="idx-sec reveal">
-      <div class="idx-lab">Recorrido</div>
-      <h2 class="idx-h">Salas del pabellón</h2>
-      <div id="lpIndex"></div>
+    <!-- salas -->
+    <section class="rooms">
+      <div class="rooms-head">
+        <span class="eyebrow">Recorrido</span>
+        <h2 class="h-lg">Salas</h2>
+      </div>
+      <div id="roomList"></div>
     </section>
 
-    <!-- MANIFIESTO -->
-    <section class="mani reveal">
-      <div class="mani-lab">Nuestra visión</div>
-      <h2 class="mani-h">Más que un trofeo</h2>
-      <p>La caza, en nuestro territorio, nunca ha sido solo un acto de obtener &ldquo;un trofeo&rdquo;. Es una forma de leer el paisaje, de mantener vivos saberes que no están escritos en ningún manual: rastros, vientos, refugios, ciclos. Es parte de una cosmovisión donde el animal no es proteína, sino un otro con el que se establece relación.</p>
-      <p>Cuando la caza se regula y se dignifica, no solo se conserva fauna: se conserva hábitat, porque para que exista caza debe existir territorio sano; se conserva memoria, porque el saber del cazador mayor no se pierde; y se conserva valor, porque un venado vivo, visible y respetado, protege más bosque que cualquier prohibición.</p>
-      <div class="mani-q">&ldquo;El animal no representa muerte: representa todo lo que fue necesario cuidar para que esté ahí.&rdquo;</div>
+    <!-- cita -->
+    <section class="quote">
+      <svg class="antler" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <g stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M50 94 C50 80 46 71 40 63 C34 55 30.5 45 30.5 33"/>
+          <path d="M40 63 C32 61 26 56 22 48"/>
+          <path d="M34.5 52 C27 51 21 46 17.5 39"/>
+          <path d="M50 94 C50 80 54 71 60 63 C66 55 69.5 45 69.5 33"/>
+          <path d="M60 63 C68 61 74 56 78 48"/>
+          <path d="M65.5 52 C73 51 79 46 82.5 39"/>
+        </g>
+      </svg>
+      <p>El animal no representa muerte. Representa todo lo que fue necesario cuidar para que estuviera ahí.</p>
+      <div class="by">Pabellón 414</div>
     </section>
 
-    <!-- PIE -->
-    <section class="lp-foot reveal">
-      <div class="lp-foot-mark-svg"><svg class="logo-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-          <defs><clipPath id="hexF"><path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z"/></clipPath></defs>
-          <g clip-path="url(#hexF)" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 72 L45 30 L65 53 L73 44.5 L98 68"/>
-            <path d="M0 75 C 20 65, 40 85, 60 77 S 88 67, 100 73"/>
-            <path d="M0 85 C 24 75, 44 93, 66 85 S 92 79, 100 83"/>
-          </g>
-          <path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-        </svg></div>
-      <div class="lp-foot-mark">414</div>
-      <div class="lp-foot-t">Pabellón 414 · Archivo documental</div>
-    </section>
+    <!-- pie -->
+    <footer class="foot">
+      <div class="m">414</div>
+      <div class="t">Archivo documental</div>
+    </footer>
+
    </div>
   </div>
 
-  <!-- ===================== COLECCIÓN ===================== -->
+  <!-- ══════════ COLECCIÓN ══════════ -->
   <div id="view-coleccion" class="screen">
    <div class="scroll">
-    <div class="col-head">
-      <div><div class="ov">Archivo de expediciones</div><h2>Colección</h2></div>
-      <button class="icon-btn" onclick="document.getElementById('search').focus()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5h18M6 12h12M10 19h4"/></svg></button>
+    <div class="col-top">
+      <span class="eyebrow">Archivo de expediciones</span>
+      <h2 class="h-lg">Colección</h2>
     </div>
-    <div class="col-stats" id="colStats"></div>
-    <div class="searchbox">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input id="search" type="text" placeholder="Buscar trofeo…" autocomplete="off">
+
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="search" type="text" placeholder="Buscar en el archivo" autocomplete="off">
     </div>
+
     <div class="filters" id="filters"></div>
-    <div class="count-row"><span class="count" id="count"></span><button class="clear" id="clear">Limpiar</button></div>
+
+    <div class="tally">
+      <span class="n" id="count"></span>
+      <button class="clr" id="clear">Limpiar</button>
+    </div>
+
     <div class="grid" id="grid"></div>
    </div>
   </div>
 
-  <!-- ===================== FICHA ===================== -->
+  <!-- ══════════ FICHA ══════════ -->
   <div id="view-ficha" class="screen"><div class="scroll" id="fichaScroll"></div></div>
 
-  <!-- ===================== NAV ===================== -->
+  <!-- ══════════ NAVEGACIÓN ══════════ -->
   <nav class="nav">
     <button id="nav-inicio" class="on" onclick="goTab('inicio')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 10l8-6 8 6"/><path d="M5 9.5V20h14V9.5"/><path d="M9 20v-6h6v6"/></svg>
-      <span class="lbl">Inicio</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 10.5L12 4l8 6.5"/><path d="M6 9.6V20h12V9.6"/></svg>
+      <span class="l">Inicio</span>
     </button>
     <button id="nav-coleccion" onclick="goTab('coleccion')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.2"/></svg>
-      <span class="lbl">Colección</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3.5" y="3.5" width="7.2" height="7.2"/><rect x="13.3" y="3.5" width="7.2" height="7.2"/><rect x="3.5" y="13.3" width="7.2" height="7.2"/><rect x="13.3" y="13.3" width="7.2" height="7.2"/></svg>
+      <span class="l">Colección</span>
     </button>
   </nav>
+
 </div>
+
+<div class="grain" aria-hidden="true"></div>
 <div class="toast" id="toast">Enlace copiado</div>
-<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script>
-/* Los datos ahora viven en Supabase. Se cargan en DATA al iniciar. */
+/* ═══════════════════════════════════════════════════════════
+   Lógica del archivo. Los datos vienen de Supabase (config.js).
+   ═══════════════════════════════════════════════════════════ */
 let DATA = [];
+const $ = s => document.querySelector(s);
 
+/* iconografía monolineal — trazo fino, sin relleno */
 const I = {
-  photo:'<svg class="ph-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 7h3l1.5-2h7L17 7h3v12H4z"/><circle cx="12" cy="13" r="3.2"/></svg>',
-  pais:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>',
-  fecha:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3.5" y="5" width="17" height="16" rx="1.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>',
-  modalidad:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="7" cy="12" r="3.4"/><circle cx="17" cy="12" r="3.4"/><path d="M10.4 12h3.2M7 8.6V6M17 8.6V6"/></svg>',
-  operador:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20a6.5 6.5 0 0113 0"/></svg>',
-  region:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>',
-  distancia:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3"/></svg>',
-  arma:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 14h13l4-4M16 14v4M6 14v3M3 11h6"/></svg>',
-  calibre:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="9" y="4" width="6" height="11" rx="3"/><path d="M9 15h6v4H9z"/></svg>',
-  clase:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 21l-4.9 2.6.9-5.5-4-3.9L9.5 8z"/></svg>',
-  orden:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M4 12h16M4 17h10"/></svg>',
-  familia:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="6" r="2.4"/><circle cx="6" cy="17" r="2.4"/><circle cx="18" cy="17" r="2.4"/><path d="M12 8.4v3l-4.5 3.6M12 11.4l4.5 3.6"/></svg>',
-  habitat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 20h18M5 20v-7l4-3 4 3M13 20V8l4-3 4 3v12"/></svg>',
-  estado:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 21s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.5-7 10-7 10z"/></svg>',
-  distribucion:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>',
-  doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></svg>',
-  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg>',
-  share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="6" cy="12" r="2.4"/><circle cx="17" cy="6" r="2.4"/><circle cx="17" cy="18" r="2.4"/><path d="M8.2 11l6.6-3.6M8.2 13l6.6 3.6"/></svg>',
-  ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 12l5 5L20 6"/></svg>',
-  key:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="4.5"/><path d="M11.2 11.2L20 20M16 16l2 2M18 14l2 2"/></svg>',
-  /* íconos de las pestañas de la ficha */
-  tHistoria:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5.5A2.5 2.5 0 016.5 3H12v18H6.5A2.5 2.5 0 014 18.5z"/><path d="M20 5.5A2.5 2.5 0 0017.5 3H12v18h5.5a2.5 2.5 0 002.5-2.5z"/></svg>',
-  tBiologia:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 3c0 5 8 5 8 10a4 4 0 01-8 0c0-5 8-5 8-10"/><path d="M7 21h10"/></svg>',
-  tCaceria:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 1.5v3.2M12 19.3v3.2M1.5 12h3.2M19.3 12h3.2"/></svg>',
-  tGaleria:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l4.5-4.2 3.2 3 3-2.4L20 17.5"/></svg>',
-  tMas:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="5.5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.5" cy="12" r="1.4"/></svg>'
+  foto:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 7h3l1.5-2h7L17 7h3v12H4z"/><circle cx="12" cy="13" r="3"/></svg>',
+  atras:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M15 5l-7 7 7 7"/></svg>',
+  compartir:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="6" cy="12" r="2.2"/><circle cx="17" cy="6" r="2.2"/><circle cx="17" cy="18" r="2.2"/><path d="M8.1 11l6.8-3.7M8.1 13l6.8 3.7"/></svg>',
+  llave:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="8" cy="8" r="4.2"/><path d="M11.1 11.1L20 20M16 16l2 2M18 14l2 2"/></svg>',
+  doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h4"/></svg>',
+  /* biología */
+  distribucion:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c3 3 3 14 0 17M12 3.5c-3 3-3 14 0 17"/></svg>',
+  habitat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 20h18M5 20v-7l4-3 4 3M13 20V8l4-3 4 3v12"/></svg>',
+  clase:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 3.5l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 9.2l5.4-.8z"/></svg>',
+  orden:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>',
+  familia:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="5.5" r="2.2"/><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M12 7.7v3.6l-4.6 4.5M12 11.3l4.6 4.5"/></svg>',
+  conservacion:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 20.5s-6.8-4.3-6.8-9.6A3.9 3.9 0 0 1 12 8.4a3.9 3.9 0 0 1 6.8 2.5c0 5.3-6.8 9.6-6.8 9.6z"/></svg>'
 };
 
-const filterDefs=[{key:"especie",label:"Especie"},{key:"pais",label:"País"},{key:"continente",label:"Continente"},{key:"anio",label:"Año"},{key:"sala",label:"Sala"}];
+const filterDefs=[
+  {key:"especie",label:"Especie"},{key:"pais",label:"País"},
+  {key:"continente",label:"Continente"},{key:"anio",label:"Año"},{key:"sala",label:"Sala"}
+];
 const state={q:"",especie:"",pais:"",continente:"",anio:"",sala:""};
-const $=s=>document.querySelector(s);
 
-/* color del punto de estado de cada pieza */
-function estClass(e){return e==="Excelente"?"ex":e==="Requiere atención"?"at":e==="En restauración"?"re":"";}
+function estClass(e){
+  return e==="Excelente"?"ex":e==="Requiere atención"?"at":e==="En restauración"?"re":"";
+}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function attr(s){return String(s==null?"":s).replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;");}
 
-/* gradiente de respaldo estable a partir del id (si falta la foto) */
-function gradFor(id){const v=["v0","v1","v2","v3","v4","v5"];let h=0;for(let i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;return v[h%v.length];}
-/* etiqueta de imagen: usa la URL de Supabase Storage (a.imagenes[n-1]).
-   .ld se agrega al cargar para que aparezca con un fundido suave. */
-function img(a,n){const u=(a.imagenes||[])[n-1];return u?`<img src="${u}" alt="${a.nombreComun}" loading="lazy" onload="this.classList.add('ld')" onerror="this.remove()">`:"";}
-
-/* esqueletos mientras se consultan los datos */
-function skeletonGrid(n=6){
-  return Array.from({length:n}).map(()=>`
-    <div class="sk-wrap"><div class="sk sk-card"></div><div class="sk sk-line w60"></div><div class="sk sk-line w40"></div></div>`).join("");
+/* etiqueta de imagen con entrada por fundido */
+function fotoTag(url,alt,eager){
+  if(!url) return "";
+  return `<img src="${esc(url)}" alt="${esc(alt)}" ${eager?"":'loading="lazy"'} onload="this.classList.add('ld')" onerror="this.remove()">`;
 }
 
-/* ---------- INICIO / ESTADÍSTICAS ---------- */
-function buildStats(){
-  const salas=new Set(DATA.map(a=>a.sala)).size;
-  const cont=new Set(DATA.map(a=>a.continente)).size;
-  const el=$("#colStats");if(!el)return;
-  el.innerHTML=`
-    <div class="cs"><span class="cs-n">${DATA.length}</span><span class="cs-l">Piezas</span></div>
-    <div class="cs"><span class="cs-n">${salas}</span><span class="cs-l">Salas</span></div>
-    <div class="cs"><span class="cs-n">${cont}</span><span class="cs-l">Continentes</span></div>`;
-}
-/* ---------- PORTADA: cuadrícula editorial + índice ---------- */
+/* ---------- PORTADA ---------- */
 function buildHome(){
-  const conFoto=DATA.filter(a=>a.fotos>0);
-  const resto=DATA.filter(a=>a.fotos===0);
+  const conFoto = DATA.filter(a=>a.fotos>0);
 
-  /* fotografía de cabecera */
-  const hero=$("#heroImg");
-  if(hero && conFoto.length){
-    hero.onload=()=>hero.classList.add("ld");
-    hero.src=conFoto[0].imagenes[0];
+  /* retrato de apertura: la pieza más fotografiada abre el archivo */
+  const abre = conFoto[0];
+  if(abre){
+    const img=$("#openerImg");
+    img.onload=()=>img.classList.add("ld");
+    img.src=abre.imagenes[0];
+    img.alt=abre.nombreComun;
+    $("#openerCap").innerHTML=
+      `<span class="eyebrow">${esc([abre.pais,abre.anio].filter(Boolean).join(" · "))}</span>
+       <div class="nm">${esc(abre.nombreComun)}</div>`;
   }
 
-  /* barra de datos */
-  const salas=[...new Set(DATA.map(a=>a.sala).filter(Boolean))];
-  const conts=[...new Set(DATA.map(a=>a.continente).filter(Boolean))];
-  $("#mast").innerHTML=`<span><b>${DATA.length}</b> Piezas</span><i></i>`+
-    `<span><b>${salas.length}</b> Salas</span><i></i>`+
-    `<span><b>${conts.length}</b> Continentes</span>`;
+  /* cifras */
+  const salas=new Set(DATA.map(a=>a.sala).filter(Boolean)).size;
+  const conts=new Set(DATA.map(a=>a.continente).filter(Boolean)).size;
+  $("#figures").innerHTML=
+    `<div><span class="n">${DATA.length}</span><span class="l">Piezas</span></div>
+     <div><span class="n">${salas}</span><span class="l">Salas</span></div>
+     <div><span class="n">${conts}</span><span class="l">Continentes</span></div>`;
 
-  /* cuadrícula editorial: hasta 9 piezas, las que tienen foto primero */
-  const sel=[...conFoto.slice(1), ...resto].slice(0,9);
-  $("#eg").innerHTML = sel.map(a=>`
-    <button class="t ${gradFor(a.id)}" onclick="goFicha('${a.id}')">
-      ${a.fotos>0?`<img src="${a.imagenes[0]}" alt="${a.nombreComun}" loading="lazy" onload="this.classList.add('ld')" onerror="this.remove()">`:""}
-      <div class="g"></div>
-      <div class="c">
-        ${a.codigo?`<div class="cd">${a.codigo}</div>`:""}
-        <div class="nm">${a.nombreComun}</div>
-        <div class="mt">${[a.pais,a.anio].filter(Boolean).join(" · ")}</div>
+  /* piezas destacadas: alturas alternas, la fotografía manda */
+  const sel=[...conFoto.slice(1), ...DATA.filter(a=>a.fotos===0)].slice(0,5);
+  $("#featList").innerHTML = sel.map(a=>`
+    <button class="spec" onclick="goFicha('${attr(a.id)}')">
+      <div class="ph">
+        <div class="fallback">${I.foto}</div>
+        ${fotoTag(a.imagenes[0],a.nombreComun)}
+        <div class="vt"></div>
+        <div class="cap">
+          ${a.codigo?`<span class="code">${esc(a.codigo)}</span>`:""}
+          <div class="nm">${esc(a.nombreComun)}</div>
+          <div class="meta">${esc([a.pais,a.anio].filter(Boolean).join(" · "))}</div>
+        </div>
       </div>
     </button>`).join("");
-  const mas=$("#egMore");
-  if(mas) mas.innerHTML=`Ver las ${DATA.length} piezas <span>&rarr;</span>`;
 
-  /* índice de salas con puntos guía */
+  $("#allBtn").querySelector("span").textContent = `Ver las ${DATA.length} piezas`;
+
+  /* salas */
   const porSala={};
   DATA.forEach(a=>{ if(a.sala) porSala[a.sala]=(porSala[a.sala]||0)+1; });
   const nombres=Object.keys(porSala).sort();
-  $("#lpIndex").innerHTML = nombres.length ? nombres.map((s,i)=>`
-    <button class="idx-row" onclick="verSala('${s.replace(/'/g,"\\'")}')">
-      <span class="idx-n">${String(i+1).padStart(2,"0")}</span>
-      <span class="idx-name">${s}</span>
-      <span class="idx-dots"></span>
-      <span class="idx-c">${porSala[s]}</span>
+  $("#roomList").innerHTML = nombres.length ? nombres.map(s=>`
+    <button class="room" onclick="verSala('${attr(s)}')">
+      <span class="rn">${esc(s)}</span>
+      <span class="rc">${porSala[s]}</span>
     </button>`).join("")
-    : `<p style="font-family:var(--serif);color:var(--tinta-p-soft)">Aún no hay salas registradas.</p>`;
+    : `<p class="body" style="padding:0 var(--aire)">Aún no hay salas registradas.</p>`;
 }
 
-/* desde la portada: ver una sala concreta en la colección */
 function verSala(sala){
   state.sala=sala; state.q=""; $("#search").value="";
   buildFilters(); renderGrid(); updateClear(); goTab("coleccion");
 }
 
-function initHome(){
-  const els=document.querySelectorAll("#view-inicio .reveal");
-  if("IntersectionObserver" in window){
-    const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}})},{threshold:.12});
-    els.forEach(el=>io.observe(el));
-  }else{els.forEach(el=>el.classList.add("in"));}
-}
-
 /* ---------- COLECCIÓN ---------- */
 function buildFilters(){
-  const cont=$("#filters");cont.innerHTML="";
+  const cont=$("#filters"); cont.innerHTML="";
   filterDefs.forEach(f=>{
+    const vals=[...new Set(DATA.map(a=>a[f.key]).filter(v=>v!==""&&v!=null).map(String))].sort();
     const sel=document.createElement("select");
-    const vals=[...new Set(DATA.map(a=>String(a[f.key])))].sort();
-    sel.innerHTML=`<option value="">${f.label}</option>`+vals.map(v=>`<option value="${v}">${v}</option>`).join("");
-    sel.value=state[f.key];if(state[f.key])sel.classList.add("set");
-    sel.addEventListener("change",e=>{state[f.key]=e.target.value;e.target.classList.toggle("set",!!e.target.value);renderGrid();updateClear();});
+    sel.setAttribute("aria-label",f.label);
+    sel.innerHTML=`<option value="">${f.label}</option>`+vals.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join("");
+    sel.value=state[f.key];
+    if(state[f.key]) sel.classList.add("set");
+    sel.addEventListener("change",e=>{
+      state[f.key]=e.target.value;
+      e.target.classList.toggle("set",!!e.target.value);
+      renderGrid(); updateClear();
+    });
     cont.appendChild(sel);
   });
 }
-function updateClear(){const any=state.q||filterDefs.some(f=>state[f.key]);$("#clear").classList.toggle("show",!!any);}
+function updateClear(){
+  const any=state.q||filterDefs.some(f=>state[f.key]);
+  $("#clear").classList.toggle("show",!!any);
+}
+function skeleton(n=6){
+  return Array.from({length:n}).map(()=>
+    `<div class="sk-w"><div class="sk sk-c"></div><div class="sk-l a"></div><div class="sk-l b"></div><div class="sk-l c"></div></div>`
+  ).join("");
+}
 function renderGrid(){
   const list=DATA.filter(a=>{
-    if(state.q){const t=(a.nombreComun+" "+a.nombreCientifico+" "+a.especie+" "+(a.codigo||"")).toLowerCase();if(!t.includes(state.q.toLowerCase()))return false;}
+    if(state.q){
+      const t=(a.nombreComun+" "+a.nombreCientifico+" "+a.especie+" "+(a.codigo||"")).toLowerCase();
+      if(!t.includes(state.q.toLowerCase())) return false;
+    }
     return filterDefs.every(f=>!state[f.key]||String(a[f.key])===state[f.key]);
   });
-  $("#count").textContent=list.length+(list.length===1?" pieza":" piezas");
-  $("#grid").innerHTML=list.length?list.map((a,i)=>`
-    <button class="card" style="animation-delay:${i*60}ms" onclick="goFicha('${a.id}')">
-      <div class="img ${gradFor(a.id)}"><div class="ph-ico-wrap">${I.photo}</div>${img(a,1)}<div class="grad"></div>
-        <div class="cap">${a.codigo?`<div class="code">${a.codigo}</div>`:""}<div class="nm">${a.nombreComun}</div><div class="meta">${a.pais}</div>${a.estadoPieza?`<div class="st ${estClass(a.estadoPieza)}">${a.estadoPieza}</div>`:""}</div>
+  $("#count").textContent = list.length+(list.length===1?" pieza":" piezas");
+  $("#grid").innerHTML = list.length ? list.map((a,i)=>`
+    <button class="card" style="animation-delay:${Math.min(i,10)*55}ms" onclick="goFicha('${attr(a.id)}')">
+      <div class="ph">
+        <div class="fallback">${I.foto}</div>
+        ${fotoTag(a.imagenes[0],a.nombreComun)}
       </div>
-    </button>`).join(""):`<div class="empty">No hay piezas que coincidan con la búsqueda.</div>`;
+      <div class="info">
+        ${a.codigo?`<span class="code">${esc(a.codigo)}</span>`:""}
+        <div class="nm">${esc(a.nombreComun)}</div>
+        ${a.pais?`<div class="ctry">${esc(a.pais)}</div>`:""}
+        ${a.estadoPieza?`<div class="st ${estClass(a.estadoPieza)}">${esc(a.estadoPieza)}</div>`:""}
+      </div>
+    </button>`).join("")
+    : `<div class="empty">No hay piezas que coincidan.</div>`;
 }
 
 /* ---------- FICHA ---------- */
-let curTab="historia";
+let curTab="historia", heroState=null;
+
 function renderFicha(a){
   const caza=a.caza||{}, bio=a.bio||{}, tax=a.taxidermia||{};
-  const historia=Array.isArray(a.historia)?a.historia:(typeof a.historia==="string"&&a.historia.trim()?a.historia.split(/\n{2,}/).map(s=>s.trim()).filter(Boolean):[]);
-  const documentos=Array.isArray(a.documentos)?a.documentos:(typeof a.documentos==="string"&&a.documentos.trim()?a.documentos.split(/[;\n]+/).map(s=>s.trim()).filter(Boolean):[]);
-  const cazaStats=[["pais","País",a.pais||"—"],["region","Región",a.region||"—"],["fecha","Fecha",caza.fecha||"—"],["operador","Operador",caza.operador||"—"],["modalidad","Modalidad",caza.modalidad||"—"],["distancia","Distancia",caza.distancia||"—"],["arma","Arma",caza.arma||"—"],["calibre","Calibre",caza.calibre||"—"]];
-  const bioRows=[["distribucion","Distribución",bio.distribucion||"—"],["habitat","Hábitat",bio.habitat||"—"],["clase","Clase",bio.clase||"—"],["orden","Orden",bio.orden||"—"],["familia","Familia",bio.familia||"—"],["estado","Conservación",bio.estado||"—"]];
+  const historia = Array.isArray(a.historia) ? a.historia
+    : (typeof a.historia==="string"&&a.historia.trim() ? a.historia.split(/\n{2,}/).map(s=>s.trim()).filter(Boolean) : []);
+  const docs = Array.isArray(a.documentos) ? a.documentos
+    : (typeof a.documentos==="string"&&a.documentos.trim() ? a.documentos.split(/[;\n]+/).map(s=>s.trim()).filter(Boolean) : []);
+
+  const bioRows=[
+    ["distribucion","Distribución",bio.distribucion],
+    ["habitat","Hábitat",bio.habitat],
+    ["clase","Clase",bio.clase],
+    ["orden","Orden",bio.orden],
+    ["familia","Familia",bio.familia],
+    ["conservacion","Conservación",bio.estado]
+  ];
+  const huntRows=[
+    ["País",a.pais],["Región",a.region],["Fecha",caza.fecha],["Operador",caza.operador],
+    ["Modalidad",caza.modalidad],["Distancia",caza.distancia],["Arma",caza.arma],["Calibre",caza.calibre]
+  ];
+  const ctx=[a.sala,a.continente].filter(Boolean).join(" · ");
+
   $("#fichaScroll").innerHTML=`
-    <div class="f-top">
-      <button class="icon-btn" onclick="goBack()">${I.back}</button>
-      <span class="code">${a.codigo||""}</span>
-      <div class="f-actions">
-        <button class="icon-btn" onclick="share()">${I.share}</button>
-        <button class="icon-btn key" onclick="location.href='admin.html#pieza='+encodeURIComponent('${a.id}')" aria-label="Administración">${I.key}</button>
+    <div class="f-bar">
+      <button class="ib" onclick="goBack()" aria-label="Volver">${I.atras}</button>
+      <span class="code">${esc(a.codigo||"")}</span>
+      <div class="f-acts">
+        <button class="ib" onclick="share()" aria-label="Compartir">${I.compartir}</button>
+        <button class="ib key" onclick="irAdmin('${attr(a.id)}')" aria-label="Administración">${I.llave}</button>
       </div>
     </div>
-    <div class="f-hero ${gradFor(a.id)}" id="fhero"><div class="ph-ico-wrap">${I.photo}<span class="ph-cap">${a.fotos>0?"Fotografía":"Sin fotografía"}</span></div>${a.fotos>0?`<img class="foto" src="${a.imagenes[0]}" alt="${a.nombreComun}" onload="this.classList.add('ld')" onerror="this.style.display='none'">`:""}${a.fotos>1?`<button class="navarrow prev" onclick="heroStep(-1)" aria-label="Anterior">‹</button><button class="navarrow next" onclick="heroStep(1)" aria-label="Siguiente">›</button>`:""}${a.fotos>0?`<div class="counter">1 / ${a.fotos}</div>`:""}</div>
 
-    <div class="f-namebar">
-      <div class="f-over">${a.sala||""}${a.continente?" · "+a.continente:""}</div>
-      <h2>${a.nombreComun}</h2>
-      <div class="sci">${a.nombreCientifico||""}</div>
+    <div class="f-hero">
+      <div class="ph">
+        <div class="fallback">${I.foto}</div>
+        ${a.fotos ? `<div class="f-slides" id="slides">${
+          a.imagenes.map((u,i)=>`<div class="f-slide">${fotoTag(u,a.nombreComun+" "+(i+1),i===0)}</div>`).join("")
+        }</div>` : ""}
+        <div class="vt"></div>
+        ${a.fotos>1?`<div class="f-dots" id="dots">${a.imagenes.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}</div>`:""}
+      </div>
     </div>
 
-    <div class="f-body">
-      <div class="quick">
-        <span class="q">${I.pais}${a.pais||"—"}</span>
-        <span class="q">${I.fecha}${a.anio||"—"}</span>
-        <span class="q">${I.modalidad}${caza.modalidad||"—"}</span>
-      </div>
+    <div class="f-title">
+      ${ctx?`<span class="eyebrow">${esc(ctx)}</span>`:""}
+      <h2>${esc(a.nombreComun)}</h2>
+      ${a.nombreCientifico?`<div class="sci">${esc(a.nombreCientifico)}</div>`:""}
+    </div>
 
-      <div class="tabs">
-        <button class="tab" data-t="historia" onclick="setTab('historia')">${I.tHistoria}Historia</button>
-        <button class="tab" data-t="biologia" onclick="setTab('biologia')">${I.tBiologia}Biología</button>
-        <button class="tab" data-t="caceria" onclick="setTab('caceria')">${I.tCaceria}Cacería</button>
-        <button class="tab" data-t="galeria" onclick="setTab('galeria')">${I.tGaleria}Galería</button>
-        <button class="tab" data-t="mas" onclick="setTab('mas')">${I.tMas}Más</button>
-      </div>
+    <div class="f-quick">
+      <div><span class="k">País</span><span class="v">${esc(a.pais||"—")}</span></div>
+      <div><span class="k">Año</span><span class="v">${esc(a.anio||"—")}</span></div>
+      <div><span class="k">Modalidad</span><span class="v">${esc(caza.modalidad||"—")}</span></div>
+    </div>
 
-      <div class="tabpane historia" data-p="historia">
-        <div class="pane-label">Sobre la expedición</div>
-        ${historia.length?historia.map(p=>`<p>${p}</p>`).join(""):`<p class="tax-note">Sin reseña por ahora.</p>`}
-        ${a.pull&&a.pull.replace(/[«»\s]/g,"")?`<div class="pull">${a.pull}</div>`:""}
-      </div>
+    <div class="tabs">
+      <button class="tab" data-t="historia" onclick="setTab('historia')">Historia</button>
+      <button class="tab" data-t="biologia" onclick="setTab('biologia')">Biología</button>
+      <button class="tab" data-t="caceria" onclick="setTab('caceria')">Cacería</button>
+      <button class="tab" data-t="galeria" onclick="setTab('galeria')">Galería</button>
+      <button class="tab" data-t="mas" onclick="setTab('mas')">Más</button>
+    </div>
 
-      <div class="tabpane" data-p="biologia">
-        <div class="pane-label">Datos biológicos</div>
-        ${bioRows.map(r=>`<div class="bio-row">${I[r[0]]}<div class="k">${r[1]}</div><div class="v">${r[2]}</div></div>`).join("")}
+    <div class="pane" data-p="historia">
+      <div class="story">
+        ${historia.length ? historia.map(p=>`<p>${esc(p)}</p>`).join("")
+          : `<p style="color:var(--gris);font-style:italic">La reseña de esta expedición aún no se ha escrito.</p>`}
       </div>
+      ${a.pull&&a.pull.replace(/[«»"\s]/g,"") ? `<div class="pull">${esc(a.pull)}</div>` : ""}
+    </div>
 
-      <div class="tabpane" data-p="caceria">
-        <div class="pane-label">Datos de la cacería</div>
-        <div class="caza-grid">${cazaStats.map(s=>`<div class="stat">${I[s[0]]}<div><div class="lab">${s[1]}</div><div class="val">${s[2]}</div></div></div>`).join("")}</div>
+    <div class="pane" data-p="biologia">
+      <div class="bio">
+        ${bioRows.map(r=>`
+          <div class="r">${I[r[0]]}
+            <div><span class="k">${r[1]}</span><span class="v">${esc(r[2]||"—")}</span></div>
+          </div>`).join("")}
       </div>
+    </div>
 
-      <div class="tabpane" data-p="galeria">
-        <div class="pane-label">Galería · ${a.fotos||0} imágenes</div>
-        <div class="gallery">${a.fotos>0?a.imagenes.map((u,i)=>`<div class="gtile ${gradFor(a.id)}">${I.photo}<img src="${u}" alt="${a.nombreComun} ${i+1}" loading="lazy" onload="this.classList.add('ld')" onerror="this.remove()"><span class="gn">${i+1}</span></div>`).join(""):`<p class="tax-note">Sin fotografías por ahora.</p>`}</div>
+    <div class="pane" data-p="caceria">
+      <div class="hunt">
+        ${huntRows.map(r=>`<div><span class="k">${r[0]}</span><span class="v">${esc(r[1]||"—")}</span></div>`).join("")}
       </div>
+    </div>
 
-      <div class="tabpane" data-p="mas">
-        <div class="mas-sub">Ubicación en el pabellón</div>
-        <div class="bio-row">${I.region}<div class="k">Sala</div><div class="v">${a.sala||"—"}${a.vitrina?" · "+a.vitrina:""}</div></div>
-        <div class="mas-sub">Taxidermia</div>
-        <div class="bio-row"><div class="k">Taller</div><div class="v">${tax.taller||"—"}</div></div>
-        <p class="tax-note">${tax.observaciones||""}</p>
-        <div class="mas-sub">Documentos</div>
-        <div class="docs">${documentos.length?documentos.map(d=>`<button class="doc">${I.doc}<span class="dn">${d}</span></button>`).join(""):`<p class="tax-note">Sin documentos.</p>`}</div>
+    <div class="pane" data-p="galeria">
+      ${a.fotos ? `<div class="gal">${a.imagenes.map((u,i)=>`
+        <div class="ph">
+          <div class="fallback">${I.foto}</div>
+          ${fotoTag(u,a.nombreComun+" "+(i+1))}
+          <span class="gn">${String(i+1).padStart(2,"0")} / ${String(a.fotos).padStart(2,"0")}</span>
+        </div>`).join("")}</div>`
+        : `<p style="color:var(--gris);font-style:italic;font-family:var(--serif);font-size:17px">Esta pieza aún no tiene fotografías.</p>`}
+    </div>
+
+    <div class="pane" data-p="mas">
+      <div class="blk">
+        <div class="bh">Ubicación</div>
+        <div class="l"><span class="k">Sala</span><span class="v">${esc(a.sala||"—")}</span></div>
+        <div class="l"><span class="k">Posición</span><span class="v">${esc(a.ubicacionActual||"—")}</span></div>
+        <div class="l"><span class="k">Estado</span><span class="v">${esc(a.estadoPieza||"—")}</span></div>
+      </div>
+      <div class="blk">
+        <div class="bh">Taxidermia</div>
+        <div class="l"><span class="k">Taller</span><span class="v">${esc(tax.taller||"—")}</span></div>
+        ${tax.observaciones?`<p class="note" style="margin-top:16px">${esc(tax.observaciones)}</p>`:""}
+      </div>
+      <div class="blk">
+        <div class="bh">Documentos</div>
+        ${docs.length ? docs.map(d=>`<button class="doc">${I.doc}<span>${esc(d)}</span></button>`).join("")
+          : `<p class="note">Sin documentos asociados.</p>`}
       </div>
     </div>`;
-  curTab="historia";applyTab();setupHero(a);
+
+  curTab="historia"; applyTab(); setupCarousel(a);
 }
-function setTab(t){curTab=t;applyTab();}
+
+function setTab(t){ curTab=t; applyTab(); }
 function applyTab(){
   document.querySelectorAll("#fichaScroll .tab").forEach(b=>b.classList.toggle("on",b.dataset.t===curTab));
-  document.querySelectorAll("#fichaScroll .tabpane").forEach(p=>p.classList.toggle("on",p.dataset.p===curTab));
+  document.querySelectorAll("#fichaScroll .pane").forEach(p=>p.classList.toggle("on",p.dataset.p===curTab));
 }
 
-/* ---------- Carrusel de la foto principal ---------- */
-let heroState=null;
-function heroShow(n){
-  const s=heroState;if(!s)return;
-  s.idx=((n-1+s.fotos)%s.fotos)+1;
-  const hero=$("#fhero");if(!hero)return;
-  let im=hero.querySelector("img.foto");
-  if(!im){im=document.createElement("img");im.className="foto";hero.insertBefore(im,hero.querySelector(".counter"));}
-  im.style.display="block";
-  im.classList.remove("ld");
-  im.onload=function(){this.classList.add("ld")};
-  im.onerror=function(){this.style.display="none"};
-  im.src=s.imagenes[s.idx-1];
-  const c=hero.querySelector(".counter");if(c)c.textContent=s.idx+" / "+s.fotos;
+/* carrusel: se desliza con el dedo, los puntos siguen la posición */
+function setupCarousel(a){
+  heroState=null;
+  const box=$("#slides"), dots=$("#dots");
+  if(!box||!dots||a.fotos<2) return;
+  const marks=[...dots.querySelectorAll("i")];
+  box.addEventListener("scroll",()=>{
+    const i=Math.round(box.scrollLeft/box.clientWidth);
+    marks.forEach((m,k)=>m.classList.toggle("on",k===i));
+  },{passive:true});
+  heroState={box};
 }
-function heroStep(d){if(heroState)heroShow(heroState.idx+d);}
-function setupHero(a){
-  heroState=a.fotos>0?{id:a.id,fotos:a.fotos,imagenes:a.imagenes,idx:1}:null;
-  if(!(a.fotos>1))return;
-  const hero=$("#fhero");if(!hero)return;
-  let x0=null;
-  hero.addEventListener("touchstart",e=>{x0=e.touches[0].clientX},{passive:true});
-  hero.addEventListener("touchend",e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)heroStep(dx<0?1:-1);x0=null},{passive:true});
-}
+
+function irAdmin(id){ location.href="admin.html#pieza="+encodeURIComponent(id); }
+
 function share(){
-  const url=location.href;
-  if(navigator.clipboard){navigator.clipboard.writeText(url).then(showToast).catch(showToast);}else showToast();
+  const u=location.href;
+  if(navigator.share){ navigator.share({title:document.title,url:u}).catch(()=>{}); return; }
+  navigator.clipboard?.writeText(u).then(showToast).catch(()=>{});
 }
-function showToast(){const t=$("#toast");t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1800);}
+function showToast(){
+  const t=$("#toast"); t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2000);
+}
 
-/* ---------- ADMINISTRACIÓN (clave 1234) ---------- */
-let adminTarget=null;
-function openAdmin(codigo,nombre){
-  adminTarget = codigo ? {codigo,nombre} : null;
-  const m=$("#modal");
-  m.innerHTML=`<button class="x" onclick="closeAdmin()">×</button>
-    <div class="m-over">Acceso restringido</div>
-    <h4>${adminTarget?adminTarget.nombre:"Administración"}</h4>
-    <p class="sub">Ingresa la clave de 4 dígitos para acceder al registro de esta pieza.</p>
-    <div class="pin" id="pin">${[0,1,2,3].map(()=>`<input type="tel" maxlength="1" inputmode="numeric">`).join("")}</div>
-    <div class="pin-msg" id="pinMsg"></div>`;
-  $("#overlay").classList.add("show");
-  const inputs=[...m.querySelectorAll(".pin input")];
-  inputs[0].focus();
-  inputs.forEach((inp,i)=>{
-    inp.addEventListener("input",()=>{inp.value=inp.value.replace(/\D/g,"");if(inp.value&&i<3)inputs[i+1].focus();if(inputs.every(x=>x.value))checkPin(inputs);});
-    inp.addEventListener("keydown",e=>{if(e.key==="Backspace"&&!inp.value&&i>0)inputs[i-1].focus();});
-  });
-}
-function checkPin(inputs){
-  if(inputs.map(x=>x.value).join("")==="1234")showAdmin();
-  else{$("#pin").classList.add("err");$("#pinMsg").textContent="Clave incorrecta.";setTimeout(()=>{$("#pin").classList.remove("err");inputs.forEach(x=>x.value="");inputs[0].focus();},450);}
-}
-function showAdmin(){
-  const t=adminTarget;
-  const dest = t
-    ? `Se abrirá la hoja de cálculo en la fila de <strong>${t.nombre}</strong> (código <strong>${t.codigo}</strong>).<br><br>— Pendiente de conectar —`
-    : `Aquí vivirán las herramientas de gestión del pabellón.<br><br>— Pendiente de conectar —`;
-  $("#modal").innerHTML=`<button class="x" onclick="closeAdmin()">×</button>
-    <div class="ok"><div class="check">${I.ok}</div>
-    <div class="m-over">Acceso concedido</div>
-    <h4>${t?t.nombre:"Área de administración"}</h4>
-    <div class="placeholder">${dest}</div></div>`;
-}
-function closeAdmin(){$("#overlay").classList.remove("show");}
-function goBack(){goTab(lastTab);}
-
-/* ---------- NAVEGACIÓN / RUTEO ---------- */
-function goTab(tab){location.hash = tab==="inicio"?"":"/"+tab;}
-function goFicha(codigo){location.hash="/pieza/"+codigo;}
+/* ---------- RUTEO ---------- */
+let lastTab="inicio";
+function goTab(tab){ location.hash = tab==="inicio" ? "" : "/"+tab; }
+function goFicha(id){ location.hash="/pieza/"+encodeURIComponent(id); }
+function goBack(){ goTab(lastTab); }
 function setActiveNav(tab){
   $("#nav-inicio").classList.toggle("on",tab==="inicio");
   $("#nav-coleccion").classList.toggle("on",tab==="coleccion"||tab==="ficha");
 }
-function show(view){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$("#view-"+view).classList.add("active");window.scrollTo(0,0);}
-let lastTab="inicio";
+function show(view){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  $("#view-"+view).classList.add("active");
+  window.scrollTo(0,0);
+}
 function router(){
   const h=location.hash;
   const m=h.match(/^#\/pieza\/(.+)$/);
-  if(m){const a=DATA.find(x=>x.id===decodeURIComponent(m[1]));if(a){renderFicha(a);show("ficha");setActiveNav("ficha");return;}}
-  if(h==="#/coleccion"){lastTab="coleccion";show("coleccion");setActiveNav("coleccion");return;}
-  lastTab="inicio";show("inicio");setActiveNav("inicio");
+  if(m){
+    const a=DATA.find(x=>x.id===decodeURIComponent(m[1]));
+    if(a){ renderFicha(a); show("ficha"); setActiveNav("ficha"); return; }
+  }
+  if(h==="#/coleccion"){ lastTab="coleccion"; show("coleccion"); setActiveNav("coleccion"); return; }
+  lastTab="inicio"; show("inicio"); setActiveNav("inicio");
 }
 window.addEventListener("hashchange",router);
 
-/* init */
-$("#search").addEventListener("input",e=>{state.q=e.target.value;renderGrid();updateClear();});
-$("#clear").addEventListener("click",()=>{state.q="";filterDefs.forEach(f=>state[f.key]="");$("#search").value="";buildFilters();renderGrid();updateClear();});
-$("#overlay").addEventListener("click",e=>{if(e.target.id==="overlay")closeAdmin();});
+/* ---------- ARRANQUE ---------- */
+$("#search").addEventListener("input",e=>{ state.q=e.target.value; renderGrid(); updateClear(); });
+$("#clear").addEventListener("click",()=>{
+  state.q=""; filterDefs.forEach(f=>state[f.key]="");
+  $("#search").value=""; buildFilters(); renderGrid(); updateClear();
+});
 
 async function init(){
-  $("#grid").innerHTML=skeletonGrid();          // se ve algo mientras carga
-  initHome();                                    // la portada no depende de los datos
+  $("#grid").innerHTML=skeleton();
   try{ DATA = await fetchPiezas(); }
-  catch(err){ console.error(err); DATA = []; }
-  buildStats();buildFilters();renderGrid();buildHome();
-  router();
+  catch(err){ console.error(err); DATA=[]; }
+  buildHome(); buildFilters(); renderGrid(); router();
 }
 init();
 </script>
