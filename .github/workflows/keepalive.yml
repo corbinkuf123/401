@@ -1,0 +1,80 @@
+
+# ─────────────────────────────────────────────────────────────
+#  Mantener despierta la base de Supabase
+#
+#  El plan gratuito de Supabase PAUSA el proyecto tras 7 días
+#  sin ninguna petición a la API. Si el pabellón pasa una semana
+#  sin visitas, los QR dejarían de mostrar las piezas.
+#
+#  Este flujo hace una consulta mínima todos los días, así el
+#  contador de inactividad nunca llega a 7.
+#
+#  (Vercel NO se apaga por inactividad: los archivos viven en su
+#   CDN. El riesgo real era solo la base de datos.)
+# ─────────────────────────────────────────────────────────────
+name: Mantener despierta la base
+
+on:
+  schedule:
+    # 09:00 UTC todos los días (≈ 04:00 en Lima / 10:00 en Madrid)
+    - cron: "0 9 * * *"
+  # permite dispararlo a mano desde la pestaña Actions de GitHub
+  workflow_dispatch:
+
+# el token solo necesita poder escribir el sello mensual
+permissions:
+  contents: write
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Consultar la base
+        env:
+          SUPABASE_URL: https://ffsafqgzggysvxumwemh.supabase.co
+          # La "anon key" es pública por diseño (ya vive en config.js).
+          # Las políticas RLS son las que protegen los datos.
+          ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmc2FmcWd6Z2d5c3Z4dW13ZW1oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5NjUxNzAsImV4cCI6MjEwMDU0MTE3MH0.uJtLdBPdE4QQsyHdKSw3zcfq7Ey9ux_VhEEG3SuEEec' }}
+        run: |
+          codigo=$(curl -s -o /dev/null -w "%{http_code}" \
+            "$SUPABASE_URL/rest/v1/piezas?select=id&limit=1" \
+            -H "apikey: $ANON_KEY" \
+            -H "Authorization: Bearer $ANON_KEY")
+
+          echo "Respuesta de Supabase: HTTP $codigo"
+
+          if [ "$codigo" != "200" ]; then
+            echo "::error::Supabase respondió HTTP $codigo. Puede estar pausada: entrá a supabase.com/dashboard y tocá Restore."
+            exit 1
+          fi
+
+          echo "Base activa. Contador de inactividad reiniciado."
+
+      - name: Comprobar que el sitio siga en pie
+        run: |
+          codigo=$(curl -s -o /dev/null -w "%{http_code}" https://401-amber.vercel.app)
+          echo "Respuesta de Vercel: HTTP $codigo"
+          if [ "$codigo" != "200" ]; then
+            echo "::error::El sitio devolvió HTTP $codigo"
+            exit 1
+          fi
+
+      # GitHub desactiva los flujos programados si el repositorio pasa
+      # 60 días sin commits. Este sello mensual evita que eso ocurra.
+      - name: Sello mensual de actividad
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          if [ "$(date -u +%d)" != "01" ]; then
+            echo "Hoy no toca sello (solo el día 1 de cada mes)."
+            exit 0
+          fi
+
+          date -u +"Ultima comprobacion automatica: %Y-%m-%d" > .github/ultima-comprobacion.txt
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/ultima-comprobacion.txt
+          git commit -m "Sello mensual de actividad" || exit 0
+          git push
