@@ -265,11 +265,15 @@ $("#saveBtn").addEventListener("click", async ()=>{
       if(!ok) throw new Error("No se pudo generar un identificador único");
       // subir las fotos que se habían elegido antes de guardar
       if(pendingFiles.length){
-        toast("Subiendo fotos…");
-        let orden=0;
-        for(const pf of pendingFiles){ try{ await uploadOne(pf.file, orden++); }catch(e){ console.error(e); } }
+        toast("Optimizando y subiendo fotos…");
+        let orden=0, antes=0, despues=0;
+        for(const pf of pendingFiles){
+          try{ const r=await uploadOne(pf.file, orden++); antes+=r.antes; despues+=r.despues; }
+          catch(e){ console.error(e); }
+        }
         pendingFiles.forEach(pf=>URL.revokeObjectURL(pf.url)); pendingFiles=[];
         await loadFotos();
+        if(antes>despues) toast(`Fotos optimizadas · ${peso(antes)} → ${peso(despues)}`);
       }
       $("#deleteBtn").classList.remove("hide");
       $("#edSub").textContent = body.codigo||currentId;
@@ -370,7 +374,14 @@ async function uploadOne(file, orden){
   const url=sb.storage.from("piezas").getPublicUrl(path).data.publicUrl;
   const ins=await sb.from("imagenes").insert({pieza_id:currentId,storage_path:path,url,orden});
   if(ins.error) throw ins.error;
+  return { antes:file.size, despues:f.size };   // para poder informar el ahorro
 }
+
+/* Tamaño legible: 480 KB, 2.4 MB… */
+function peso(b){
+  return b >= 1048576 ? (b/1048576).toFixed(1)+" MB" : Math.round(b/1024)+" KB";
+}
+
 async function uploadFiles(files){
   const arr=[...files].filter(f=>f.type.startsWith("image/"));
   if(!arr.length) return;
@@ -381,11 +392,20 @@ async function uploadFiles(files){
     toast(`${arr.length} foto(s) lista(s) · se subirán al guardar`);
     return;
   }
-  toast(`Subiendo ${arr.length} foto(s)…`);
+  toast(`Optimizando y subiendo ${arr.length} foto(s)…`);
   let orden = currentImgs.length ? Math.max(...currentImgs.map(i=>i.orden||0))+1 : 0;
-  for(const file of arr){ try{ await uploadOne(file, orden++); }catch(err){ console.error(err); toast("Error subiendo una foto"); } }
+  let antes=0, despues=0, ok=0;
+  for(const file of arr){
+    try{
+      const r = await uploadOne(file, orden++);
+      antes+=r.antes; despues+=r.despues; ok++;
+    }catch(err){ console.error(err); toast("Error subiendo una foto"); }
+  }
   await loadFotos(); await loadList();
-  toast("Fotos actualizadas");
+  if(ok && antes>despues)
+    toast(`${ok} foto(s) · ${peso(antes)} → ${peso(despues)} (${Math.round((1-despues/antes)*100)}% menos)`);
+  else if(ok)
+    toast(`${ok} foto(s) subida(s)`);
 }
 function removePending(id){
   const pf=pendingFiles.find(x=>x.id===id); if(pf) URL.revokeObjectURL(pf.url);
