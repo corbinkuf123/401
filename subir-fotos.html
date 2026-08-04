@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Subir fotografías · Pabellón 414</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --base:#111111;--base-2:#181818;--card:#202020;
+  --oro:#B89A63;--bronce:#8C6A43;--marfil:#F2EFE8;--gris:#9A948D;
+  --linea:rgba(154,148,141,.16);--linea-fina:rgba(154,148,141,.10);
+  --verde:#8FA37B;--azul:#7B93A3;--rojo:#B08268;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--base);color:var(--marfil);font-family:var(--sans);font-weight:300;
+  min-height:100vh;-webkit-font-smoothing:antialiased;padding:40px 20px 80px}
+.wrap{max-width:960px;margin:0 auto}
+h1{font-family:var(--serif);font-weight:300;font-size:46px;line-height:1;margin-bottom:10px}
+.eyebrow{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--oro);
+  font-weight:500;display:block;margin-bottom:14px}
+.sub{color:var(--gris);font-size:14px;line-height:1.8;max-width:640px}
+
+.panel{background:var(--base-2);border:1px solid var(--linea);border-radius:16px;
+  padding:26px;margin-top:28px}
+.panel h2{font-family:var(--serif);font-weight:400;font-size:24px;margin-bottom:6px}
+.panel .ph{color:var(--gris);font-size:13px;line-height:1.7;margin-bottom:20px}
+
+label{display:block;font-size:9px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gris);font-weight:500;margin-bottom:8px}
+input[type=email],input[type=password]{width:100%;padding:14px 16px;background:var(--card);
+  border:1px solid var(--linea);border-radius:10px;color:var(--marfil);
+  font-family:var(--sans);font-size:15px;margin-bottom:16px}
+input:focus{outline:none;border-color:var(--oro)}
+
+button{font-family:var(--sans);font-weight:500;font-size:10px;letter-spacing:.24em;
+  text-transform:uppercase;padding:16px 26px;border-radius:11px;cursor:pointer;
+  background:var(--card);border:1px solid rgba(184,154,99,.34);color:var(--oro);
+  transition:background .35s,border-color .35s,color .35s}
+button:hover:not(:disabled){background:#2a2a2a;border-color:var(--oro);color:var(--marfil)}
+button:disabled{opacity:.4;cursor:not-allowed}
+button.go{background:var(--oro);color:#1a1408;border-color:var(--oro)}
+button.go:hover:not(:disabled){background:#c9ac74;color:#1a1408}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;
+  background:var(--linea-fina);border-radius:12px;overflow:hidden;margin-bottom:22px}
+.stats div{background:var(--card);padding:18px 14px;text-align:center}
+.stats .n{font-family:var(--serif);font-size:32px;line-height:1;display:block}
+.stats .l{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gris);
+  display:block;margin-top:9px}
+.stats .v .n{color:var(--verde)}.stats .a .n{color:var(--azul)}.stats .r .n{color:var(--rojo)}
+
+.drop{border:1px dashed rgba(184,154,99,.4);border-radius:14px;padding:34px 24px;
+  text-align:center;background:rgba(184,154,99,.04);transition:background .3s,border-color .3s}
+.drop.hot{background:rgba(184,154,99,.11);border-color:var(--oro)}
+.drop .big{font-family:var(--serif);font-size:22px;margin-bottom:8px}
+.drop .ph{margin:0 0 18px}
+.drop input[type=file]{display:none}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gris);font-weight:500;padding:12px 10px;border-bottom:1px solid var(--linea)}
+td{padding:11px 10px;border-bottom:1px solid var(--linea-fina);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.nm{font-family:var(--serif);font-size:17px}
+.fnames{font-size:11.5px;color:var(--gris);line-height:1.7;font-family:ui-monospace,Menlo,monospace}
+.tag{display:inline-block;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;
+  padding:4px 9px;border-radius:5px;font-weight:500}
+.tag.v{background:rgba(143,163,123,.15);color:var(--verde)}
+.tag.a{background:rgba(123,147,163,.15);color:var(--azul)}
+.tag.r{background:rgba(176,130,104,.15);color:var(--rojo)}
+.tag.f{background:rgba(154,148,141,.12);color:var(--gris)}
+.scroll-box{max-height:470px;overflow-y:auto;border:1px solid var(--linea-fina);border-radius:12px}
+
+.log{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.9;
+  background:#0d0d0d;border:1px solid var(--linea-fina);border-radius:12px;padding:20px;
+  max-height:340px;overflow-y:auto;margin-top:18px;white-space:pre-wrap;color:var(--gris)}
+.log .ok{color:var(--verde)}.log .er{color:var(--rojo)}.log .hd{color:var(--oro)}
+.hide{display:none}
+.bar{height:3px;background:var(--card);border-radius:3px;overflow:hidden;margin-top:18px}
+.bar i{display:block;height:100%;background:var(--oro);width:0;transition:width .25s}
+.warn{border-left:2px solid var(--oro);padding:14px 18px;background:rgba(184,154,99,.06);
+  border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;color:var(--gris);margin:20px 0}
+b{color:var(--marfil);font-weight:500}
+a{color:var(--oro)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="eyebrow">Pabellón 414 · Herramienta interna</span>
+  <h1>Subir fotografías</h1>
+  <p class="sub">Reparte las fotos del pabellón entre las piezas que les corresponden.
+  Antes de subir cada una la reduce, así que da igual lo que pese el original.
+  Se puede volver a ejecutar cuantas veces haga falta: las que ya estén subidas se saltan.</p>
+
+  <!-- ── acceso ── -->
+  <div class="panel" id="loginPanel">
+    <h2>Acceso</h2>
+    <p class="ph">Subir fotos escribe en la base, así que hace falta iniciar sesión.</p>
+    <label for="em">Correo</label>
+    <input id="em" type="email" autocomplete="username">
+    <label for="pw">Contraseña</label>
+    <input id="pw" type="password" autocomplete="current-password">
+    <button id="loginBtn">Entrar</button>
+    <p class="ph" id="loginMsg" style="margin:14px 0 0"></p>
+  </div>
+
+  <!-- ── reparto ── -->
+  <div class="panel hide" id="mainPanel">
+    <h2>Reparto</h2>
+    <p class="ph" id="who"></p>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="drop" id="drop">
+      <div class="big">Elegí la carpeta de fotos</div>
+      <p class="ph">Serví la carpeta <b>fotos-web</b> (las ya reducidas) o la original
+      <b>imagenes pabellon 414</b>: cualquiera de las dos vale, se reconocen por el nombre del archivo.</p>
+      <button id="pickBtn">Elegir carpeta</button>
+      <input type="file" id="fileIn" multiple webkitdirectory directory>
+      <input type="file" id="fileIn2" multiple accept="image/*">
+      <p class="ph" style="margin:16px 0 0">
+        ¿No te deja elegir carpeta? <a href="#" id="pickFiles">Elegí los archivos sueltos</a>
+        (Cmd+A para seleccionarlos todos).</p>
+    </div>
+
+    <div class="warn" id="warn">Todavía no se ha elegido ninguna carpeta.</div>
+
+    <div class="scroll-box">
+      <table>
+        <thead><tr><th>Pieza</th><th>Origen</th><th>Fotografías</th><th>Estado</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap">
+      <button class="go" id="runBtn" disabled>Subir las fotografías</button>
+      <button id="checkBtn">Ver qué hay en la base</button>
+    </div>
+    <p class="ph" style="margin-top:14px">
+      Cada foto se sube una sola vez. Si la volvés a subir, la herramienta la reconoce
+      y la salta, así que no se duplican. Al terminar quita <b>«fotografías»</b> de las
+      revisiones pendientes de cada pieza que ya las tenga.</p>
+
+    <div class="bar hide" id="bar"><i></i></div>
+    <div class="log hide" id="log"></div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="datos-importar.js"></script>
+<script src="fotos-mapa.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const LOG = $("#log");
+
+/* Índice de piezas por id, para poder mostrar nombre y país */
+const PORID = {};
+PIEZAS.forEach(p => { if(p.id) PORID[p.id] = p; });
+
+/* Los archivos se reconocen por el nombre sin extensión y sin mayúsculas,
+   así funciona igual con la carpeta original (.JPG, .jpeg) que con la reducida. */
+const clave = n => n.replace(/\.[^.]+$/,"").trim().toLowerCase();
+
+/* Nombre seguro para la ruta dentro de Storage: sin acentos, espacios ni signos.
+   Es estable, y de ahí sale que se pueda repetir la subida sin duplicar. */
+function slug(n){
+  return clave(n)
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") || "foto";
+}
+
+let ARCHIVOS = {};   // clave → File
+let YAHAY    = new Set();   // storage_path que ya están en la base
+
+function log(msg,cls){
+  LOG.classList.remove("hide");
+  const s=document.createElement("span");
+  if(cls) s.className=cls;
+  s.textContent=msg+"\n";
+  LOG.appendChild(s); LOG.scrollTop=LOG.scrollHeight;
+}
+function progreso(p){
+  const b=$("#bar"); b.classList.remove("hide");
+  b.querySelector("i").style.width=(p*100).toFixed(1)+"%";
+}
+function peso(b){ return b>=1048576 ? (b/1048576).toFixed(1)+" MB" : Math.round(b/1024)+" KB"; }
+
+/* ---------- acceso ---------- */
+async function entrar(){
+  const email=$("#em").value.trim(), password=$("#pw").value;
+  if(!email||!password){ $("#loginMsg").textContent="Faltan el correo o la contraseña."; return; }
+  $("#loginBtn").disabled=true; $("#loginMsg").textContent="Comprobando…";
+  const { error }=await sb.auth.signInWithPassword({ email, password });
+  $("#loginBtn").disabled=false;
+  if(error){ $("#loginMsg").textContent="No se pudo entrar: "+error.message; return; }
+  arranque();
+}
+$("#loginBtn").addEventListener("click",entrar);
+$("#pw").addEventListener("keydown",e=>{ if(e.key==="Enter") entrar(); });
+
+async function arranque(){
+  const { data:{ session } }=await sb.auth.getSession();
+  if(!session) return;
+  $("#loginPanel").classList.add("hide");
+  $("#mainPanel").classList.remove("hide");
+  $("#who").textContent="Sesión iniciada como "+session.user.email+".";
+  await leerYaSubidas();
+  pintar();
+}
+
+/* Qué fotos hay ya en la base, para no repetirlas */
+async function leerYaSubidas(){
+  const { data }=await sb.from("imagenes").select("storage_path");
+  YAHAY=new Set((data||[]).map(r=>r.storage_path));
+}
+
+/* ---------- elegir carpeta ---------- */
+$("#pickBtn").addEventListener("click",()=>$("#fileIn").click());
+$("#pickFiles").addEventListener("click",e=>{ e.preventDefault(); $("#fileIn2").click(); });
+$("#fileIn").addEventListener("change",e=>recibir(e.target.files));
+$("#fileIn2").addEventListener("change",e=>recibir(e.target.files));
+
+const drop=$("#drop");
+["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{
+  e.preventDefault(); drop.classList.add("hot");
+}));
+["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{
+  e.preventDefault(); drop.classList.remove("hot");
+}));
+drop.addEventListener("drop",e=>recibir(e.dataTransfer.files));
+
+function recibir(lista){
+  ARCHIVOS={};
+  [...lista].forEach(f=>{
+    if(!/\.(jpe?g|png|heic|webp)$/i.test(f.name)) return;
+    ARCHIVOS[clave(f.name)]=f;      // si hay original y reducida, gana la última
+  });
+  pintar();
+}
+
+/* ---------- tabla ---------- */
+function pintar(){
+  const hay=Object.keys(ARCHIVOS).length;
+  let previstas=0, listas=0, sinArchivo=0;
+  const filas=[];
+
+  for(const [id,nombres] of Object.entries(FOTOS)){
+    const p=PORID[id];
+    const trozos=nombres.map((n,i)=>{
+      const path=`${id}/${slug(n)}.jpg`;
+      previstas++;
+      if(YAHAY.has(path)){ listas++; return `<span style="color:var(--verde)">${n}</span>`; }
+      if(!hay)                      return `<span>${n}</span>`;
+      if(!ARCHIVOS[clave(n)]){ sinArchivo++; return `<span style="color:var(--rojo)">${n} · no está</span>`; }
+      return `<span style="color:var(--marfil)">${n}</span>`;
+    });
+
+    const pendientes=nombres.filter(n=>!YAHAY.has(`${id}/${slug(n)}.jpg`)).length;
+    const estado = pendientes===0 ? '<span class="tag v">Ya subidas</span>'
+                 : !hay           ? `<span class="tag f">${pendientes} por subir</span>`
+                 : nombres.every(n=>ARCHIVOS[clave(n)]||YAHAY.has(`${id}/${slug(n)}.jpg`))
+                                  ? `<span class="tag a">${pendientes} listas</span>`
+                                  : '<span class="tag r">Faltan archivos</span>';
+
+    filas.push(`<tr>
+      <td class="nm">${p?p.nombre_comun:id}
+        <div style="font-size:11px;color:var(--gris);margin-top:3px">${p?p.codigo:""}</div></td>
+      <td style="color:var(--gris)">${p&&p.pais?p.pais:"—"}</td>
+      <td class="fnames">${trozos.join("<br>")}</td>
+      <td>${estado}</td></tr>`);
+  }
+
+  /* las que no corresponden a ninguna pieza */
+  SOBRAN.forEach(s=>{
+    filas.push(`<tr style="opacity:.45">
+      <td class="nm">Sin pieza</td>
+      <td style="color:var(--gris)">—</td>
+      <td class="fnames">${s.f}<div style="margin-top:4px">${s.por}</div></td>
+      <td><span class="tag f">No se sube</span></td></tr>`);
+  });
+
+  $("#rows").innerHTML=filas.join("");
+
+  const porSubir=previstas-listas;
+  $("#stats").innerHTML=`
+    <div><span class="n">${Object.keys(FOTOS).length}</span><span class="l">Piezas</span></div>
+    <div><span class="n">${previstas}</span><span class="l">Fotografías</span></div>
+    <div class="v"><span class="n">${listas}</span><span class="l">Ya en la base</span></div>
+    <div class="a"><span class="n">${porSubir}</span><span class="l">Por subir</span></div>
+    <div class="r"><span class="n">${SOBRAN.length}</span><span class="l">Sin pieza</span></div>`;
+
+  if(!hay){
+    $("#warn").innerHTML="Todavía no se ha elegido ninguna carpeta. "+
+      "Arriba, <b>Elegir carpeta</b>, y buscá <b>fotos-web</b> dentro de la carpeta del proyecto.";
+    $("#runBtn").disabled=true;
+  }else if(porSubir===0){
+    $("#warn").innerHTML="Todas las fotografías previstas ya están en la base. No hay nada que subir.";
+    $("#runBtn").disabled=true;
+  }else{
+    $("#warn").innerHTML=`Se han leído <b>${hay} imágenes</b> de la carpeta. `+
+      `Se van a subir <b>${porSubir}</b>`+
+      (listas?` (otras ${listas} ya estaban)`:"")+
+      (sinArchivo?`. <span style="color:var(--rojo)">${sinArchivo} no aparecen en la carpeta elegida</span>`:"")+
+      `. Cada una se reduce a 1600 px antes de salir del navegador.`;
+    $("#runBtn").disabled=false;
+  }
+}
+
+/* ---------- reducir ---------- */
+const MAX_LADO=1600, CALIDAD=.82;
+async function comprimir(file){
+  if(!file.type.startsWith("image/")) return file;
+  try{
+    const bmp=await createImageBitmap(file,{ imageOrientation:"from-image" });
+    const escala=Math.min(1, MAX_LADO/Math.max(bmp.width,bmp.height));
+    const w=Math.round(bmp.width*escala), h=Math.round(bmp.height*escala);
+    const cv=document.createElement("canvas");
+    cv.width=w; cv.height=h;
+    cv.getContext("2d").drawImage(bmp,0,0,w,h);
+    bmp.close?.();
+    const blob=await new Promise(r=>cv.toBlob(r,"image/jpeg",CALIDAD));
+    if(!blob || blob.size>=file.size) return file;
+    return new File([blob], file.name.replace(/\.[^.]+$/,"")+".jpg", { type:"image/jpeg" });
+  }catch(e){
+    console.warn("No se pudo comprimir, se sube el original:",e);
+    return file;
+  }
+}
+
+/* ---------- comprobar ---------- */
+$("#checkBtn").addEventListener("click", async ()=>{
+  log("── Estado actual de la base ──","hd");
+  const { count:cp }=await sb.from("piezas").select("*",{count:"exact",head:true});
+  const { count:ci }=await sb.from("imagenes").select("*",{count:"exact",head:true});
+  log(`piezas:   ${cp ?? 0}`);
+  log(`imágenes: ${ci ?? 0}`);
+  const { data }=await sb.from("imagenes").select("pieza_id");
+  const cuenta={};
+  (data||[]).forEach(r=>cuenta[r.pieza_id]=(cuenta[r.pieza_id]||0)+1);
+  const conFoto=Object.keys(cuenta).length;
+  log(`piezas con al menos una foto: ${conFoto}`);
+});
+
+/* ---------- subir ---------- */
+$("#runBtn").addEventListener("click", async ()=>{
+  const trabajo=[];
+  for(const [id,nombres] of Object.entries(FOTOS)){
+    nombres.forEach((n,i)=>{
+      const path=`${id}/${slug(n)}.jpg`;
+      if(YAHAY.has(path)) return;
+      const f=ARCHIVOS[clave(n)];
+      if(f) trabajo.push({ id, nombre:n, file:f, path, orden:i });
+    });
+  }
+  if(!trabajo.length){ alert("No hay nada que subir."); return; }
+  if(!confirm(`Se van a subir ${trabajo.length} fotografías. ¿Continuar?`)) return;
+
+  $("#runBtn").disabled=true; $("#checkBtn").disabled=true;
+  LOG.innerHTML=""; log("── Subiendo ──","hd");
+
+  let ok=0, err=0, antes=0, despues=0;
+  const tocadas=new Set();
+
+  for(let i=0;i<trabajo.length;i++){
+    const t=trabajo[i];
+    progreso((i+1)/trabajo.length);
+    try{
+      const f=await comprimir(t.file);
+      const up=await sb.storage.from("piezas")
+        .upload(t.path, f, { cacheControl:"31536000", upsert:true, contentType:"image/jpeg" });
+      if(up.error) throw up.error;
+
+      const url=sb.storage.from("piezas").getPublicUrl(t.path).data.publicUrl;
+      const ins=await sb.from("imagenes")
+        .insert({ pieza_id:t.id, storage_path:t.path, url, orden:t.orden });
+      if(ins.error) throw ins.error;
+
+      YAHAY.add(t.path); tocadas.add(t.id);
+      antes+=t.file.size; despues+=f.size; ok++;
+      log(`✓ ${PORID[t.id]?PORID[t.id].nombre_comun:t.id} · ${t.nombre}  ${peso(t.file.size)} → ${peso(f.size)}`,"ok");
+    }catch(e){
+      err++;
+      log(`✗ ${t.nombre}: ${e.message||e}`,"er");
+    }
+  }
+
+  /* Quitar «fotografías» de las revisiones de las piezas que ya las tienen */
+  let revisadas=0, cerradas=0;
+  for(const id of tocadas){
+    const p=PORID[id];
+    if(!p || !p.faltan || !p.faltan.includes("fotografías")) continue;
+
+    const resto=p.faltan.filter(x=>x!=="fotografías");
+    const { data:autos }=await sb.from("mantenimientos")
+      .select("id")
+      .eq("pieza_id",id).eq("estado","programado")
+      .like("descripcion","Falta poner:%");
+    if(!autos || !autos.length) continue;
+
+    if(!resto.length){
+      for(const a of autos){
+        await sb.from("mantenimientos").update({
+          estado:"realizado", fecha_realizado:new Date().toISOString().slice(0,10)
+        }).eq("id",a.id);
+        cerradas++;
+      }
+    }else{
+      await sb.from("mantenimientos").update({
+        tipo:"Completar ficha",
+        descripcion:"Falta poner: "+resto.join(", ")+"."
+      }).eq("id",autos[0].id);
+      revisadas++;
+    }
+  }
+
+  progreso(1);
+  log("");
+  log("── Resultado ──","hd");
+  log(`subidas:              ${ok}`,"ok");
+  if(err) log(`con error:            ${err}`,"er");
+  if(antes) log(`peso:                 ${peso(antes)} → ${peso(despues)}  (${(antes/despues).toFixed(1)}× más ligero)`);
+  if(revisadas) log(`revisiones al día:    ${revisadas}`,"ok");
+  if(cerradas)  log(`revisiones cerradas:  ${cerradas}`,"ok");
+  log("");
+  log("Listo. Mirá la portada: ya deberían salir en el pase de fotos.","hd");
+
+  pintar();
+  $("#checkBtn").disabled=false;
+});
+
+arranque();
+</script>
+</body>
+</html>

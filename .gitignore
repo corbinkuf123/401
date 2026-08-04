@@ -7,6 +7,11 @@
 *.xlsx
 *.xls
 
+# Fotografías: viven en Supabase Storage, no en el repositorio.
+# La carpeta reducida se genera y se sube desde subir-fotos.html
+imagenes pabellon 414/
+fotos-web/
+
 # Dependencias / entorno (por si se agregan más adelante)
 node_modules/
 .env
