@@ -501,10 +501,103 @@ async function loadMantStats(){
   const rev=p.filter(x=>x.estado_pieza==="Requiere atención").length;
   const urg=p.filter(x=>x.estado_pieza==="En restauración").length;
   const el=$("#mantStats"); if(!el) return;
+  /* Los rótulos dicen exactamente el estado que cuentan: antes ponía
+     "Revisar" y "Urgente", que no son valores del campo Estado y hacían
+     pensar que el sistema decidía la urgencia por su cuenta. */
   el.innerHTML=`
     <div class="mstat ok"><div class="n">${ex}</div><div class="l">En buen estado</div></div>
-    <div class="mstat warn"><div class="n">${rev}</div><div class="l">Revisar</div></div>
-    <div class="mstat bad"><div class="n">${urg}</div><div class="l">Urgente</div></div>`;
+    <div class="mstat warn"><div class="n">${rev}</div><div class="l">Requieren atención</div></div>
+    <div class="mstat bad"><div class="n">${urg}</div><div class="l">En restauración</div></div>`;
+}
+
+/* ---------- poner al día las revisiones automáticas ----------
+   Las revisiones que creó la importación son una foto fija de cómo estaba
+   la ficha aquel día: siguen pidiendo cosas que ya se completaron. Esto
+   vuelve a mirar la base y reescribe cada una con lo que falta ahora.
+   Solo toca las que empiezan por "Falta poner:"; las escritas a mano no. */
+
+/* Qué le falta a una pieza, mirando la base y no el inventario original */
+function loQueFalta(p){
+  const falta=[];
+  const vacio = v => v===null || v===undefined || v==="";
+  const caza=p.caza||{}, tax=p.taxidermia||{};
+
+  if(!(p.imagenes||[]).length) falta.push("fotografías");
+  if(vacio(p.historia))        falta.push("historia");
+  if(vacio(p.region))          falta.push("región");
+  if(vacio(caza.fecha))        falta.push("fecha");
+  if(vacio(caza.operador))     falta.push("operador");
+  if(vacio(caza.modalidad))    falta.push("modalidad");
+  if(vacio(caza.distancia))    falta.push("distancia");
+  if(vacio(caza.arma))         falta.push("arma");
+  if(vacio(caza.calibre))      falta.push("calibre");
+  if(vacio(tax.taller))        falta.push("taller de taxidermia");
+  if(vacio(p.documentos))      falta.push("documentos");
+  return falta;
+}
+
+async function ponerAlDiaRevisiones(){
+  if(!confirm("Se van a revisar todas las piezas y reescribir las revisiones automáticas "+
+              "con lo que falta ahora mismo. Las que escribiste a mano no se tocan. ¿Seguimos?")) return;
+
+  const btn=$("#syncMantBtn");
+  btn.disabled=true; const antes=btn.textContent; btn.textContent="Revisando…";
+
+  const { data:piezas, error } = await sb.from("piezas")
+    .select("id,nombre_comun,historia,region,documentos,caza,taxidermia, imagenes(id)");
+  if(error){ toast("No se pudo leer: "+error.message); btn.disabled=false; btn.textContent=antes; return; }
+
+  let alDia=0, nuevas=0, cerradas=0, borradas=0;
+
+  for(const p of piezas||[]){
+    const falta=loQueFalta(p), n=falta.length;
+    const desc = n ? "Falta poner: "+falta.join(", ")+"." : null;
+    const dias = n>=8 ? 15 : n>=4 ? 30 : 45;
+    const f=new Date(); f.setDate(f.getDate()+dias);
+    const tipo = n===1 && falta[0]==="fotografías" ? "Cargar fotografías" : "Completar ficha";
+
+    const { data:autos } = await sb.from("mantenimientos")
+      .select("id,descripcion")
+      .eq("pieza_id",p.id).eq("estado","programado")
+      .like("descripcion","Falta poner:%");
+
+    if(autos && autos.length){
+      if(!n){
+        /* ya no falta nada: se cierra en vez de dejarla colgando */
+        for(const a of autos){
+          await sb.from("mantenimientos").update({
+            estado:"realizado", fecha_realizado:today()
+          }).eq("id",a.id);
+          cerradas++;
+        }
+      }else{
+        const { error:e } = await sb.from("mantenimientos").update({
+          tipo, descripcion:desc, fecha_programada:f.toISOString().slice(0,10)
+        }).eq("id",autos[0].id);
+        if(!e && autos[0].descripcion!==desc) alDia++;
+        for(const a of autos.slice(1)){
+          await sb.from("mantenimientos").delete().eq("id",a.id);
+          borradas++;
+        }
+      }
+    }else if(n){
+      const { error:e } = await sb.from("mantenimientos").insert({
+        pieza_id:p.id, tipo, descripcion:desc,
+        estado:"programado", fecha_programada:f.toISOString().slice(0,10)
+      });
+      if(!e) nuevas++;
+    }
+  }
+
+  btn.disabled=false; btn.textContent=antes;
+  await loadMantStats(); await loadAgenda();
+
+  const partes=[];
+  if(alDia)    partes.push(alDia+" al día");
+  if(cerradas) partes.push(cerradas+" cerradas");
+  if(nuevas)   partes.push(nuevas+" nuevas");
+  if(borradas) partes.push(borradas+" duplicadas fuera");
+  toast(partes.length ? "Revisiones: "+partes.join(", ") : "Ya estaba todo al día");
 }
 
 /* Agenda: todos los mantenimientos pendientes de todas las piezas */
@@ -622,6 +715,7 @@ $("#addMantGlobal").addEventListener("click", ()=>{
   if(!PIEZAS.length && !MANT_PIEZAS.length){ toast("Primero cargá una pieza"); return; }
   openMantModal(null, true);
 });
+$("#syncMantBtn").addEventListener("click", ponerAlDiaRevisiones);
 $("#mantCancel").addEventListener("click", ()=>mantOverlay.classList.remove("show"));
 mantOverlay.addEventListener("click", e=>{ if(e.target===mantOverlay) mantOverlay.classList.remove("show"); });
 $("#mantSave").addEventListener("click", async ()=>{

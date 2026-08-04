@@ -269,6 +269,28 @@
   .mstat.warn .n{color:var(--ambar)}
   .mstat.bad .n{color:var(--rojo)}
 
+  /* leyenda desplegable de la agenda */
+  .leyenda{background:#fff;border:1px solid var(--linea);border-radius:var(--r-lg);
+    padding:0 16px;margin:-8px 0 22px}
+  .leyenda summary{cursor:pointer;padding:14px 0;font-size:12.5px;color:var(--tinta-soft);
+    letter-spacing:.04em;list-style:none}
+  .leyenda summary::-webkit-details-marker{display:none}
+  .leyenda summary::before{content:"›";display:inline-block;margin-right:9px;
+    transition:transform .25s;font-size:15px}
+  .leyenda[open] summary::before{transform:rotate(90deg)}
+  .leyenda[open] summary{border-bottom:1px solid var(--linea);margin-bottom:14px}
+  .leyenda p{font-size:12.5px;line-height:1.75;color:var(--tinta-soft);margin:0 0 12px}
+  .leyenda ul{list-style:none;margin:0 0 14px;padding:0}
+  .leyenda li{font-size:12.5px;line-height:1.7;color:var(--tinta-soft);
+    margin-bottom:8px;padding-left:2px}
+  .leyenda b{color:var(--tinta)}
+  .leyenda .pt{display:inline-block;width:7px;height:7px;border-radius:50%;
+    margin-right:9px;vertical-align:middle}
+  .leyenda .pt.ok{background:var(--verde)}
+  .leyenda .pt.warn{background:var(--ambar)}
+  .leyenda .pt.bad{background:var(--rojo)}
+  .leyenda .pt.oro{background:var(--oro)}
+
   .sec-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 14px}
   .sec-head h3{font-family:var(--serif);font-weight:400;font-size:20px}
   .card{border:1px solid var(--linea);border-radius:var(--r-lg);padding:16px 18px;margin-bottom:11px;background:#fff;
@@ -580,9 +602,35 @@
         <div class="eyebrow">Control y seguimiento de mantenimiento</div>
         <div class="list-head">
           <h2 class="serif">Conservación</h2>
-          <button class="btn" id="addMantGlobal">+ Registrar mantenimiento</button>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn sm" id="syncMantBtn">Poner al día</button>
+            <button class="btn" id="addMantGlobal">+ Registrar mantenimiento</button>
+          </div>
         </div>
         <div class="mstats" id="mantStats"></div>
+
+        <details class="leyenda">
+          <summary>Qué significa cada color</summary>
+          <p><b>Los tres números de arriba</b> son el <b>estado físico</b> de cada pieza: lo elegís
+          vos al editarla, en el campo <i>Estado</i>. No cambian solos.</p>
+          <ul>
+            <li><span class="pt ok"></span><b>En buen estado</b> — piezas en «Excelente» o «Bueno». No hay que hacerles nada.</li>
+            <li><span class="pt warn"></span><b>Requieren atención</b> — le viste algo: polvo incrustado, una costura floja, el pelo apelmazado. Todavía aguanta.</li>
+            <li><span class="pt bad"></span><b>En restauración</b> — está en manos del taxidermista o esperando arreglo. Es lo más grave.</li>
+          </ul>
+          <p><b>Las fichas de abajo</b> se colorean por <b>fecha</b>, no por estado:</p>
+          <ul>
+            <li><span class="pt bad"></span><b>VENCIDO</b> — la fecha ya pasó y sigue sin hacerse.</li>
+            <li><span class="pt warn"></span><b>HOY</b> — toca hoy.</li>
+            <li><span class="pt oro"></span>Sin etiqueta — está programada para más adelante.</li>
+          </ul>
+          <p>Las revisiones que crea el sistema se fechan según lo incompleta que esté la ficha:
+          <b>8 datos o más</b> a 15 días, <b>de 4 a 7</b> a 30 días, <b>de 1 a 3</b> a 45 días.
+          Así la más incompleta vence antes y sube sola al principio de la lista.</p>
+          <p><b>Poner al día</b> vuelve a mirar las 46 fichas y reescribe esas revisiones con lo que
+          falta de verdad ahora mismo. Si ya no falta nada, cierra la revisión. Nunca toca las que
+          escribiste vos a mano.</p>
+        </details>
         <div class="tabbar" id="mantTabs">
           <button data-mt="agenda" class="on">Próximas tareas</button>
           <button data-mt="piezas">Por pieza</button>
