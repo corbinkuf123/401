@@ -70,9 +70,10 @@ body{
 .h-md{font-family:var(--serif);font-weight:400;font-size:27px;line-height:1.18;color:var(--marfil)}
 .body{font-family:var(--sans);font-weight:300;font-size:14.5px;line-height:2;color:var(--gris)}
 
-/* ═══ MARCA · ASTA DE CIERVO ═══ */
-.antler{display:block;color:var(--oro)}
-.antler path{vector-effect:non-scaling-stroke}
+/* ═══ MARCA ═══ */
+/* Hexágono con la montaña y el agua, el mismo del panel.
+   Sin fondo: solo trazo, en champán. */
+.marca{display:block;color:var(--oro)}
 
 /* ═══ FOTOGRAFÍA ═══ */
 /* La foto es siempre el elemento principal: sangra casi de borde a
@@ -103,7 +104,7 @@ body{
 
 /* — identidad — */
 .ident{padding:48px var(--aire) 0;text-align:center}
-.ident .antler{width:54px;height:54px;margin:0 auto 26px}
+.ident .marca{width:54px;height:54px;margin:0 auto 26px}
 .ident .h-xl{margin-bottom:14px}
 .ident .rule{width:26px;height:1px;background:var(--oro);margin:26px auto 0;opacity:.5}
 .ident .sub{font-family:var(--serif);font-style:italic;font-weight:300;font-size:19px;
@@ -168,7 +169,7 @@ body{
 
 /* — cita editorial — */
 .quote{padding:76px var(--aire) 70px;text-align:center}
-.quote .antler{width:26px;height:26px;margin:0 auto 26px;opacity:.55}
+.quote .marca{width:30px;height:30px;margin:0 auto 26px;opacity:.6}
 .quote p{font-family:var(--serif);font-style:italic;font-weight:300;font-size:25px;
   line-height:1.52;color:var(--marfil)}
 .quote .by{font-family:var(--sans);font-weight:500;font-size:8.5px;letter-spacing:.3em;
@@ -410,17 +411,14 @@ body{
 
     <!-- identidad -->
     <div class="ident">
-      <svg class="antler" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-        <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M50 94 C50 80 46 71 40 63 C34 55 30.5 45 30.5 33"/>
-          <path d="M40 63 C32 61 26 56 22 48"/>
-          <path d="M34.5 52 C27 51 21 46 17.5 39"/>
-          <path d="M31 41 C24.5 39 19.5 34 16.5 27"/>
-          <path d="M50 94 C50 80 54 71 60 63 C66 55 69.5 45 69.5 33"/>
-          <path d="M60 63 C68 61 74 56 78 48"/>
-          <path d="M65.5 52 C73 51 79 46 82.5 39"/>
-          <path d="M69 41 C75.5 39 80.5 34 83.5 27"/>
+      <svg class="marca" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <defs><clipPath id="hexI"><path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z"/></clipPath></defs>
+        <g clip-path="url(#hexI)" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 72 L45 30 L65 53 L73 44.5 L98 68"/>
+          <path d="M0 75 C 20 65, 40 85, 60 77 S 88 67, 100 73"/>
+          <path d="M0 85 C 24 75, 44 93, 66 85 S 92 79, 100 83"/>
         </g>
+        <path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
       </svg>
       <h1 class="h-xl">Pabellón<br>414</h1>
       <div class="rule"></div>
@@ -460,15 +458,14 @@ body{
 
     <!-- cita -->
     <section class="quote">
-      <svg class="antler" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-        <g stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M50 94 C50 80 46 71 40 63 C34 55 30.5 45 30.5 33"/>
-          <path d="M40 63 C32 61 26 56 22 48"/>
-          <path d="M34.5 52 C27 51 21 46 17.5 39"/>
-          <path d="M50 94 C50 80 54 71 60 63 C66 55 69.5 45 69.5 33"/>
-          <path d="M60 63 C68 61 74 56 78 48"/>
-          <path d="M65.5 52 C73 51 79 46 82.5 39"/>
+      <svg class="marca" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <defs><clipPath id="hexQ"><path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z"/></clipPath></defs>
+        <g clip-path="url(#hexQ)" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 72 L45 30 L65 53 L73 44.5 L98 68"/>
+          <path d="M0 75 C 20 65, 40 85, 60 77 S 88 67, 100 73"/>
+          <path d="M0 85 C 24 75, 44 93, 66 85 S 92 79, 100 83"/>
         </g>
+        <path d="M50 5 L88.6 27.5 L88.6 72.5 L50 95 L11.4 72.5 L11.4 27.5 Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
       </svg>
       <p>El animal no representa muerte. Representa todo lo que fue necesario cuidar para que estuviera ahí.</p>
       <div class="by">Pabellón 414</div>

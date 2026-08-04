@@ -219,6 +219,15 @@ async function openEditor(id){
 }
 window.openEditor = openEditor;
 
+/* Abrir el editor desde cualquier sitio (por ejemplo, desde la agenda de
+   conservación). openEditor busca la pieza dentro de PIEZAS, así que si
+   se entró directo a Conservación hay que cargar la lista antes. */
+async function editarPieza(id){
+  if(!PIEZAS.length) await loadList();
+  await openEditor(id);
+}
+window.editarPieza = editarPieza;
+
 function readForm(){
   const anio = $("#f_anio").value.trim();
   const obj = {
@@ -460,11 +469,16 @@ function renderMantList(){
         <div class="mant-next ${due?"due":""}">${due?"⚠ Vencido · ":""}${txt}</div>
       </div>
       <span class="pill ${estadoClass(p.estado_pieza||"Bueno")}">${p.estado_pieza||"Bueno"}</span>
+      <button class="row-edit" title="Editar pieza" aria-label="Editar ${p.nombre_comun||""}"
+        onclick="event.stopPropagation();editarPieza('${p.id}')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14.5 5.5l4 4"/></svg>
+      </button>
     </div>`;
   }).join("");
 }
 $("#mantSearch").addEventListener("input", renderMantList);
 $("#mantBackBtn").addEventListener("click", ()=>{ showSection("mantListView"); enterMant(); });
+$("#mantEditBtn").addEventListener("click", ()=>{ if(mSelId) editarPieza(mSelId); });
 
 /* sub-tabs de Mantenimiento: Agenda / Por pieza */
 $$("#mantTabs button").forEach(b=>b.addEventListener("click",()=>{
@@ -527,7 +541,8 @@ function renderAgenda(items){
       <div class="c-foot">
         ${m.responsable?`<span class="c-date">👤 ${m.responsable}</span>`:""}
         <button class="link" onclick="markDone('${m.id}')">Marcar realizado</button>
-        <button class="link" onclick="openMantDetail('${pz.id}')">Ver pieza ↗</button>
+        <button class="link" onclick="editarPieza('${pz.id}')">Editar pieza ↗</button>
+        <button class="link" onclick="openMantDetail('${pz.id}')">Ver conservación</button>
       </div>
     </div>`;
   }).join("");

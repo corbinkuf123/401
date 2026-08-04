@@ -173,6 +173,12 @@
     cursor:pointer;background:#fff;transition:background .22s var(--ease);animation:rise .45s var(--ease) both}
   .row:last-child{border-bottom:none}
   .row:hover{background:var(--crema)}
+  /* atajo para editar la pieza sin salir de conservación */
+  .row-edit{flex:0 0 auto;width:34px;height:34px;border:1px solid var(--linea);border-radius:9px;
+    background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;
+    color:var(--tinta-suave);transition:border-color .22s var(--ease),color .22s var(--ease)}
+  .row-edit svg{width:16px;height:16px}
+  .row-edit:hover{border-color:var(--bronce);color:var(--bronce)}
   .rows .row:nth-child(1){animation-delay:.02s}.rows .row:nth-child(2){animation-delay:.06s}
   .rows .row:nth-child(3){animation-delay:.10s}.rows .row:nth-child(4){animation-delay:.14s}
   .rows .row:nth-child(5){animation-delay:.18s}.rows .row:nth-child(6){animation-delay:.22s}
@@ -199,7 +205,7 @@
     font-size:16px;background:#fff;border:1px solid var(--linea);border-radius:var(--r-lg);animation:fadeIn .4s var(--ease) both}
 
   /* ---------- editor ---------- */
-  .ed-top{margin-bottom:8px}
+  .ed-top{margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px}
   .back{display:inline-flex;align-items:center;gap:7px;color:var(--tinta-soft);background:none;border:none;
     font-size:12.5px;font-weight:600;padding:6px 0;transition:color .2s,transform .2s var(--ease)}
   .back:hover{color:var(--oro);transform:translateX(-3px)}
@@ -593,7 +599,10 @@
 
       <!-- ===== CONSERVACIÓN · detalle ===== -->
       <section id="mantDetailView" class="hide">
-        <div class="ed-top"><button class="back" id="mantBackBtn">‹ Volver</button></div>
+        <div class="ed-top">
+          <button class="back" id="mantBackBtn">‹ Volver</button>
+          <button class="btn sm" id="mantEditBtn">Editar pieza ↗</button>
+        </div>
         <div class="ed-title serif" id="mantTitle"></div>
         <div class="ed-sub" id="mantSub"></div>
 
