@@ -110,7 +110,7 @@ a{color:var(--oro)}
 
     <div class="scroll-box">
       <table>
-        <thead><tr><th>Pieza</th><th>Sala</th><th>Origen</th><th>Historia</th><th>Estado</th></tr></thead>
+        <thead><tr><th>Pieza</th><th>Sala</th><th>Origen</th><th>Historia</th><th>Falta</th><th>Estado</th></tr></thead>
         <tbody id="rows"></tbody>
       </table>
     </div>
@@ -171,31 +171,43 @@ function pintarResumen(){
   const v=PIEZAS.filter(p=>p.clase==="verde");
   const a=PIEZAS.filter(p=>p.clase==="azul");
   const r=PIEZAS.filter(p=>p.clase==="rojo");
-  const conH=PIEZAS.filter(p=>p.historia && p.clase!=="rojo").length;
-  const aImportar=v.length+a.length;
+  const imp=PIEZAS.filter(p=>p.clase!=="rojo");
+  const conH=imp.filter(p=>p.historia).length;
+  const conBio=imp.filter(p=>p.bio && Object.keys(p.bio).length>=6).length;
+  const aImportar=imp.length;
+  const tareas=imp.filter(p=>p.faltan && p.faltan.length).length;
 
   $("#stats").innerHTML=`
     <div class="v"><span class="n">${v.length}</span><span class="l">Slide propio</span></div>
     <div class="a"><span class="n">${a.length}</span><span class="l">Comparten</span></div>
     <div class="r"><span class="n">${r.length}</span><span class="l">No van</span></div>
+    <div><span class="n">${conBio}</span><span class="l">Con biología</span></div>
     <div><span class="n">${conH}</span><span class="l">Con historia</span></div>
-    <div><span class="n">${aImportar-conH}</span><span class="l">Falta poner</span></div>`;
+    <div><span class="n">${tareas}</span><span class="l">Revisiones</span></div>`;
 
   $("#warn").innerHTML=
-    `Se van a crear <b style="color:var(--marfil)">${aImportar} piezas</b>. `+
-    `Las ${r.length} marcadas en rojo se omiten por completo. `+
-    `A cada pieza con datos incompletos se le programa una revisión con la lista exacta de lo que falta.`;
+    `Se van a crear <b style="color:var(--marfil)">${aImportar} piezas</b>, `+
+    `todas con nombre científico, categoría y ficha biológica completa. `+
+    `Las ${r.length} marcadas en rojo se omiten. `+
+    `Se programan <b style="color:var(--marfil)">${tareas} revisiones</b>: las fichas más incompletas `+
+    `aparecen antes en la agenda, así el orden de la lista es el orden en que conviene trabajarlas.`;
 
   $("#rows").innerHTML=PIEZAS.map(p=>{
     const t = p.clase==="verde" ? '<span class="tag v">Slide propio</span>'
             : p.clase==="azul"  ? '<span class="tag a">Comparte</span>'
             :                     '<span class="tag r">No va</span>';
-    const h = p.historia ? '<span class="tag f">Sí</span>' : '<span class="tag f">Falta poner</span>';
+    const h = p.clase==="rojo" ? '<span class="tag f">—</span>'
+            : p.historia      ? '<span class="tag v">Sí</span>'
+            :                   '<span class="tag f">Falta poner</span>';
+    const n = p.faltan ? p.faltan.length : 0;
+    const pend = p.clase==="rojo" ? '<span class="tag f">—</span>'
+               : `<span class="tag f">${n} pendiente${n===1?"":"s"}</span>`;
     return `<tr style="${p.clase==="rojo"?"opacity:.42":""}">
-      <td class="nm">${p.nombre_comun}</td>
+      <td class="nm">${p.nombre_comun}
+        ${p.nombre_cientifico?`<div style="font-size:12px;color:var(--gris);font-style:italic;margin-top:3px">${p.nombre_cientifico}</div>`:""}</td>
       <td style="color:var(--gris)">${(p.sala||"").replace("Sector ","S")}</td>
       <td style="color:var(--gris)">${p.pais||"—"}</td>
-      <td>${h}</td><td>${t}</td></tr>`;
+      <td>${h}</td><td>${pend}</td><td>${t}</td></tr>`;
   }).join("");
 }
 
@@ -246,12 +258,21 @@ $("#runBtn").addEventListener("click", async ()=>{
     ok++;
     log(`✓ ${p.nombre_comun}`,"ok");
 
-    /* revisión programada para lo que falte */
+    /* Revisión programada con lo que realmente falta.
+       Cuanto más incompleta esté la ficha, antes aparece en la agenda,
+       para que el orden de la lista sea el orden en que conviene trabajarla. */
     if(p.faltan && p.faltan.length){
-      const f=new Date(); f.setDate(f.getDate()+30);
+      const n=p.faltan.length;
+      const dias = n>=8 ? 15 : n>=4 ? 30 : 45;
+      const f=new Date(); f.setDate(f.getDate()+dias);
+
+      const tipo = p.faltan.includes("confirmar nombre científico") ? "Verificar identificación"
+                 : n===1                                           ? "Cargar fotografías"
+                 :                                                   "Completar ficha";
+
       const { error:em }=await sb.from("mantenimientos").insert({
         pieza_id:p.id,
-        tipo:"Completar ficha",
+        tipo,
         descripcion:"Falta poner: "+p.faltan.join(", ")+".",
         estado:"programado",
         fecha_programada:f.toISOString().slice(0,10)
