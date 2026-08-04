@@ -328,10 +328,44 @@ const drop=$("#drop");
 ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("over");}));
 drop.addEventListener("drop", e=>uploadFiles(e.dataTransfer.files));
 
+/* ── Compresión antes de subir ─────────────────────────────────
+   Una foto de celular pesa 3-5 MB. El plan gratuito de Supabase
+   da 1 GB de almacenamiento y 5 GB de tráfico al mes.
+   Reducirlas a 1600px de lado y recomprimirlas las deja en unos
+   250 KB, sin diferencia visible en pantalla: ~16x más margen.
+   Si algo falla, se sube el original y no se pierde nada.      */
+const MAX_LADO = 1600;   // px del lado más largo
+const CALIDAD  = 0.82;   // calidad JPEG
+
+async function comprimir(file){
+  if(!file.type.startsWith("image/")) return file;
+  try{
+    // createImageBitmap respeta la orientación EXIF del celular:
+    // sin esto, las fotos verticales se suben acostadas.
+    const bmp = await createImageBitmap(file, { imageOrientation:"from-image" });
+    const escala = Math.min(1, MAX_LADO / Math.max(bmp.width, bmp.height));
+    const w = Math.round(bmp.width * escala), h = Math.round(bmp.height * escala);
+
+    const cv = document.createElement("canvas");
+    cv.width = w; cv.height = h;
+    cv.getContext("2d").drawImage(bmp, 0, 0, w, h);
+    bmp.close?.();
+
+    const blob = await new Promise(r => cv.toBlob(r, "image/jpeg", CALIDAD));
+    if(!blob || blob.size >= file.size) return file;   // si no mejora, dejamos el original
+    return new File([blob], file.name.replace(/\.[^.]+$/,"")+".jpg", { type:"image/jpeg" });
+  }catch(e){
+    console.warn("No se pudo comprimir, se sube el original:", e);
+    return file;
+  }
+}
+
 async function uploadOne(file, orden){
-  const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";
+  const f = await comprimir(file);
+  const ext=(f.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";
   const path=`${currentId}/${Date.now()}-${rand(4)}.${ext}`;
-  const up=await sb.storage.from("piezas").upload(path,file,{cacheControl:"3600",upsert:false});
+  // nombres únicos ⇒ la foto nunca cambia ⇒ se puede cachear un año
+  const up=await sb.storage.from("piezas").upload(path,f,{cacheControl:"31536000",upsert:false});
   if(up.error) throw up.error;
   const url=sb.storage.from("piezas").getPublicUrl(path).data.publicUrl;
   const ins=await sb.from("imagenes").insert({pieza_id:currentId,storage_path:path,url,orden});
