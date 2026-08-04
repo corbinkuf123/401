@@ -1331,8 +1331,8 @@ const PIEZAS = [
    "clase": "Mamífero",
    "orden": "Artiodáctilos",
    "familia": "Cérvidos",
-   "distribucion": "Andes de Perú y Ecuador",
-   "habitat": "Pastizal de altura, matorral andino y bosque seco",
+   "distribucion": "Sierra de Perú y Ecuador, entre los 1.500 y los 4.000 m",
+   "habitat": "Pastizal de altura, matorral andino y bosque seco de ladera",
    "estado": "Preocupación menor"
   },
   "caza": {
@@ -1351,7 +1351,6 @@ const PIEZAS = [
   "historia": "Para cazar en los Andes uno debe aprender a escuchar lo que la montaña tiene para decir.\nEl venado andino es un sabio disfrazado de sombra. Su astucia no está en la huida, sino en el entendimiento profundo del territorio. Cada encuentro con él es una lección de humildad: sobre el tiempo, la paciencia y la mirada que sabe distinguir entre el impulso y el respeto.\nHe caminado esas sierras desde joven, entre amaneceres que parecen eternos y ocasos que queman el alma. He conocido el Perú y su profundidad, ese que vive en los gestos de los pastores, en los rituales del agua y en la cosmovisión que entiende que todo ser tiene su lugar y su propósito.\nCazar allí es agradecer. Agradecer por las montañas que cobijan, por las lagunas que reflejan el cielo, por los animales que enseñan el equilibrio entre la vida y la muerte. Cada trofeo no es una conquista, sino un fruto que la montaña concede a quien la respeta.\nY así, entre el frío, el silencio y la gratitud, he comprendido que el verdadero honor no está en el disparo, sino en el permiso que la naturaleza otorga para ser parte de su historia.",
   "orden_display": 33,
   "faltan": [
-   "confirmar nombre científico",
    "fotografías"
   ]
  },
@@ -1414,8 +1413,8 @@ const PIEZAS = [
    "clase": "Mamífero",
    "orden": "Artiodáctilos",
    "familia": "Cérvidos",
-   "distribucion": "Eurasia; introducido en la Patagonia argentina",
-   "habitat": "Bosque templado y pastizal de altura",
+   "distribucion": "Eurasia; introducido en la Patagonia argentina a comienzos del siglo XX",
+   "habitat": "Bosque templado, pastizal de altura y monte",
    "estado": "Preocupación menor"
   },
   "caza": {},
@@ -1425,7 +1424,6 @@ const PIEZAS = [
   "orden_display": 35,
   "faltan": [
    "historia",
-   "confirmar nombre científico",
    "región",
    "fecha",
    "operador",
@@ -1580,7 +1578,7 @@ const PIEZAS = [
    "clase": "Mamífero",
    "orden": "Perisodáctilos",
    "familia": "Rinocerótidos",
-   "distribucion": "Sur y este de África",
+   "distribucion": "Sur y este de África; el grueso de la población en Sudáfrica",
    "habitat": "Sabana herbácea abierta con charcas y zonas de revolcadero",
    "estado": "Casi amenazado"
   },
@@ -1600,7 +1598,6 @@ const PIEZAS = [
   "historia": "Quienes vivimos la vida salvaje desde dentro sabemos que no se trata de destruir, sino de proteger, entender y aportar. La “green hunt” con dardo es una de esas formas en las que la caza se convierte en servicio: permite intervenir médicamente a animales que lo necesitan.\nEn Mopane fuimos tras un rinoceronte blanco enorme, un macho que tenía una herida seria en una de sus patas traseras, causada por alambres. Para poder ayudarlo, había que acercarse a menos de cuarenta metros y acertar el dardo en el punto exacto. Cada paso hacia él hacía evidente su tamaño, su fuerza y la responsabilidad del momento.\nEl disparo fue limpio. Al “cazarlo”, los veterinarios entraron en acción: retiraron los alambres, limpiaron la herida y le dieron la oportunidad de seguir viviendo sin dolor. Esa es la verdadera recompensa de una caza verde.\nLo que cuelga en la pared no es solo un trofeo, sino una réplica sintética que respeta las medidas de aquel animal majestuoso. Un recordatorio de que, la caza salva más de lo que quita.",
   "orden_display": 38,
   "faltan": [
-   "confirmar nombre científico",
    "fotografías"
   ]
  },
@@ -1721,7 +1718,7 @@ const PIEZAS = [
   "id": "gacela-anatolia",
   "codigo": "P414-041",
   "nombre_comun": "Gacela Anatolia",
-  "nombre_cientifico": "Gazella gazella",
+  "nombre_cientifico": "Gazella subgutturosa",
   "especie": "Gacela",
   "continente": "Asia",
   "pais": "Siria",
@@ -1734,9 +1731,9 @@ const PIEZAS = [
    "clase": "Mamífero",
    "orden": "Artiodáctilos",
    "familia": "Bóvidos",
-   "distribucion": "Levante mediterráneo y sur de Anatolia",
-   "habitat": "Ladera pedregosa, semidesierto y matorral abierto",
-   "estado": "En peligro"
+   "distribucion": "Estepas del sureste de Anatolia, Siria, Irán y Asia central",
+   "habitat": "Estepa semidesértica, llanura de grava y matorral abierto",
+   "estado": "Vulnerable"
   },
   "caza": {},
   "taxidermia": {},
@@ -1745,7 +1742,6 @@ const PIEZAS = [
   "orden_display": 41,
   "faltan": [
    "historia",
-   "confirmar nombre científico",
    "región",
    "fecha",
    "operador",
