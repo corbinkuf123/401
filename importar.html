@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Importar inventario · Pabellón 414</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --base:#111111;--base-2:#181818;--card:#202020;
+  --oro:#B89A63;--bronce:#8C6A43;--marfil:#F2EFE8;--gris:#9A948D;
+  --linea:rgba(154,148,141,.16);--linea-fina:rgba(154,148,141,.10);
+  --verde:#8FA37B;--azul:#7B93A3;--rojo:#B08268;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--base);color:var(--marfil);font-family:var(--sans);font-weight:300;
+  min-height:100vh;-webkit-font-smoothing:antialiased;padding:40px 20px 80px}
+.wrap{max-width:960px;margin:0 auto}
+h1{font-family:var(--serif);font-weight:300;font-size:46px;line-height:1;margin-bottom:10px}
+.eyebrow{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--oro);
+  font-weight:500;display:block;margin-bottom:14px}
+.sub{color:var(--gris);font-size:14px;line-height:1.8;max-width:620px}
+
+.panel{background:var(--base-2);border:1px solid var(--linea);border-radius:16px;
+  padding:26px;margin-top:28px}
+.panel h2{font-family:var(--serif);font-weight:400;font-size:24px;margin-bottom:6px}
+.panel .ph{color:var(--gris);font-size:13px;line-height:1.7;margin-bottom:20px}
+
+label{display:block;font-size:9px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gris);font-weight:500;margin-bottom:8px}
+input{width:100%;padding:14px 16px;background:var(--card);border:1px solid var(--linea);
+  border-radius:10px;color:var(--marfil);font-family:var(--sans);font-size:15px;margin-bottom:16px}
+input:focus{outline:none;border-color:var(--oro)}
+
+button{font-family:var(--sans);font-weight:500;font-size:10px;letter-spacing:.24em;
+  text-transform:uppercase;padding:16px 26px;border-radius:11px;cursor:pointer;
+  background:var(--card);border:1px solid rgba(184,154,99,.34);color:var(--oro);
+  transition:background .35s,border-color .35s,color .35s}
+button:hover:not(:disabled){background:#2a2a2a;border-color:var(--oro);color:var(--marfil)}
+button:disabled{opacity:.4;cursor:not-allowed}
+button.go{background:var(--oro);color:#1a1408;border-color:var(--oro)}
+button.go:hover:not(:disabled){background:#c9ac74;color:#1a1408}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;
+  background:var(--linea-fina);border-radius:12px;overflow:hidden;margin-bottom:22px}
+.stats div{background:var(--card);padding:18px 14px;text-align:center}
+.stats .n{font-family:var(--serif);font-size:32px;line-height:1;display:block}
+.stats .l{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gris);
+  display:block;margin-top:9px}
+.stats .v .n{color:var(--verde)}.stats .a .n{color:var(--azul)}.stats .r .n{color:var(--rojo)}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gris);font-weight:500;padding:12px 10px;border-bottom:1px solid var(--linea)}
+td{padding:12px 10px;border-bottom:1px solid var(--linea-fina);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.nm{font-family:var(--serif);font-size:17px}
+.tag{display:inline-block;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;
+  padding:4px 9px;border-radius:5px;font-weight:500}
+.tag.v{background:rgba(143,163,123,.15);color:var(--verde)}
+.tag.a{background:rgba(123,147,163,.15);color:var(--azul)}
+.tag.r{background:rgba(176,130,104,.15);color:var(--rojo)}
+.tag.f{background:rgba(154,148,141,.12);color:var(--gris)}
+.scroll-box{max-height:460px;overflow-y:auto;border:1px solid var(--linea-fina);border-radius:12px}
+
+.log{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.9;
+  background:#0d0d0d;border:1px solid var(--linea-fina);border-radius:12px;padding:20px;
+  max-height:320px;overflow-y:auto;margin-top:18px;white-space:pre-wrap;color:var(--gris)}
+.log .ok{color:var(--verde)}.log .er{color:var(--rojo)}.log .hd{color:var(--oro)}
+.hide{display:none}
+.bar{height:3px;background:var(--card);border-radius:3px;overflow:hidden;margin-top:18px}
+.bar i{display:block;height:100%;background:var(--oro);width:0;transition:width .3s}
+.warn{border-left:2px solid var(--oro);padding:14px 18px;background:rgba(184,154,99,.06);
+  border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;color:var(--gris);margin-bottom:20px}
+a{color:var(--oro)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="eyebrow">Pabellón 414 · Herramienta interna</span>
+  <h1>Importar inventario</h1>
+  <p class="sub">Carga las piezas del inventario en la base de datos y programa una revisión
+  para cada una a la que le falten datos. Las fotografías se suben después, desde el panel.</p>
+
+  <!-- ── acceso ── -->
+  <div class="panel" id="loginPanel">
+    <h2>Acceso</h2>
+    <p class="ph">La importación escribe en la base, así que hace falta iniciar sesión con la cuenta de administrador.</p>
+    <label for="em">Correo</label>
+    <input id="em" type="email" autocomplete="username">
+    <label for="pw">Contraseña</label>
+    <input id="pw" type="password" autocomplete="current-password">
+    <button id="loginBtn">Entrar</button>
+    <p class="ph" id="loginMsg" style="margin:14px 0 0"></p>
+  </div>
+
+  <!-- ── importación ── -->
+  <div class="panel hide" id="mainPanel">
+    <h2>Resumen de la importación</h2>
+    <p class="ph" id="who"></p>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="warn" id="warn"></div>
+
+    <div class="scroll-box">
+      <table>
+        <thead><tr><th>Pieza</th><th>Sala</th><th>Origen</th><th>Historia</th><th>Estado</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap">
+      <button class="go" id="runBtn">Importar ahora</button>
+      <button id="checkBtn">Ver qué hay en la base</button>
+    </div>
+    <div class="bar hide" id="bar"><i></i></div>
+    <div class="log hide" id="log"></div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="datos-importar.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const LOG = $("#log");
+
+function log(msg,cls){
+  LOG.classList.remove("hide");
+  const s=document.createElement("span");
+  if(cls) s.className=cls;
+  s.textContent=msg+"\n";
+  LOG.appendChild(s); LOG.scrollTop=LOG.scrollHeight;
+}
+function progreso(p){
+  const b=$("#bar"); b.classList.remove("hide");
+  b.querySelector("i").style.width=(p*100).toFixed(1)+"%";
+}
+
+/* ---------- acceso ---------- */
+async function entrar(){
+  const email=$("#em").value.trim(), password=$("#pw").value;
+  if(!email||!password){ $("#loginMsg").textContent="Faltan el correo o la contraseña."; return; }
+  $("#loginBtn").disabled=true; $("#loginMsg").textContent="Comprobando…";
+  const { error }=await sb.auth.signInWithPassword({ email, password });
+  $("#loginBtn").disabled=false;
+  if(error){ $("#loginMsg").textContent="No se pudo entrar: "+error.message; return; }
+  arranque();
+}
+$("#loginBtn").addEventListener("click",entrar);
+$("#pw").addEventListener("keydown",e=>{ if(e.key==="Enter") entrar(); });
+
+/* ---------- pantalla principal ---------- */
+async function arranque(){
+  const { data:{ session } }=await sb.auth.getSession();
+  if(!session) return;
+  $("#loginPanel").classList.add("hide");
+  $("#mainPanel").classList.remove("hide");
+  $("#who").textContent="Sesión iniciada como "+session.user.email+".";
+  pintarResumen();
+}
+
+function pintarResumen(){
+  const v=PIEZAS.filter(p=>p.clase==="verde");
+  const a=PIEZAS.filter(p=>p.clase==="azul");
+  const r=PIEZAS.filter(p=>p.clase==="rojo");
+  const conH=PIEZAS.filter(p=>p.historia && p.clase!=="rojo").length;
+  const aImportar=v.length+a.length;
+
+  $("#stats").innerHTML=`
+    <div class="v"><span class="n">${v.length}</span><span class="l">Slide propio</span></div>
+    <div class="a"><span class="n">${a.length}</span><span class="l">Comparten</span></div>
+    <div class="r"><span class="n">${r.length}</span><span class="l">No van</span></div>
+    <div><span class="n">${conH}</span><span class="l">Con historia</span></div>
+    <div><span class="n">${aImportar-conH}</span><span class="l">Falta poner</span></div>`;
+
+  $("#warn").innerHTML=
+    `Se van a crear <b style="color:var(--marfil)">${aImportar} piezas</b>. `+
+    `Las ${r.length} marcadas en rojo se omiten por completo. `+
+    `A cada pieza con datos incompletos se le programa una revisión con la lista exacta de lo que falta.`;
+
+  $("#rows").innerHTML=PIEZAS.map(p=>{
+    const t = p.clase==="verde" ? '<span class="tag v">Slide propio</span>'
+            : p.clase==="azul"  ? '<span class="tag a">Comparte</span>'
+            :                     '<span class="tag r">No va</span>';
+    const h = p.historia ? '<span class="tag f">Sí</span>' : '<span class="tag f">Falta poner</span>';
+    return `<tr style="${p.clase==="rojo"?"opacity:.42":""}">
+      <td class="nm">${p.nombre_comun}</td>
+      <td style="color:var(--gris)">${(p.sala||"").replace("Sector ","S")}</td>
+      <td style="color:var(--gris)">${p.pais||"—"}</td>
+      <td>${h}</td><td>${t}</td></tr>`;
+  }).join("");
+}
+
+/* ---------- comprobar estado de la base ---------- */
+$("#checkBtn").addEventListener("click", async ()=>{
+  log("── Estado actual de la base ──","hd");
+  const { count:cp }=await sb.from("piezas").select("*",{count:"exact",head:true});
+  const { count:cm }=await sb.from("mantenimientos").select("*",{count:"exact",head:true});
+  const { count:ci }=await sb.from("imagenes").select("*",{count:"exact",head:true});
+  log(`piezas:         ${cp ?? 0}`);
+  log(`mantenimientos: ${cm ?? 0}`);
+  log(`imágenes:       ${ci ?? 0}`);
+});
+
+/* ---------- importar ---------- */
+$("#runBtn").addEventListener("click", async ()=>{
+  const lista=PIEZAS.filter(p=>p.clase!=="rojo");
+  if(!confirm(`Se van a crear ${lista.length} piezas en la base. ¿Continuar?`)) return;
+
+  $("#runBtn").disabled=true; $("#checkBtn").disabled=true;
+  LOG.innerHTML=""; log("── Importando ──","hd");
+
+  let ok=0, dup=0, err=0, mant=0;
+
+  for(let i=0;i<lista.length;i++){
+    const p=lista[i];
+    progreso((i+1)/lista.length);
+
+    const fila={
+      id:p.id, codigo:p.codigo, nombre_comun:p.nombre_comun,
+      nombre_cientifico:p.nombre_cientifico || null,
+      especie:p.especie || null, continente:p.continente || null, pais:p.pais || null,
+      anio:p.anio || null, region:p.region || null, sala:p.sala || null,
+      ubicacion_actual:p.ubicacion_actual || null,
+      estado_pieza:p.estado_pieza || "Bueno",
+      bio:p.bio || {}, caza:p.caza || {}, taxidermia:p.taxidermia || {},
+      documentos:p.documentos || null,
+      historia:p.historia || null,
+      orden_display:p.orden_display || 0
+    };
+
+    const { error }=await sb.from("piezas").insert(fila);
+    if(error){
+      if(error.code==="23505"){ dup++; log(`= ya existía: ${p.nombre_comun}`); }
+      else { err++; log(`✗ ${p.nombre_comun}: ${error.message}`,"er"); }
+      continue;
+    }
+    ok++;
+    log(`✓ ${p.nombre_comun}`,"ok");
+
+    /* revisión programada para lo que falte */
+    if(p.faltan && p.faltan.length){
+      const f=new Date(); f.setDate(f.getDate()+30);
+      const { error:em }=await sb.from("mantenimientos").insert({
+        pieza_id:p.id,
+        tipo:"Completar ficha",
+        descripcion:"Falta poner: "+p.faltan.join(", ")+".",
+        estado:"programado",
+        fecha_programada:f.toISOString().slice(0,10)
+      });
+      if(!em){ mant++; }
+      else log(`  ! no se pudo programar la revisión: ${em.message}`,"er");
+    }
+  }
+
+  progreso(1);
+  log("");
+  log("── Resultado ──","hd");
+  log(`creadas:             ${ok}`,"ok");
+  if(dup) log(`ya existían:         ${dup}`);
+  if(err) log(`con error:           ${err}`,"er");
+  log(`revisiones programadas: ${mant}`,"ok");
+  log("");
+  log("Listo. Las fotos se suben desde el panel de administración.","hd");
+
+  $("#runBtn").disabled=false; $("#checkBtn").disabled=false;
+});
+
+/* si ya había sesión abierta, saltar el acceso */
+arranque();
+</script>
+</body>
+</html>

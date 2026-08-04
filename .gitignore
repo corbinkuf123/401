@@ -4,6 +4,8 @@
 
 # Archivos de trabajo / inventarios locales
 *.csv
+*.xlsx
+*.xls
 
 # Dependencias / entorno (por si se agregan más adelante)
 node_modules/
