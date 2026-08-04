@@ -56,11 +56,18 @@ const FOTOS = {
    de la web. Se muestran en la herramienta para que se decida qué
    hacer con ellas, pero no se suben. */
 const SOBRAN = [
-  { f:"asia2.jpg",       por:"Carnero anatolio: no hay ninguna pieza suya en el inventario" },
-  { f:"P1010722.jpg",    por:"Carnero de Nueva Zelanda: su pieza (Escudo Carnero) está en rojo" },
-  { f:"P1010733.jpg",    por:"Carnero de Nueva Zelanda: su pieza (Escudo Carnero) está en rojo" },
-  { f:"P1010652.jpg",    por:"Antílope de bosque del viaje a Camerún: no es el bongo" },
-  { f:"P1010671.jpg",    por:"Antílope de bosque del viaje a Camerún: no es el bongo" },
-  { f:"P1010690.jpg",    por:"Jabalí de bosque del viaje a Camerún: no es el bongo" },
-  { f:"P1010696-2.jpg",  por:"Sitatunga del viaje a Camerún: no es el bongo" }
+  { f:"asia2.jpg",      especie:"Carnero anatolio · Turquía",
+    por:"Del mismo viaje que el Ibex Bezoar y el Jabalí, pero su cabeza no figura en el inventario" },
+  { f:"P1010722.jpg",   especie:"Carnero de Arapawa · Nueva Zelanda",
+    por:"Su pieza en el inventario es «Escudo Carnero», marcada en rojo (no va en la web)" },
+  { f:"P1010733.jpg",   especie:"Carnero de Arapawa · Nueva Zelanda",
+    por:"Su pieza en el inventario es «Escudo Carnero», marcada en rojo (no va en la web)" },
+  { f:"P1010652.jpg",   especie:"Duiker de bosque · Camerún",
+    por:"Del viaje del Bongo, pero es otra especie y no hay pieza suya" },
+  { f:"P1010671.jpg",   especie:"Duiker de bosque · Camerún",
+    por:"Del viaje del Bongo, pero es otra especie y no hay pieza suya" },
+  { f:"P1010690.jpg",   especie:"Potamóquero (jabalí de río) · Camerún",
+    por:"Del viaje del Bongo, pero es otra especie y no hay pieza suya" },
+  { f:"P1010696-2.jpg", especie:"Sitatunga · Camerún",
+    por:"Del viaje del Bongo, pero es otra especie y no hay pieza suya" }
 ];

@@ -280,9 +280,10 @@ function pintar(){
 
   /* las que no corresponden a ninguna pieza */
   SOBRAN.forEach(s=>{
-    filas.push(`<tr style="opacity:.45">
-      <td class="nm">Sin pieza</td>
-      <td style="color:var(--gris)">—</td>
+    filas.push(`<tr style="opacity:.5">
+      <td class="nm">${s.especie.split(" · ")[0]}
+        <div style="font-size:11px;color:var(--gris);margin-top:3px">Sin pieza en el inventario</div></td>
+      <td style="color:var(--gris)">${s.especie.split(" · ")[1]||"—"}</td>
       <td class="fnames">${s.f}<div style="margin-top:4px">${s.por}</div></td>
       <td><span class="tag f">No se sube</span></td></tr>`);
   });
