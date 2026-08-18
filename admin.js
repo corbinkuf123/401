@@ -95,6 +95,9 @@ function setNav(which){
 $("#navInicio").addEventListener("click", ()=>{ setNav("inicio"); showSection("homeView"); loadHome(); });
 $("#navPiezas").addEventListener("click", ()=>{ setNav("piezas"); showSection("listView"); loadList(); });
 $("#navMant").addEventListener("click", ()=>{ setNav("mant"); showSection("mantListView"); enterMant(); });
+/* El pliego de QR es una página aparte (se imprime), así que abre en otra pestaña
+   y no cambia la sección activa del panel. */
+$("#navQR").addEventListener("click", ()=> window.open("qr.html","_blank"));
 
 /* ═══════════════ INICIO / DASHBOARD ═══════════════ */
 function hace(iso){
