@@ -64,14 +64,16 @@ jobs:
       # GitHub desactiva los flujos programados si el repositorio pasa
       # 60 días sin commits. Este sello mensual evita que eso ocurra.
       - name: Sello mensual de actividad
-        if: ${{ github.event_name == 'schedule' }}
         run: |
-          if [ "$(date -u +%d)" != "01" ]; then
+          # En la ejecución diaria el sello solo se pone el día 1 del mes.
+          # Lanzado a mano se pone siempre, para poder comprobar que el
+          # permiso de escritura funciona antes de necesitarlo de verdad.
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(date -u +%d)" != "01" ]; then
             echo "Hoy no toca sello (solo el día 1 de cada mes)."
             exit 0
           fi
 
-          date -u +"Ultima comprobacion automatica: %Y-%m-%d" > .github/ultima-comprobacion.txt
+          date -u +"Ultima comprobacion automatica: %Y-%m-%d %H:%M UTC" > .github/ultima-comprobacion.txt
 
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
