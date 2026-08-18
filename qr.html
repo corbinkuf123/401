@@ -131,6 +131,9 @@ function nombreArchivo(p){
 }
 const esc = s => (s||"").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
+/* Nivel de corrección Q: el código sigue leyéndose con hasta un 25% de la
+   superficie tapada o dañada. Son etiquetas que van a vivir años pegadas a
+   una pared, así que conviene la tolerancia extra sobre el tamaño mínimo. */
 const COLOR = { dark:"#13170D", light:"#ffffff" };
 
 async function pintar(){
@@ -146,7 +149,7 @@ async function pintar(){
   for(let i=0;i<PIEZAS.length;i++){
     // 300 px de lado: se ve nítido en pantalla y también si se imprime esta página.
     await QRCode.toCanvas($("#c"+i), piezaUrl(PIEZAS[i].id),
-      { width:300, margin:1, color:COLOR, errorCorrectionLevel:"M" });
+      { width:300, margin:2, color:COLOR, errorCorrectionLevel:"Q" });
   }
   aplicarOpciones();
 }
@@ -168,8 +171,10 @@ $("#btnZip").addEventListener("click", async ()=>{
     for(let i=0;i<PIEZAS.length;i++){
       b.textContent=`Generando ${i+1}/${PIEZAS.length}…`;
       // 900 px: suficiente para imprimir la etiqueta a 5 cm sin que se vea el pixelado.
+      // margin 4 = la "zona de silencio" que pide la norma, por si el PNG se pega
+      // sobre un fondo oscuro y se queda sin blanco alrededor.
       const url = await QRCode.toDataURL(piezaUrl(PIEZAS[i].id),
-        { width:900, margin:2, color:COLOR, errorCorrectionLevel:"M" });
+        { width:1000, margin:4, color:COLOR, errorCorrectionLevel:"Q" });
       zip.file(nombreArchivo(PIEZAS[i]), url.split(",")[1], {base64:true});
     }
     b.textContent="Comprimiendo…";
