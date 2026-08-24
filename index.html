@@ -233,7 +233,8 @@ body{
 .tally .clr.show{display:inline-block}
 
 /* rejilla de fichas */
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px var(--marco) 40px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px var(--marco) 40px;
+  align-items:start}
 .card{background:var(--card);border-radius:18px;overflow:hidden;cursor:pointer;
   border:none;padding:0;font-family:inherit;text-align:left;color:inherit;
   box-shadow:0 14px 34px rgba(0,0,0,.42);
@@ -241,7 +242,9 @@ body{
   transition:transform .45s cubic-bezier(.2,.8,.25,1)}
 @keyframes lift{to{opacity:1;transform:none}}
 .card:hover{transform:translateY(-3px)}
-.card .ph{border-radius:18px 18px 0 0;aspect-ratio:1/1}
+/* La caja toma la proporción de la fotografía en vez de recortarla.
+   --prop lo escribe fotoLista() al cargar la imagen. */
+.card .ph{border-radius:18px 18px 0 0;aspect-ratio:var(--prop,1/1)}
 .card .ph::after{box-shadow:inset 0 0 50px 14px rgba(10,10,10,.42)}
 .card .info{padding:15px 15px 17px}
 .card .code{font-family:var(--sans);font-weight:500;font-size:8px;letter-spacing:.24em;
@@ -275,12 +278,16 @@ body{
 
 /* carrusel de apertura */
 .f-hero{padding:0 var(--marco)}
-.f-hero .ph{height:56svh;min-height:400px}
+/* El carrusel comparte una sola caja: su alto lo fija ajustarHero()
+   siguiendo a la foto que se está viendo. La proporción de aquí es
+   solo el punto de partida mientras carga la primera. */
+.f-hero .ph{aspect-ratio:var(--prop,3/4);
+  transition:height .42s cubic-bezier(.2,.8,.25,1)}
 .f-slides{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
   scrollbar-width:none;z-index:1;border-radius:inherit}
 .f-slides::-webkit-scrollbar{display:none}
 .f-slide{flex:0 0 100%;position:relative;scroll-snap-align:center}
-.f-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+.f-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
   opacity:0;transition:opacity 1s ease}
 .f-slide img.ld{opacity:1}
 .f-dots{position:absolute;bottom:24px;left:0;right:0;z-index:3;display:flex;
@@ -343,7 +350,7 @@ body{
 
 /* galería */
 .gal{display:flex;flex-direction:column;gap:14px}
-.gal .ph{height:280px;border-radius:18px}
+.gal .ph{aspect-ratio:var(--prop,4/3);border-radius:18px}
 .gal .gn{position:absolute;bottom:18px;right:20px;z-index:2;
   font-family:var(--sans);font-weight:500;font-size:8.5px;letter-spacing:.24em;color:var(--oro)}
 
@@ -575,7 +582,30 @@ function attr(s){return String(s==null?"":s).replace(/\\/g,"\\\\").replace(/'/g,
 /* etiqueta de imagen con entrada por fundido */
 function fotoTag(url,alt,eager){
   if(!url) return "";
-  return `<img src="${esc(url)}" alt="${esc(alt)}" ${eager?"":'loading="lazy"'} onload="this.classList.add('ld')" onerror="this.remove()">`;
+  return `<img src="${esc(url)}" alt="${esc(alt)}" ${eager?"":'loading="lazy"'} onload="fotoLista(this)" onerror="this.remove()">`;
+}
+
+/* ---------- proporción real de cada fotografía ----------
+   Ninguna caja recorta: cada una toma la forma de su foto. Pero la forma
+   solo se conoce cuando la imagen terminó de cargar, y si la caja cambia
+   de alto en ese momento la página pega un salto. Por eso se recuerdan en
+   el navegador: a partir de la segunda visita la caja ya nace con la forma
+   correcta y no se mueve nada. */
+const PROP_LLAVE="pab414-proporciones";
+const PROPS=(()=>{ try{ return JSON.parse(localStorage.getItem(PROP_LLAVE)||"{}"); }catch(e){ return {}; } })();
+function propAttr(url){ const p=PROPS[url]; return p?` style="--prop:${p}"`:""; }
+function fotoLista(img){
+  img.classList.add("ld");
+  const w=img.naturalWidth, h=img.naturalHeight;
+  if(!w||!h) return;
+  const url=img.getAttribute("src"), prop=+(w/h).toFixed(4);
+  if(PROPS[url]!==prop){
+    PROPS[url]=prop;
+    try{ localStorage.setItem(PROP_LLAVE,JSON.stringify(PROPS)); }catch(e){}
+  }
+  if(img.closest(".f-slide")){ ajustarHero(); return; }   // el carrusel se mide aparte
+  const caja=img.closest(".ph");
+  if(caja) caja.style.setProperty("--prop", w+" / "+h);
 }
 
 /* ---------- PORTADA ---------- */
@@ -710,7 +740,7 @@ function renderGrid(){
   $("#count").textContent = list.length+(list.length===1?" pieza":" piezas");
   $("#grid").innerHTML = list.length ? list.map((a,i)=>`
     <button class="card" style="animation-delay:${Math.min(i,10)*55}ms" onclick="goFicha('${attr(a.id)}')">
-      <div class="ph">
+      <div class="ph"${propAttr(a.imagenes[0])}>
         <div class="fallback">${I.foto}</div>
         ${fotoTag(a.imagenes[0],a.nombreComun)}
       </div>
@@ -814,7 +844,7 @@ function renderFicha(a){
 
     <div class="pane" data-p="galeria">
       ${a.fotos ? `<div class="gal">${a.imagenes.map((u,i)=>`
-        <div class="ph">
+        <div class="ph"${propAttr(u)}>
           <div class="fallback">${I.foto}</div>
           ${fotoTag(u,a.nombreComun+" "+(i+1))}
           <span class="gn">${String(i+1).padStart(2,"0")} / ${String(a.fotos).padStart(2,"0")}</span>
@@ -853,15 +883,41 @@ function applyTab(){
 /* carrusel: se desliza con el dedo, los puntos siguen la posición */
 function setupCarousel(a){
   heroState=null;
-  const box=$("#slides"), dots=$("#dots");
-  if(!box||!dots||a.fotos<2) return;
+  const box=$("#slides");
+  if(!box) return;
+  heroState={box, medido:false, ultimo:-1};
+  ajustarHero();
+
+  const dots=$("#dots");
+  if(!dots || a.fotos<2) return;
   const marks=[...dots.querySelectorAll("i")];
   box.addEventListener("scroll",()=>{
     const i=Math.round(box.scrollLeft/box.clientWidth);
     marks.forEach((m,k)=>m.classList.toggle("on",k===i));
+    if(i!==heroState.ultimo){ heroState.ultimo=i; ajustarHero(); }
   },{passive:true});
-  heroState={box};
 }
+
+/* Todas las fotos de una pieza comparten la misma caja, y pueden tener
+   formas muy distintas —hay piezas con una vertical y una panorámica—.
+   Así que el alto de la caja acompaña a la que se está viendo. */
+function ajustarHero(){
+  if(!heroState) return;
+  const box=heroState.box, caja=box.closest(".ph");
+  if(!caja || !caja.clientWidth) return;
+  const i=Math.round(box.scrollLeft/Math.max(1,box.clientWidth));
+  const img=box.children[i] && box.children[i].querySelector("img");
+  if(!img || !img.naturalWidth) return;
+  const alto=caja.clientWidth*img.naturalHeight/img.naturalWidth;
+  if(heroState.medido){ caja.style.height=alto+"px"; return; }
+  // la primera medición no se anima: si no, la ficha se abre estirándose
+  caja.style.transition="none";
+  caja.style.height=alto+"px";
+  void caja.offsetHeight;
+  caja.style.transition="";
+  heroState.medido=true;
+}
+window.addEventListener("resize", ajustarHero);
 
 function irAdmin(id){ location.href="admin.html#pieza="+encodeURIComponent(id); }
 
