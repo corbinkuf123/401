@@ -233,9 +233,14 @@ body{
 .tally .clr.show{display:inline-block}
 
 /* rejilla de fichas */
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px var(--marco) 40px;
-  align-items:start}
-.card{background:var(--card);border-radius:18px;overflow:hidden;cursor:pointer;
+/* Mampostería: dos columnas y cada tarjeta con el alto de su fotografía,
+   apiladas sin huecos. El reparto lo hace repartirGrid() en vez de la
+   propiedad `columns` de CSS, que partía la lista en dos mitades y
+   rompía el orden del archivo. */
+.grid{display:flex;gap:12px;padding:16px var(--marco) 40px;align-items:flex-start}
+.gcol{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:12px}
+.grid > .empty{flex:1}
+.card{width:100%;background:var(--card);border-radius:18px;overflow:hidden;cursor:pointer;
   border:none;padding:0;font-family:inherit;text-align:left;color:inherit;
   box-shadow:0 14px 34px rgba(0,0,0,.42);
   opacity:0;transform:translateY(16px);animation:lift .7s cubic-bezier(.2,.8,.25,1) forwards;
@@ -278,11 +283,12 @@ body{
 
 /* carrusel de apertura */
 .f-hero{padding:0 var(--marco)}
-/* El carrusel comparte una sola caja: su alto lo fija ajustarHero()
-   siguiendo a la foto que se está viendo. La proporción de aquí es
-   solo el punto de partida mientras carga la primera. */
-.f-hero .ph{aspect-ratio:var(--prop,3/4);
-  transition:height .42s cubic-bezier(.2,.8,.25,1)}
+/* El carrusel comparte una sola caja entre fotos de formas distintas, así
+   que ajustarHero() le cambia --prop según la que se esté viendo. Nunca se
+   le fija el alto en píxeles: si el alto es definido, el navegador deduce
+   el ancho a partir de él y la caja se encoge. */
+.f-hero .ph{width:100%;aspect-ratio:var(--prop,3/4);
+  transition:aspect-ratio .42s cubic-bezier(.2,.8,.25,1)}
 .f-slides{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
   scrollbar-width:none;z-index:1;border-radius:inherit}
 .f-slides::-webkit-scrollbar{display:none}
@@ -738,7 +744,13 @@ function renderGrid(){
     return filterDefs.every(f=>!state[f.key]||String(a[f.key])===state[f.key]);
   });
   $("#count").textContent = list.length+(list.length===1?" pieza":" piezas");
-  $("#grid").innerHTML = list.length ? list.map((a,i)=>`
+  $("#grid").innerHTML = list.length
+    ? repartirGrid(list).map(col=>`<div class="gcol">${col.map(tarjeta).join("")}</div>`).join("")
+    : `<div class="empty">No hay piezas que coincidan.</div>`;
+}
+
+function tarjeta(a,i){
+  return `
     <button class="card" style="animation-delay:${Math.min(i,10)*55}ms" onclick="goFicha('${attr(a.id)}')">
       <div class="ph"${propAttr(a.imagenes[0])}>
         <div class="fallback">${I.foto}</div>
@@ -750,8 +762,20 @@ function renderGrid(){
         ${a.pais?`<div class="ctry">${esc(a.pais)}</div>`:""}
         ${a.estadoPieza?`<div class="st ${estClass(a.estadoPieza)}">${esc(a.estadoPieza)}</div>`:""}
       </div>
-    </button>`).join("")
-    : `<div class="empty">No hay piezas que coincidan.</div>`;
+    </button>`;
+}
+
+/* Reparte las piezas en dos columnas mandando cada una a la que va más
+   corta en ese momento: así se respeta el orden del archivo (001, 002,
+   003…) y las tarjetas quedan apiladas sin huecos. El alto se estima con
+   la proporción ya conocida de la foto; si todavía no se conoce, el peor
+   caso es que una columna quede algo más larga, nunca que aparezca un
+   hueco en el medio. */
+function repartirGrid(list){
+  const alto = a => 1/(PROPS[a.imagenes[0]] || 1) + 0.55;   // foto + pie de texto
+  const cols=[[],[]], usado=[0,0];
+  list.forEach(a=>{ const k = usado[0]<=usado[1] ? 0 : 1; cols[k].push(a); usado[k]+=alto(a); });
+  return cols;
 }
 
 /* ---------- FICHA ---------- */
@@ -885,7 +909,7 @@ function setupCarousel(a){
   heroState=null;
   const box=$("#slides");
   if(!box) return;
-  heroState={box, medido:false, ultimo:-1};
+  heroState={box, ultimo:-1};
   ajustarHero();
 
   const dots=$("#dots");
@@ -904,20 +928,12 @@ function setupCarousel(a){
 function ajustarHero(){
   if(!heroState) return;
   const box=heroState.box, caja=box.closest(".ph");
-  if(!caja || !caja.clientWidth) return;
+  if(!caja) return;
   const i=Math.round(box.scrollLeft/Math.max(1,box.clientWidth));
   const img=box.children[i] && box.children[i].querySelector("img");
   if(!img || !img.naturalWidth) return;
-  const alto=caja.clientWidth*img.naturalHeight/img.naturalWidth;
-  if(heroState.medido){ caja.style.height=alto+"px"; return; }
-  // la primera medición no se anima: si no, la ficha se abre estirándose
-  caja.style.transition="none";
-  caja.style.height=alto+"px";
-  void caja.offsetHeight;
-  caja.style.transition="";
-  heroState.medido=true;
+  caja.style.setProperty("--prop", img.naturalWidth+" / "+img.naturalHeight);
 }
-window.addEventListener("resize", ajustarHero);
 
 function irAdmin(id){ location.href="admin.html#pieza="+encodeURIComponent(id); }
 
