@@ -288,9 +288,11 @@ body{
    le fija el alto en píxeles: si el alto es definido, el navegador deduce
    el ancho a partir de él y la caja se encoge. */
 .f-hero .ph{width:100%;aspect-ratio:var(--prop,3/4);
-  transition:aspect-ratio .42s cubic-bezier(.2,.8,.25,1)}
+  transition:aspect-ratio .3s ease}
 .f-slides{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
-  scrollbar-width:none;z-index:1;border-radius:inherit}
+  scrollbar-width:none;z-index:1;border-radius:inherit;
+  /* que el arrastre no arrastre también la página por detrás */
+  overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
 .f-slides::-webkit-scrollbar{display:none}
 .f-slide{flex:0 0 100%;position:relative;scroll-snap-align:center}
 .f-slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
@@ -588,7 +590,7 @@ function attr(s){return String(s==null?"":s).replace(/\\/g,"\\\\").replace(/'/g,
 /* etiqueta de imagen con entrada por fundido */
 function fotoTag(url,alt,eager){
   if(!url) return "";
-  return `<img src="${esc(url)}" alt="${esc(alt)}" ${eager?"":'loading="lazy"'} onload="fotoLista(this)" onerror="this.remove()">`;
+  return `<img src="${esc(url)}" alt="${esc(alt)}" decoding="async" ${eager?"":'loading="lazy"'} onload="fotoLista(this)" onerror="this.remove()">`;
 }
 
 /* ---------- proporción real de cada fotografía ----------
@@ -909,28 +911,54 @@ function setupCarousel(a){
   heroState=null;
   const box=$("#slides");
   if(!box) return;
-  heroState={box, ultimo:-1};
+  heroState={box, ultimo:-1, quieto:null, pendiente:false, ancho:box.clientWidth};
   ajustarHero();
+  if(a.fotos<2) return;
 
   const dots=$("#dots");
-  if(!dots || a.fotos<2) return;
-  const marks=[...dots.querySelectorAll("i")];
+  const marks=dots ? [...dots.querySelectorAll("i")] : [];
+
+  /* El scroll dispara decenas de veces por segundo. Aquí se hacían dos
+     cosas caras en cada una: medir la maquetación y, al cruzar la mitad,
+     cambiarle el alto a la caja que se está deslizando. Eso era la traba.
+     Ahora los puntos se refrescan una vez por cuadro con medidas ya
+     guardadas, y el alto solo se toca cuando el carrusel se detuvo. */
   box.addEventListener("scroll",()=>{
-    const i=Math.round(box.scrollLeft/box.clientWidth);
-    marks.forEach((m,k)=>m.classList.toggle("on",k===i));
-    if(i!==heroState.ultimo){ heroState.ultimo=i; ajustarHero(); }
+    if(!heroState.pendiente){
+      heroState.pendiente=true;
+      requestAnimationFrame(()=>{
+        heroState.pendiente=false;
+        const i=indiceVisible();
+        if(i!==heroState.ultimo){
+          heroState.ultimo=i;
+          marks.forEach((m,k)=>m.classList.toggle("on",k===i));
+        }
+      });
+    }
+    clearTimeout(heroState.quieto);
+    heroState.quieto=setTimeout(ajustarHero,130);
   },{passive:true});
+
+  // Donde exista, el navegador avisa cuando el desplazamiento terminó de
+  // verdad; el temporizador de arriba queda como respaldo.
+  if("onscrollend" in box) box.addEventListener("scrollend", ajustarHero);
+}
+
+function indiceVisible(){
+  if(!heroState) return 0;
+  return Math.round(heroState.box.scrollLeft/Math.max(1,heroState.ancho||heroState.box.clientWidth));
 }
 
 /* Todas las fotos de una pieza comparten la misma caja, y pueden tener
    formas muy distintas —hay piezas con una vertical y una panorámica—.
-   Así que el alto de la caja acompaña a la que se está viendo. */
+   Así que el alto de la caja acompaña a la que se está viendo, pero solo
+   una vez que el dedo soltó: cambiarlo en pleno arrastre se siente trabado. */
 function ajustarHero(){
   if(!heroState) return;
   const box=heroState.box, caja=box.closest(".ph");
   if(!caja) return;
-  const i=Math.round(box.scrollLeft/Math.max(1,box.clientWidth));
-  const img=box.children[i] && box.children[i].querySelector("img");
+  heroState.ancho=box.clientWidth;
+  const img=box.children[indiceVisible()] && box.children[indiceVisible()].querySelector("img");
   if(!img || !img.naturalWidth) return;
   caja.style.setProperty("--prop", img.naturalWidth+" / "+img.naturalHeight);
 }
