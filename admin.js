@@ -208,7 +208,7 @@ async function openEditor(id){
   setSelVal("f_caza_modalidad", p&&p.caza?p.caza.modalidad:"");
 
   $("#edTitle").textContent = p ? p.nombre_comun : "Nueva pieza";
-  $("#edSub").textContent = p ? (p.codigo||p.id) : "Completá los datos y guardá";
+  $("#edSub").textContent = p ? (p.codigo||p.id) : "Completa los datos y guarda";
   $("#deleteBtn").classList.toggle("hide", !p);
   // El QR sí necesita que la pieza exista (usa su id en la URL)
   $("#qrLocked").classList.toggle("hide", !!p);
@@ -715,7 +715,7 @@ $("#m_estado").addEventListener("change", syncFechaLabel);
 function syncFechaLabel(){ $("#m_fechaLabel").textContent = $("#m_estado").value==="realizado" ? "Fecha realizado" : "Fecha prevista"; }
 $("#addMantBtn").addEventListener("click", ()=>openMantModal(null));
 $("#addMantGlobal").addEventListener("click", ()=>{
-  if(!PIEZAS.length && !MANT_PIEZAS.length){ toast("Primero cargá una pieza"); return; }
+  if(!PIEZAS.length && !MANT_PIEZAS.length){ toast("Primero carga una pieza"); return; }
   openMantModal(null, true);
 });
 $("#syncMantBtn").addEventListener("click", ponerAlDiaRevisiones);
@@ -724,7 +724,7 @@ mantOverlay.addEventListener("click", e=>{ if(e.target===mantOverlay) mantOverla
 $("#mantSave").addEventListener("click", async ()=>{
   const usaSelector = !$("#mPiezaField").classList.contains("hide");
   const piezaId = usaSelector ? $("#m_pieza").value : mSelId;
-  if(!piezaId){ toast("Elegí a qué pieza corresponde"); return; }
+  if(!piezaId){ toast("Elige a qué pieza corresponde"); return; }
   const estado=$("#m_estado").value, fecha=$("#m_fecha").value||null;
   const body={ pieza_id:piezaId, tipo:$("#m_tipo").value.trim(), responsable:$("#m_responsable").value.trim(),
     descripcion:$("#m_desc").value.trim(), estado,

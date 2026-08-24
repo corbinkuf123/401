@@ -46,7 +46,7 @@ jobs:
           echo "Respuesta de Supabase: HTTP $codigo"
 
           if [ "$codigo" != "200" ]; then
-            echo "::error::Supabase respondió HTTP $codigo. Puede estar pausada: entrá a supabase.com/dashboard y tocá Restore."
+            echo "::error::Supabase respondió HTTP $codigo. Puede estar pausada: entra a supabase.com/dashboard y toca Restore."
             exit 1
           fi
 

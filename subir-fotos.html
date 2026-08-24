@@ -118,14 +118,14 @@ a{color:var(--oro)}
     <div class="stats" id="stats"></div>
 
     <div class="drop" id="drop">
-      <div class="big">Elegí la carpeta de fotos</div>
+      <div class="big">Elige la carpeta de fotos</div>
       <p class="ph">Serví la carpeta <b>fotos-web</b> (las ya reducidas) o la original
       <b>imagenes pabellon 414</b>: cualquiera de las dos vale, se reconocen por el nombre del archivo.</p>
       <button id="pickBtn">Elegir carpeta</button>
       <input type="file" id="fileIn" multiple webkitdirectory directory>
       <input type="file" id="fileIn2" multiple accept="image/*">
       <p class="ph" style="margin:16px 0 0">
-        ¿No te deja elegir carpeta? <a href="#" id="pickFiles">Elegí los archivos sueltos</a>
+        ¿No te deja elegir carpeta? <a href="#" id="pickFiles">Elige los archivos sueltos</a>
         (Cmd+A para seleccionarlos todos).</p>
     </div>
 
@@ -143,7 +143,7 @@ a{color:var(--oro)}
       <button id="checkBtn">Ver qué hay en la base</button>
     </div>
     <p class="ph" style="margin-top:14px">
-      Cada foto se sube una sola vez. Si la volvés a subir, la herramienta la reconoce
+      Cada foto se sube una sola vez. Si la vuelves a subir, la herramienta la reconoce
       y la salta, así que no se duplican. Al terminar quita <b>«fotografías»</b> de las
       revisiones pendientes de cada pieza que ya las tenga.</p>
 
@@ -300,7 +300,7 @@ function pintar(){
 
   if(!hay){
     $("#warn").innerHTML="Todavía no se ha elegido ninguna carpeta. "+
-      "Arriba, <b>Elegir carpeta</b>, y buscá <b>fotos-web</b> dentro de la carpeta del proyecto.";
+      "Arriba, <b>Elegir carpeta</b>, y busca <b>fotos-web</b> dentro de la carpeta del proyecto.";
     $("#runBtn").disabled=true;
   }else if(porSubir===0){
     $("#warn").innerHTML="Todas las fotografías previstas ya están en la base. No hay nada que subir.";
@@ -431,7 +431,7 @@ $("#runBtn").addEventListener("click", async ()=>{
   if(revisadas) log(`revisiones al día:    ${revisadas}`,"ok");
   if(cerradas)  log(`revisiones cerradas:  ${cerradas}`,"ok");
   log("");
-  log("Listo. Mirá la portada: ya deberían salir en el pase de fotos.","hd");
+  log("Listo. Mira la portada: ya deberían salir en el pase de fotos.","hd");
 
   pintar();
   $("#checkBtn").disabled=false;
