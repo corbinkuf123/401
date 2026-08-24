@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Pabellón 414 · Encuadre de fotografías</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#14180f; --bg2:#1b2015; --bg3:#232a1b;
+    --oro:#b8934a; --oro-claro:#d4b371;
+    --marfil:#ece5d4; --marfil-soft:rgba(236,229,212,.62);
+    --linea-oro:rgba(184,147,74,.30);
+    --verde:#5a8f4a; --ambar:#d9a441; --rojo:#c0483a;
+    --serif:'Fraunces',Georgia,serif; --sans:'Hanken Grotesk',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--bg);color:var(--marfil);font-size:15px;
+    line-height:1.5;-webkit-font-smoothing:antialiased;overflow:hidden}
+  button{font-family:var(--sans);cursor:pointer}
+  .hide{display:none!important}
+
+  .top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px 18px;
+    background:var(--bg2);border-bottom:1px solid var(--linea-oro)}
+  .top h1{font-family:var(--serif);font-weight:400;font-size:17px}
+  .top .sub{font-size:12px;color:var(--marfil-soft)}
+  .top .acc{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+  .btn{font-size:13px;font-weight:600;background:var(--oro);color:#17190f;border:1px solid var(--oro);
+    border-radius:9px;padding:8px 13px;transition:filter .2s}
+  .btn:hover{filter:brightness(1.08)}
+  .btn.ghost{background:none;color:var(--oro-claro);border-color:var(--linea-oro)}
+  .btn.ghost:hover{background:var(--bg3)}
+  .btn:disabled{opacity:.45;cursor:default}
+
+  .wrap{display:flex;height:calc(100vh - 57px);overflow:hidden}
+
+  /* ---------- lista de fotos ---------- */
+  .lista{width:210px;flex:0 0 210px;overflow-y:auto;background:var(--bg2);
+    border-right:1px solid var(--linea-oro);padding:10px}
+  .grupo{font-family:var(--sans);font-size:9px;font-weight:600;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--oro);margin:14px 0 7px 4px}
+  .grupo:first-child{margin-top:2px}
+  .miniW{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .mini{position:relative;aspect-ratio:1/1;border-radius:7px;overflow:hidden;cursor:pointer;
+    border:2px solid transparent;background:var(--bg3)}
+  .mini img{width:100%;height:100%;object-fit:cover;display:block}
+  .mini.on{border-color:var(--oro)}
+  .mini .ok{position:absolute;top:3px;right:3px;width:14px;height:14px;border-radius:50%;
+    background:var(--verde);color:#fff;font-size:9px;line-height:14px;text-align:center;font-weight:700}
+
+  /* ---------- editor ---------- */
+  main{flex:1;overflow-y:auto;padding:18px;display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start}
+  .col-ed{flex:1 1 420px;min-width:340px}
+  .rot{font-size:9.5px;font-weight:600;letter-spacing:.19em;text-transform:uppercase;
+    color:var(--oro);margin-bottom:9px}
+  .nomFoto{font-family:var(--serif);font-size:19px;margin-bottom:3px}
+  .datFoto{font-size:12px;color:var(--marfil-soft);margin-bottom:14px}
+
+  .lienzo{position:relative;background:#0b0d08;border-radius:10px;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;user-select:none;touch-action:none}
+  .lienzo img{display:block;max-width:100%;max-height:62vh;pointer-events:none}
+  .capa{position:absolute;inset:0;pointer-events:none}
+  .marco{position:absolute;border:2px solid #fff;cursor:move;pointer-events:auto;
+    box-shadow:0 0 0 9999px rgba(8,10,6,.62)}
+  .marco::before,.marco::after{content:"";position:absolute;background:rgba(255,255,255,.45)}
+  .marco::before{left:33.33%;right:33.33%;top:0;bottom:0;border-left:1px solid rgba(255,255,255,.4);
+    border-right:1px solid rgba(255,255,255,.4);background:none}
+  .marco::after{top:33.33%;bottom:33.33%;left:0;right:0;border-top:1px solid rgba(255,255,255,.4);
+    border-bottom:1px solid rgba(255,255,255,.4);background:none}
+  .tir{position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;
+    pointer-events:auto;box-shadow:0 1px 5px rgba(0,0,0,.5)}
+  .tir.nw{left:-10px;top:-10px;cursor:nwse-resize}
+  .tir.ne{right:-10px;top:-10px;cursor:nesw-resize}
+  .tir.sw{left:-10px;bottom:-10px;cursor:nesw-resize}
+  .tir.se{right:-10px;bottom:-10px;cursor:nwse-resize}
+
+  .ayuda{font-size:12.5px;color:var(--marfil-soft);margin-top:12px;line-height:1.65}
+  .fila{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+  /* ---------- vistas previas ---------- */
+  .col-pv{flex:0 0 auto}
+  .pvs{display:flex;gap:20px;flex-wrap:wrap}
+  .pv{}
+  .pv .cab{font-size:9.5px;font-weight:600;letter-spacing:.17em;text-transform:uppercase;
+    color:var(--marfil-soft);margin-bottom:7px}
+  .par{display:flex;gap:10px}
+  .caja{position:relative;overflow:hidden;border-radius:12px;background:#0b0d08;flex:0 0 auto}
+  .caja img{position:absolute;display:block;max-width:none}
+  .caja.hoy img{inset:0;width:100%;height:100%;object-fit:cover}
+  .et{font-size:10px;color:var(--marfil-soft);text-align:center;margin-top:5px}
+  .et b{color:var(--marfil);font-weight:600}
+  .aviso{font-size:11.5px;margin-top:10px;padding:8px 11px;border-radius:8px;line-height:1.5}
+  .aviso.ok{background:rgba(90,143,74,.16);color:#a9cf9c}
+  .aviso.mal{background:rgba(217,164,65,.14);color:#e3c07c}
+
+  .cargando{padding:60px;text-align:center;color:var(--marfil-soft);width:100%}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(18px);
+    background:var(--bg3);border:1px solid var(--linea-oro);border-radius:10px;padding:10px 17px;
+    font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:60}
+  .toast.show{opacity:1;transform:translateX(-50%)}
+
+  @media (max-width:900px){
+    body{overflow:auto}
+    .wrap{flex-direction:column;height:auto}
+    .lista{width:100%;flex:none;border-right:none;border-bottom:1px solid var(--linea-oro);max-height:200px}
+    .miniW{grid-template-columns:repeat(auto-fill,minmax(72px,1fr))}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div>
+    <h1>Encuadre de fotografías</h1>
+    <div class="sub" id="sub">cargando…</div>
+  </div>
+  <div class="acc">
+    <a class="btn ghost" href="admin.html">← Panel</a>
+    <button class="btn ghost" id="btnLimpiar">Borrar todos los encuadres</button>
+    <button class="btn" id="btnCopiar">Copiar encuadres</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <aside class="lista" id="lista"></aside>
+  <main id="main"><div class="cargando">Leyendo la colección…</div></main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const LLAVE = "pab414-encuadres";
+
+let FOTOS = [];       // {url, pieza, nombre, i, total}
+let idx   = 0;        // foto en edición
+let CROPS = {};       // url → {x,y,w,h} en fracciones de la imagen
+let imgEl = null;     // <img> del lienzo, ya cargada
+
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),2400);}
+
+function leer(){ try{ return JSON.parse(localStorage.getItem(LLAVE)||"{}"); }catch(e){ return {}; } }
+function guardar(){ try{ localStorage.setItem(LLAVE, JSON.stringify(CROPS)); }catch(e){} }
+
+/* Las tres cajas reales del sitio, medidas en un teléfono de 390 px de ancho.
+   Se muestran a tamaño real para que la comparación no engañe. */
+const CAJAS = [
+  { id:"portada", rot:"Portada de la ficha", w:350, h:473 },
+  { id:"tarjeta", rot:"Tarjeta de la colección", w:168, h:168 },
+  { id:"galeria", rot:"Galería", w:334, h:280 }
+];
+
+/* ── colocar una foto dentro de una caja respetando el encuadre ──
+   El marco que dibujás no es un recorte literal: es la zona que no se
+   puede perder. La foto se agranda lo justo para llenar la caja (nunca
+   quedan barras negras) y se corre para que esa zona quede centrada.
+   Si la zona es más "larga" que la caja, se muestra lo que entra. */
+function colocar(el, nat, caja, c){
+  el.style.inset=""; el.style.objectFit="";   // limpiar el modo "sin encuadre"
+  el.style.position="absolute";
+  const {w,h} = nat, {w:W, h:H} = caja;
+  const s  = Math.max(W/w, H/h);
+  const cx = c.x*w, cy = c.y*h, cw = c.w*w, ch = c.h*h;
+  let ox = W/2 - s*(cx+cw/2), oy = H/2 - s*(cy+ch/2);
+  ox = Math.min(0, Math.max(W - s*w, ox));
+  oy = Math.min(0, Math.max(H - s*h, oy));
+  el.style.width=(s*w)+"px"; el.style.height=(s*h)+"px";
+  el.style.left=ox+"px";     el.style.top=oy+"px";
+  // qué parte de la zona protegida quedó visible
+  const l=ox+s*cx, t=oy+s*cy, r=l+s*cw, b=t+s*ch;
+  const vw=Math.max(0,Math.min(W,r)-Math.max(0,l)), vh=Math.max(0,Math.min(H,b)-Math.max(0,t));
+  return (vw*vh)/(s*cw*s*ch);
+}
+
+/* ── vistas previas ── */
+function pintarPrevias(){
+  const c = CROPS[FOTOS[idx].url];
+  const nat = { w:imgEl.naturalWidth, h:imgEl.naturalHeight };
+  let peor = 1;
+  CAJAS.forEach(k=>{
+    const nuevo = document.getElementById("pv-"+k.id);
+    if(!nuevo) return;
+    if(c) peor = Math.min(peor, colocar(nuevo, nat, k, c));
+    else { // sin encuadre: se comporta como hoy
+      nuevo.style.cssText=""; nuevo.style.position="absolute";
+      nuevo.style.inset="0"; nuevo.style.width="100%"; nuevo.style.height="100%";
+      nuevo.style.objectFit="cover";
+    }
+  });
+  const av=$("#aviso");
+  if(!c){ av.className="aviso mal"; av.textContent="Todavía no marcaste nada: las dos columnas son iguales."; return; }
+  if(peor>0.999){ av.className="aviso ok"; av.textContent="✓ Lo que marcaste entra completo en las tres cajas."; }
+  else{ av.className="aviso mal";
+    av.textContent=`En la caja más exigente se ve el ${Math.round(peor*100)}% de lo que marcaste. Probá con un marco un poco más chico o más centrado.`; }
+}
+
+/* ── el marco arrastrable ── */
+let arr=null;
+function pintarMarco(){
+  const c=CROPS[FOTOS[idx].url]; const m=$("#marco");
+  if(!c){ m.classList.add("hide"); return; }
+  m.classList.remove("hide");
+  const r=imgEl.getBoundingClientRect(), p=$("#lienzo").getBoundingClientRect();
+  const ox=r.left-p.left, oy=r.top-p.top;
+  m.style.left=(ox+c.x*r.width)+"px";  m.style.top=(oy+c.y*r.height)+"px";
+  m.style.width=(c.w*r.width)+"px";    m.style.height=(c.h*r.height)+"px";
+}
+function iniciarArrastre(e, modo){
+  e.preventDefault();
+  const c=CROPS[FOTOS[idx].url]; if(!c) return;
+  const r=imgEl.getBoundingClientRect();
+  arr={modo, x0:e.clientX, y0:e.clientY, c:{...c}, rw:r.width, rh:r.height};
+  window.addEventListener("pointermove", mover);
+  window.addEventListener("pointerup", soltar, {once:true});
+}
+function mover(e){
+  if(!arr) return;
+  const dx=(e.clientX-arr.x0)/arr.rw, dy=(e.clientY-arr.y0)/arr.rh;
+  const o=arr.c; let c={...o};
+  const MIN=0.08;
+  if(arr.modo==="mover"){
+    c.x=Math.min(1-o.w, Math.max(0, o.x+dx));
+    c.y=Math.min(1-o.h, Math.max(0, o.y+dy));
+  }else{
+    const oeste=arr.modo.includes("w"), norte=arr.modo.includes("n");
+    if(oeste){ const nx=Math.min(o.x+o.w-MIN, Math.max(0, o.x+dx)); c.w=o.x+o.w-nx; c.x=nx; }
+    else     { c.w=Math.min(1-o.x, Math.max(MIN, o.w+dx)); }
+    if(norte){ const ny=Math.min(o.y+o.h-MIN, Math.max(0, o.y+dy)); c.h=o.y+o.h-ny; c.y=ny; }
+    else     { c.h=Math.min(1-o.y, Math.max(MIN, o.h+dy)); }
+  }
+  CROPS[FOTOS[idx].url]=c;
+  pintarMarco(); pintarPrevias();
+}
+function soltar(){ arr=null; window.removeEventListener("pointermove", mover); guardar(); pintarLista(); }
+
+/* ── construir la pantalla de una foto ── */
+function abrir(i){
+  idx=i;
+  const f=FOTOS[i];
+  $("#main").innerHTML=`
+    <div class="col-ed">
+      <div class="rot">${f.pieza}</div>
+      <div class="nomFoto">${f.nombre}</div>
+      <div class="datFoto">foto ${f.i} de ${f.total} · <span id="dim"></span></div>
+      <div class="lienzo" id="lienzo">
+        <img id="foto" src="${f.url}" alt="">
+        <div class="capa"></div>
+        <div class="marco hide" id="marco">
+          <div class="tir nw" data-m="nw"></div><div class="tir ne" data-m="ne"></div>
+          <div class="tir sw" data-m="sw"></div><div class="tir se" data-m="se"></div>
+        </div>
+      </div>
+      <div class="fila">
+        <button class="btn" id="btnMarcar">Marcar el animal</button>
+        <button class="btn ghost" id="btnQuitar">Quitar encuadre</button>
+        <button class="btn ghost" id="btnPrev">← Anterior</button>
+        <button class="btn ghost" id="btnNext">Siguiente →</button>
+      </div>
+      <p class="ayuda">Dibujá un marco alrededor de lo que <b>no se puede perder</b> —normalmente
+        el animal y su cornamenta. No es un recorte: la foto sigue entera, pero el sitio se
+        acomoda para que esa zona quede siempre a la vista, en vez de cortar por el medio.
+        Arrastrá el marco para moverlo y las bolitas de las esquinas para agrandarlo.</p>
+      <div class="aviso mal" id="aviso"></div>
+    </div>
+
+    <div class="col-pv">
+      <div class="rot">Cómo se vería en el teléfono</div>
+      <div class="pvs">
+        ${CAJAS.map(k=>`
+          <div class="pv">
+            <div class="cab">${k.rot}</div>
+            <div class="par">
+              <div>
+                <div class="caja hoy" style="width:${k.w}px;height:${k.h}px">
+                  <img src="${f.url}" alt="">
+                </div>
+                <div class="et">Hoy</div>
+              </div>
+              <div>
+                <div class="caja" style="width:${k.w}px;height:${k.h}px">
+                  <img id="pv-${k.id}" src="${f.url}" alt="">
+                </div>
+                <div class="et"><b>Con tu encuadre</b></div>
+              </div>
+            </div>
+          </div>`).join("")}
+      </div>
+    </div>`;
+
+  imgEl=$("#foto");
+  const listo=()=>{
+    $("#dim").textContent=`${imgEl.naturalWidth} × ${imgEl.naturalHeight}`;
+    pintarMarco(); pintarPrevias();
+  };
+  if(imgEl.complete && imgEl.naturalWidth) listo(); else imgEl.addEventListener("load", listo, {once:true});
+
+  $("#marco").addEventListener("pointerdown", e=>{
+    const m=e.target.dataset.m;
+    iniciarArrastre(e, m || "mover");
+  });
+  $("#btnMarcar").addEventListener("click", ()=>{
+    CROPS[FOTOS[idx].url]={x:.14,y:.10,w:.72,h:.76};
+    guardar(); pintarMarco(); pintarPrevias(); pintarLista();
+  });
+  $("#btnQuitar").addEventListener("click", ()=>{
+    delete CROPS[FOTOS[idx].url]; guardar(); pintarMarco(); pintarPrevias(); pintarLista();
+  });
+  $("#btnPrev").addEventListener("click", ()=> abrir((idx-1+FOTOS.length)%FOTOS.length));
+  $("#btnNext").addEventListener("click", ()=> abrir((idx+1)%FOTOS.length));
+
+  pintarLista();
+}
+/* Un solo oyente para todo el ciclo de vida: el marco se dibuja en píxeles
+   sobre la foto, así que hay que recolocarlo si cambia el tamaño de ventana. */
+window.addEventListener("resize", ()=>{ if(imgEl) pintarMarco(); });
+
+function pintarLista(){
+  const l=$("#lista"); let html=""; let pieza=null;
+  FOTOS.forEach((f,i)=>{
+    if(f.pieza!==pieza){ if(pieza!==null) html+="</div>"; html+=`<div class="grupo">${f.pieza}</div><div class="miniW">`; pieza=f.pieza; }
+    html+=`<div class="mini ${i===idx?"on":""}" data-i="${i}">
+      <img src="${f.url}" loading="lazy" alt="">${CROPS[f.url]?'<span class="ok">✓</span>':""}</div>`;
+  });
+  html+="</div>";
+  l.innerHTML=html;
+  $$(".mini").forEach(m=>m.addEventListener("click", ()=>abrir(+m.dataset.i)));
+  const hechos=Object.keys(CROPS).length;
+  $("#sub").textContent=`${FOTOS.length} fotografías · ${hechos} con encuadre`;
+}
+
+$("#btnCopiar").addEventListener("click", async ()=>{
+  const t=JSON.stringify(CROPS,null,1);
+  try{ await navigator.clipboard.writeText(t); toast("Encuadres copiados"); }
+  catch(e){ console.log(t); toast("Están en la consola del navegador"); }
+});
+$("#btnLimpiar").addEventListener("click", ()=>{
+  if(!confirm("¿Borrar todos los encuadres de la prueba?")) return;
+  CROPS={}; guardar(); pintarMarco(); pintarPrevias(); pintarLista(); toast("Borrados");
+});
+
+(async ()=>{
+  CROPS = leer();
+  const piezas = await fetchPiezas();
+  piezas.forEach(p=>p.imagenes.forEach((u,i)=>FOTOS.push({
+    url:u, pieza:p.nombreComun, nombre:decodeURIComponent(u.split("/").pop()), i:i+1, total:p.imagenes.length
+  })));
+  if(!FOTOS.length){ $("#main").innerHTML='<div class="cargando">No hay fotografías cargadas.</div>'; return; }
+  abrir(0);
+})();
+</script>
+</body>
+</html>
