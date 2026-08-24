@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Pabellón 414 · Cómo mostrar las fotos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#14180f; --bg2:#1b2015; --bg3:#232a1b;
+    --base:#111111;                     /* el fondo real del sitio público */
+    --card:#171717;
+    --oro:#b8934a; --oro-claro:#d4b371;
+    --marfil:#ece5d4; --marfil-soft:rgba(236,229,212,.62);
+    --linea-oro:rgba(184,147,74,.30);
+    --serif:'Fraunces',Georgia,serif; --sans:'Hanken Grotesk',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--sans);background:var(--bg);color:var(--marfil);font-size:15px;line-height:1.5;
+    -webkit-font-smoothing:antialiased}
+  button{font-family:var(--sans);cursor:pointer}
+
+  .top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:13px 18px;
+    background:var(--bg2);border-bottom:1px solid var(--linea-oro);position:sticky;top:0;z-index:10}
+  .top h1{font-family:var(--serif);font-weight:400;font-size:17px}
+  .top .sub{font-size:12px;color:var(--marfil-soft)}
+  .top .acc{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+  .btn{font-size:13px;font-weight:600;background:none;color:var(--oro-claro);
+    border:1px solid var(--linea-oro);border-radius:9px;padding:8px 13px}
+  .btn:hover{background:var(--bg3)}
+  .btn.on{background:var(--oro);color:#17190f;border-color:var(--oro)}
+
+  .tira{display:flex;gap:7px;overflow-x:auto;padding:11px 18px;background:var(--bg2);
+    border-bottom:1px solid var(--linea-oro);position:sticky;top:57px;z-index:9}
+  .tira::-webkit-scrollbar{height:6px}
+  .tira::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px}
+  .mini{flex:0 0 auto;width:58px;height:58px;border-radius:7px;overflow:hidden;cursor:pointer;
+    border:2px solid transparent;background:var(--bg3)}
+  .mini img{width:100%;height:100%;object-fit:cover;display:block}
+  .mini.on{border-color:var(--oro)}
+
+  main{padding:22px 18px 60px}
+  .nom{font-family:var(--serif);font-size:21px}
+  .dat{font-size:12.5px;color:var(--marfil-soft);margin:3px 0 22px}
+
+  .modos{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start}
+  .modo{}
+  .modo > .cab{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--oro);margin-bottom:4px}
+  .modo > .exp{font-size:11.5px;color:var(--marfil-soft);margin-bottom:13px;max-width:330px;line-height:1.55}
+  .cajas{display:flex;gap:14px;align-items:flex-start}
+  .col > .et{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--marfil-soft);margin-bottom:6px}
+
+  /* ── las cajas, con el fondo real del sitio ── */
+  .caja{position:relative;overflow:hidden;border-radius:14px;background:var(--base);flex:0 0 auto}
+  .caja.tarjeta{border-radius:14px 14px 0 0}
+  .caja .fondo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    transform:scale(1.18);filter:blur(26px) brightness(.42) saturate(.7)}
+  .caja .frente{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+  .caja.recorta .frente{object-fit:cover}
+  .caja.adapta{height:auto!important}
+  .caja.adapta .frente{position:static;width:100%;height:auto;display:block}
+  /* pie de la tarjeta, para que se vea el efecto sobre la grilla real */
+  .pieCard{background:var(--card);border-radius:0 0 14px 14px;padding:11px 12px 13px;width:168px}
+  .pieCard .c{font-size:7.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--oro)}
+  .pieCard .n{font-family:var(--serif);font-size:16px;line-height:1.14;margin-top:6px}
+
+  .nota{font-size:12.5px;color:var(--marfil-soft);margin-top:26px;max-width:640px;line-height:1.7}
+  .cargando{padding:60px;text-align:center;color:var(--marfil-soft)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div>
+    <h1>Cómo mostrar las fotos</h1>
+    <div class="sub" id="sub">cargando…</div>
+  </div>
+  <div class="acc">
+    <a class="btn" href="admin.html">← Panel</a>
+    <button class="btn" id="fSolo">Solo las peores</button>
+    <button class="btn on" id="fTodas">Todas</button>
+  </div>
+</header>
+
+<div class="tira" id="tira"></div>
+
+<main id="main"><div class="cargando">Leyendo la colección…</div></main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+/* Las tres cajas reales del sitio, medidas en un teléfono de 390 px.
+   Se muestran a tamaño real para que la comparación no engañe. */
+const CAJAS = [
+  { id:"portada", et:"Portada de la ficha", w:350, h:473 },
+  { id:"tarjeta", et:"Tarjeta",             w:168, h:168 },
+  { id:"galeria", et:"Galería",             w:334, h:280 }
+];
+
+const MODOS = [
+  { id:"hoy",   cab:"Hoy",
+    exp:"La foto se agranda hasta llenar la caja y lo que sobra se corta. Es lo que hay ahora." },
+  { id:"borro", cab:"1 · Fondo desenfocado",
+    exp:"La foto entera, y el hueco se rellena con ella misma desenfocada y oscurecida. Nada se corta y no aparecen franjas planas." },
+  { id:"liso",  cab:"2 · Fondo liso",
+    exp:"La foto entera sobre el negro del sitio. Más sobrio y más honesto: se nota que la foto es apaisada o vertical." },
+  { id:"adapta",cab:"3 · La caja se adapta",
+    exp:"No hay hueco: la caja toma la forma de la foto. Es lo único sin ningún compromiso, pero las alturas dejan de ser parejas." }
+];
+
+let FOTOS=[], idx=0, filtro="todas";
+
+function caja(f, modo, k){
+  const clase = modo==="hoy" ? "recorta" : modo==="adapta" ? "adapta" : "";
+  const fondo = modo==="borro" ? `<img class="fondo" src="${f.url}" alt="">` : "";
+  const estilo = modo==="adapta" ? `width:${k.w}px` : `width:${k.w}px;height:${k.h}px`;
+  return `<div class="caja ${k.id==="tarjeta"?"tarjeta":""} ${clase}" style="${estilo}">
+    ${fondo}<img class="frente" src="${f.url}" alt=""></div>`;
+}
+
+function pintar(){
+  const f=FOTOS[idx];
+  $("#main").innerHTML=`
+    <div class="nom">${f.pieza}</div>
+    <div class="dat">${f.nombre} · ${f.w}×${f.h} · ${f.w>f.h?"apaisada":"vertical"} (${(f.w/f.h).toFixed(2)})</div>
+    <div class="modos">
+      ${MODOS.map(m=>`
+        <div class="modo">
+          <div class="cab">${m.cab}</div>
+          <div class="exp">${m.exp}</div>
+          <div class="cajas">
+            ${CAJAS.map(k=>`
+              <div class="col">
+                <div class="et">${k.et}</div>
+                ${caja(f,m.id,k)}
+                ${k.id==="tarjeta"?`<div class="pieCard"><div class="c">${f.codigo||""}</div><div class="n">${f.pieza}</div></div>`:""}
+              </div>`).join("")}
+          </div>
+        </div>`).join("")}
+    </div>
+    <p class="nota">Las cajas están a tamaño real de teléfono. La grande de la izquierda es la
+      primera foto que ve alguien al escanear un QR, así que es la que más importa.</p>`;
+  $$(".mini").forEach((m,i)=>m.classList.toggle("on", +m.dataset.i===idx));
+}
+
+function pintarTira(){
+  const lista = filtro==="peores"
+    ? FOTOS.filter(f=>{ const r=f.w/f.h; return r>1.45 || r<0.8; })
+    : FOTOS;
+  $("#tira").innerHTML = lista.map(f=>
+    `<div class="mini" data-i="${FOTOS.indexOf(f)}"><img src="${f.url}" loading="lazy" alt=""></div>`).join("");
+  $$(".mini").forEach(m=>m.addEventListener("click", ()=>{ idx=+m.dataset.i; pintar(); }));
+  $("#sub").textContent = `${lista.length} de ${FOTOS.length} fotografías`;
+  if(lista.length && !lista.includes(FOTOS[idx])) { idx=FOTOS.indexOf(lista[0]); }
+  pintar();
+}
+
+$("#fSolo").addEventListener("click", ()=>{ filtro="peores";
+  $("#fSolo").classList.add("on"); $("#fTodas").classList.remove("on"); pintarTira(); });
+$("#fTodas").addEventListener("click", ()=>{ filtro="todas";
+  $("#fTodas").classList.add("on"); $("#fSolo").classList.remove("on"); pintarTira(); });
+
+(async ()=>{
+  const piezas = await fetchPiezas();
+  const pend=[];
+  piezas.forEach(p=>p.imagenes.forEach(u=>{
+    const f={url:u, pieza:p.nombreComun, codigo:p.codigo,
+             nombre:decodeURIComponent(u.split("/").pop()), w:0, h:0};
+    FOTOS.push(f);
+    pend.push(new Promise(res=>{
+      const im=new Image();
+      im.onload =()=>{ f.w=im.naturalWidth; f.h=im.naturalHeight; res(); };
+      im.onerror=()=>res();
+      im.src=u;
+    }));
+  }));
+  if(!FOTOS.length){ $("#main").innerHTML='<div class="cargando">No hay fotografías cargadas.</div>'; return; }
+  await Promise.all(pend);
+  // las más extremas primero: son las que deciden
+  FOTOS.sort((a,b)=> Math.abs(Math.log((b.w/b.h)||1)) - Math.abs(Math.log((a.w/a.h)||1)));
+  pintarTira();
+})();
+</script>
+</body>
+</html>
