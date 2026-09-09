@@ -54,11 +54,48 @@ jobs:
 
       - name: Comprobar que el sitio siga en pie
         run: |
-          codigo=$(curl -s -o /dev/null -w "%{http_code}" https://401-amber.vercel.app)
-          echo "Respuesta de Vercel: HTTP $codigo"
-          if [ "$codigo" != "200" ]; then
-            echo "::error::El sitio devolvió HTTP $codigo"
+          # pabellon414.com es la dirección que llevan impresa los QR de la
+          # pared, así que es la que de verdad hay que vigilar. El dominio
+          # de Vercel se consulta también, pero solo para poder distinguir
+          # un problema del sitio de uno del dominio o del DNS.
+          principal=$(curl -s -o /dev/null -w "%{http_code}" --max-time 20 https://pabellon414.com)
+          respaldo=$(curl -s -o /dev/null -w "%{http_code}" --max-time 20 https://401-amber.vercel.app)
+          echo "pabellon414.com      -> HTTP $principal"
+          echo "401-amber.vercel.app -> HTTP $respaldo"
+
+          if [ "$principal" != "200" ]; then
+            if [ "$respaldo" = "200" ]; then
+              echo "::error::pabellon414.com no responde (HTTP $principal) pero Vercel sí. Es el dominio o el DNS: revisa Cloudflare y que el dominio siga renovado. Los QR impresos apuntan a este dominio."
+            else
+              echo "::error::No responde ni el dominio ni Vercel ($principal / $respaldo). El problema es del sitio, no del DNS."
+            fi
             exit 1
+          fi
+
+          echo "Sitio en pie."
+
+      # De todo el sistema, lo único verdaderamente irreversible son los QR
+      # ya impresos y pegados en la pared: llevan escrito este dominio. Si
+      # el dominio caduca, cualquiera puede comprarlo y esas etiquetas pasan
+      # a llevar al sitio de un desconocido, sin arreglo posible.
+      - name: Vigilar el vencimiento del dominio
+        run: |
+          fecha=$(curl -s --max-time 20 "https://rdap.verisign.com/com/v1/domain/PABELLON414.COM" \
+            | python3 -c "import sys,json;d=json.load(sys.stdin);print(next(e['eventDate'] for e in d['events'] if e['eventAction']=='expiration'))" 2>/dev/null || true)
+
+          if [ -z "$fecha" ]; then
+            echo "::warning::No se pudo consultar la fecha de vencimiento del dominio."
+            exit 0
+          fi
+
+          dias=$(( ( $(date -u -d "$fecha" +%s) - $(date -u +%s) ) / 86400 ))
+          echo "pabellon414.com vence el ${fecha%%T*} — faltan $dias días."
+
+          if [ "$dias" -lt 30 ]; then
+            echo "::error::El dominio vence en $dias días. Renuévalo ya: si caduca, los QR de la pared dejan de funcionar y no hay forma de arreglarlos sin reimprimirlos."
+            exit 1
+          elif [ "$dias" -lt 60 ]; then
+            echo "::warning::El dominio vence en $dias días. Conviene renovarlo con tiempo."
           fi
 
       # GitHub desactiva los flujos programados si el repositorio pasa
