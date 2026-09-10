@@ -132,7 +132,7 @@ function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show"
 function baseUrl(){
   return location.href.split("#")[0].split("?")[0].replace(/[^/]*$/,"");
 }
-function piezaUrl(id){ return baseUrl() + "#/pieza/" + encodeURIComponent(id); }
+function piezaUrl(id){ return baseUrl() + "p/" + encodeURIComponent(id); }
 function nombreArchivo(p){
   const slug = (p.nombreComun||"pieza").normalize("NFD").replace(/[\u0300-\u036f]/g,"")
     .toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40) || "pieza";

@@ -774,7 +774,7 @@ async function deleteNota(id){ if(!confirm("¿Borrar esta nota?"))return; await 
 window.deleteNota=deleteNota;
 
 /* ═══════════════ QR ═══════════════ */
-function piezaUrl(id){ const base=location.href.replace(/admin\.html.*$/,""); return base+"#/pieza/"+encodeURIComponent(id); }
+function piezaUrl(id){ const base=location.href.replace(/admin\.html.*$/,""); return base+"p/"+encodeURIComponent(id); }
 function renderQR(){
   if(!currentId) return;
   const url=piezaUrl(currentId);
