@@ -4,6 +4,9 @@
 
 # Archivos de trabajo / inventarios locales
 *.csv
+# …salvo el respaldo de las direcciones de los QR: si se pierde todo, es lo
+# único que permite que las etiquetas ya pegadas en la pared vuelvan a servir.
+!qr-direcciones.csv
 *.xlsx
 *.xls
 
