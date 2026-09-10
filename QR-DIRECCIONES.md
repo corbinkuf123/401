@@ -1,6 +1,6 @@
 # Direcciones de los códigos QR · Pabellón 414
 
-Generado el 2026-09-10. **46 piezas.**
+Actualizado el 2026-09-10. **46 piezas.** Este documento se regenera solo.
 
 ## Qué es esto y para qué sirve
 
@@ -17,7 +17,8 @@ que le corresponde. Sin esta lista, esos papeles son códigos indescifrables.
 ## Las dos condiciones para que el papel siga sirviendo
 
 1. **Que el dominio `pabellon414.com` siga siendo nuestro.** Se renueva en
-   Cloudflare. Vencimiento actual: **9 de septiembre de 2027**.
+   Cloudflare. El chequeo automático avisa 60 días antes del vencimiento e
+   insiste todos los días desde los 30.
 2. **Que cada pieza conserve su identificador** — la última parte de la
    dirección (`alce`, `marco-polo-craneo`). Editar una ficha nunca lo cambia;
    lo único que lo cambiaría es borrar la pieza y volver a crearla.
@@ -88,6 +89,7 @@ Dirección completa de cada pieza: `https://pabellon414.com/p/` + identificador
 
 ---
 
-Hay una versión de esta misma tabla en `qr-direcciones.csv`, que se abre con
-cualquier hoja de cálculo. **Si se agregan piezas nuevas, hay que regenerar
-los dos archivos** para que la lista siga completa.
+La misma tabla está en `qr-direcciones.csv`, que se abre con cualquier hoja de
+cálculo. Los dos archivos los regenera `herramientas/generar-direcciones.py`,
+que corre solo con el chequeo automático: si se agrega una pieza, su dirección
+aparece aquí sin que nadie tenga que acordarse.
