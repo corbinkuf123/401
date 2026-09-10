@@ -16,8 +16,10 @@ name: Mantener despierta la base
 
 on:
   schedule:
-    # 09:00 UTC todos los días (≈ 04:00 en Lima / 10:00 en Madrid)
-    - cron: "0 9 * * *"
+    # Cada 6 horas. Una sola consulta al día no le alcanzaba a Supabase para
+    # considerar el proyecto activo: su aviso habla de actividad "suficiente",
+    # no de actividad a secas.
+    - cron: "0 */6 * * *"
   # permite dispararlo a mano desde la pestaña Actions de GitHub
   workflow_dispatch:
 
@@ -31,22 +33,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Consultar la base
+      - name: Consultar la base varias veces
         env:
           SUPABASE_URL: https://ffsafqgzggysvxumwemh.supabase.co
           # La "anon key" es pública por diseño (ya vive en config.js).
           # Las políticas RLS son las que protegen los datos.
           ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmc2FmcWd6Z2d5c3Z4dW13ZW1oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5NjUxNzAsImV4cCI6MjEwMDU0MTE3MH0.uJtLdBPdE4QQsyHdKSw3zcfq7Ey9ux_VhEEG3SuEEec' }}
         run: |
-          codigo=$(curl -s -o /dev/null -w "%{http_code}" \
-            "$SUPABASE_URL/rest/v1/piezas?select=id&limit=1" \
-            -H "apikey: $ANON_KEY" \
-            -H "Authorization: Bearer $ANON_KEY")
+          # Varias consultas distintas, no una sola: se trata de parecer un
+          # archivo en uso, que es lo que Supabase mide, y no un latido
+          # mínimo. Son lecturas públicas, las mismas que hace la web.
+          fallos=0
+          for ruta in \
+            "piezas?select=id&limit=1" \
+            "piezas?select=id,codigo,nombre_comun&order=orden_display&limit=50" \
+            "imagenes?select=id,pieza_id&limit=50" \
+            "piezas?select=id&estado_pieza=eq.Bueno&limit=10"
+          do
+            codigo=$(curl -s -o /dev/null -w "%{http_code}" \
+              "$SUPABASE_URL/rest/v1/$ruta" \
+              -H "apikey: $ANON_KEY" \
+              -H "Authorization: Bearer $ANON_KEY")
+            echo "  $codigo  <- $ruta"
+            [ "$codigo" != "200" ] && fallos=$((fallos+1))
+          done
 
-          echo "Respuesta de Supabase: HTTP $codigo"
-
-          if [ "$codigo" != "200" ]; then
-            echo "::error::Supabase respondió HTTP $codigo. Puede estar pausada: entra a supabase.com/dashboard y toca Restore."
+          if [ "$fallos" != "0" ]; then
+            echo "::error::Supabase falló en $fallos de 4 consultas. Puede estar pausada: entra a supabase.com/dashboard y toca Restore."
             exit 1
           fi
 
@@ -110,7 +123,7 @@ jobs:
             exit 0
           fi
 
-          date -u +"Ultima comprobacion automatica: %Y-%m-%d %H:%M UTC" > .github/ultima-comprobacion.txt
+          date -u +"Ultima comprobacion automatica: %Y-%m-%d" > .github/ultima-comprobacion.txt
 
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
