@@ -966,7 +966,12 @@ function ajustarHero(){
 function irAdmin(id){ location.href="admin.html#pieza="+encodeURIComponent(id); }
 
 function share(){
-  const u=location.href;
+  /* Lo que se manda a alguien conviene que sea la forma duradera —la misma
+     que llevan impresos los QR—, aunque la barra de direcciones muestre la
+     interna: /p/<pieza> viaja al servidor y se puede redirigir; lo que va
+     tras una almohadilla, no. */
+  const m = location.hash.match(/^#\/pieza\/(.+)$/);
+  const u = m ? location.origin + "/p/" + m[1] : location.href;
   if(navigator.share){ navigator.share({title:document.title,url:u}).catch(()=>{}); return; }
   navigator.clipboard?.writeText(u).then(showToast).catch(()=>{});
 }
