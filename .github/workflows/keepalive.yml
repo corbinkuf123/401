@@ -1,48 +1,80 @@
-
-# ─────────────────────────────────────────────────────────────
-#  Mantener despierta la base de Supabase
+# ─────────────────────────────────────────────────────────────────────────
+#  Vigilancia del Pabellón 414
 #
-#  El plan gratuito de Supabase PAUSA el proyecto tras 7 días
-#  sin ninguna petición a la API. Si el pabellón pasa una semana
-#  sin visitas, los QR dejarían de mostrar las piezas.
+#  Cuida cuatro cosas, en orden de gravedad si fallan:
 #
-#  Este flujo hace una consulta mínima todos los días, así el
-#  contador de inactividad nunca llega a 7.
+#   1. El dominio pabellon414.com — lo llevan impreso los QR de la pared.
+#      Si caduca, esas etiquetas no tienen arreglo.
+#   2. El respaldo de direcciones — lo único que permitiría resucitarlas.
+#   3. La base de Supabase — el plan gratuito PAUSA los proyectos sin
+#      actividad suficiente, y con ella se van los textos y las fotos.
+#   4. Que el sitio responda.
 #
-#  (Vercel NO se apaga por inactividad: los archivos viven en su
-#   CDN. El riesgo real era solo la base de datos.)
-# ─────────────────────────────────────────────────────────────
-name: Mantener despierta la base
+#  Y se mantiene vivo a sí mismo: GitHub desactiva los flujos programados
+#  si el repositorio pasa 60 días sin commits.
+#
+#  REGLA DE DISEÑO: ningún fallo puede impedir que corran las demás
+#  comprobaciones. Antes, una caída de Supabase cortaba el flujo en el
+#  primer paso y se llevaba por delante el aviso de vencimiento del
+#  dominio y el sello que mantiene vivo al propio flujo. Por eso cada
+#  paso lleva `if: always()` y el veredicto se da al final.
+# ─────────────────────────────────────────────────────────────────────────
+name: Vigilancia del Pabellón 414
 
 on:
   schedule:
-    # Cada 6 horas. Una sola consulta al día no le alcanzaba a Supabase para
-    # considerar el proyecto activo: su aviso habla de actividad "suficiente",
-    # no de actividad a secas.
-    - cron: "0 */6 * * *"
-  # permite dispararlo a mano desde la pestaña Actions de GitHub
+    # Cuatro veces al día, a horas y minutos deliberadamente irregulares.
+    # GitHub encola las tareas programadas y las que caen en punto compiten
+    # con las de medio mundo: pueden retrasarse mucho o directamente
+    # saltarse. En minutos impares salen a tiempo.
+    - cron: "17 2 * * *"
+    - cron: "43 8 * * *"
+    - cron: "11 14 * * *"
+    - cron: "37 20 * * *"
   workflow_dispatch:
+    inputs:
+      simular_fallo:
+        description: "Simular que Supabase no responde (para probar que un fallo no corta el resto)"
+        type: boolean
+        default: false
 
-# el token solo necesita poder escribir el sello mensual
 permissions:
   contents: write
 
+# Dos ejecuciones a la vez se pisarían al escribir en el repositorio.
+concurrency:
+  group: vigilancia
+  cancel-in-progress: false
+
+env:
+  SUPABASE_URL: https://ffsafqgzggysvxumwemh.supabase.co
+  # La "anon key" es pública por diseño: ya vive en config.js y lo que
+  # protege los datos son las políticas RLS, no el secreto de esta clave.
+  ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmc2FmcWd6Z2d5c3Z4dW13ZW1oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5NjUxNzAsImV4cCI6MjEwMDU0MTE3MH0.uJtLdBPdE4QQsyHdKSw3zcfq7Ey9ux_VhEEG3SuEEec' }}
+
 jobs:
-  ping:
+  vigilar:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
-      - name: Consultar la base varias veces
-        env:
-          SUPABASE_URL: https://ffsafqgzggysvxumwemh.supabase.co
-          # La "anon key" es pública por diseño (ya vive en config.js).
-          # Las políticas RLS son las que protegen los datos.
-          ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmc2FmcWd6Z2d5c3Z4dW13ZW1oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5NjUxNzAsImV4cCI6MjEwMDU0MTE3MH0.uJtLdBPdE4QQsyHdKSw3zcfq7Ey9ux_VhEEG3SuEEec' }}
+      # ── 1. Supabase ────────────────────────────────────────────────────
+      - name: Consultar la base
+        id: base
         run: |
-          # Varias consultas distintas, no una sola: se trata de parecer un
-          # archivo en uso, que es lo que Supabase mide, y no un latido
-          # mínimo. Son lecturas públicas, las mismas que hace la web.
+          # Cuatro consultas distintas y no una sola: Supabase mide volumen de
+          # actividad, no si hubo un latido. Un ping diario le redondeaba a
+          # cero y aun así nos llegó un aviso de pausa.
+          #
+          # Cada una se reintenta antes de darla por fallida: un corte de red
+          # de un segundo no debe disparar una alarma en falso.
+          if [ "${{ inputs.simular_fallo }}" = "true" ]; then
+            echo "SIMULACIÓN: se finge que la base no responde."
+            echo "estado=fallo" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           fallos=0
           for ruta in \
             "piezas?select=id&limit=1" \
@@ -50,29 +82,39 @@ jobs:
             "imagenes?select=id,pieza_id&limit=50" \
             "piezas?select=id&estado_pieza=eq.Bueno&limit=10"
           do
-            codigo=$(curl -s -o /dev/null -w "%{http_code}" \
-              "$SUPABASE_URL/rest/v1/$ruta" \
-              -H "apikey: $ANON_KEY" \
-              -H "Authorization: Bearer $ANON_KEY")
+            codigo=000
+            for intento in 1 2 3; do
+              codigo=$(curl -s -o /dev/null -w "%{http_code}" --max-time 25 \
+                "$SUPABASE_URL/rest/v1/$ruta" \
+                -H "apikey: $ANON_KEY" -H "Authorization: Bearer $ANON_KEY" || echo 000)
+              [ "$codigo" = "200" ] && break
+              sleep 5
+            done
             echo "  $codigo  <- $ruta"
             [ "$codigo" != "200" ] && fallos=$((fallos+1))
           done
 
           if [ "$fallos" != "0" ]; then
             echo "::error::Supabase falló en $fallos de 4 consultas. Puede estar pausada: entra a supabase.com/dashboard y toca Restore."
-            exit 1
+            echo "estado=fallo" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
 
           echo "Base activa. Contador de inactividad reiniciado."
+          echo "estado=bien" >> "$GITHUB_OUTPUT"
 
+      # ── 2. El sitio ────────────────────────────────────────────────────
       - name: Comprobar que el sitio siga en pie
+        id: sitio
+        if: always()
         run: |
-          # pabellon414.com es la dirección que llevan impresa los QR de la
-          # pared, así que es la que de verdad hay que vigilar. El dominio
-          # de Vercel se consulta también, pero solo para poder distinguir
-          # un problema del sitio de uno del dominio o del DNS.
-          principal=$(curl -s -o /dev/null -w "%{http_code}" --max-time 20 https://pabellon414.com)
-          respaldo=$(curl -s -o /dev/null -w "%{http_code}" --max-time 20 https://401-amber.vercel.app)
+          # pabellon414.com es lo que llevan impreso los QR, así que es lo que
+          # de verdad hay que vigilar. El dominio de Vercel se consulta solo
+          # para distinguir un fallo del sitio de uno del dominio o del DNS.
+          medir(){ curl -s -o /dev/null -w "%{http_code}" --max-time 25 "$1" || echo 000; }
+          principal=$(medir https://pabellon414.com)
+          [ "$principal" != "200" ] && { sleep 10; principal=$(medir https://pabellon414.com); }
+          respaldo=$(medir https://401-amber.vercel.app)
           echo "pabellon414.com      -> HTTP $principal"
           echo "401-amber.vercel.app -> HTTP $respaldo"
 
@@ -82,22 +124,28 @@ jobs:
             else
               echo "::error::No responde ni el dominio ni Vercel ($principal / $respaldo). El problema es del sitio, no del DNS."
             fi
-            exit 1
+            echo "estado=fallo" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
 
           echo "Sitio en pie."
+          echo "estado=bien" >> "$GITHUB_OUTPUT"
 
-      # De todo el sistema, lo único verdaderamente irreversible son los QR
-      # ya impresos y pegados en la pared: llevan escrito este dominio. Si
-      # el dominio caduca, cualquiera puede comprarlo y esas etiquetas pasan
-      # a llevar al sitio de un desconocido, sin arreglo posible.
+      # ── 3. El vencimiento del dominio ──────────────────────────────────
+      # De todo el sistema, lo único irreversible son los QR ya pegados en la
+      # pared: llevan escrito este dominio. Si caduca, cualquiera puede
+      # comprarlo y esas etiquetas pasan a llevar al sitio de un desconocido.
       - name: Vigilar el vencimiento del dominio
+        id: dominio
+        if: always()
         run: |
-          fecha=$(curl -s --max-time 20 "https://rdap.verisign.com/com/v1/domain/PABELLON414.COM" \
+          fecha=$(curl -s --max-time 25 "https://rdap.verisign.com/com/v1/domain/PABELLON414.COM" \
             | python3 -c "import sys,json;d=json.load(sys.stdin);print(next(e['eventDate'] for e in d['events'] if e['eventAction']=='expiration'))" 2>/dev/null || true)
 
           if [ -z "$fecha" ]; then
+            # No saber la fecha no es una avería: se avisa y se sigue.
             echo "::warning::No se pudo consultar la fecha de vencimiento del dominio."
+            echo "estado=desconocido" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -106,20 +154,27 @@ jobs:
 
           if [ "$dias" -lt 30 ]; then
             echo "::error::El dominio vence en $dias días. Renuévalo ya: si caduca, los QR de la pared dejan de funcionar y no hay forma de arreglarlos sin reimprimirlos."
-            exit 1
+            echo "estado=fallo" >> "$GITHUB_OUTPUT"
           elif [ "$dias" -lt 60 ]; then
             echo "::warning::El dominio vence en $dias días. Conviene renovarlo con tiempo."
+            echo "estado=bien" >> "$GITHUB_OUTPUT"
+          else
+            echo "estado=bien" >> "$GITHUB_OUTPUT"
           fi
 
-      # El respaldo de direcciones es lo único que permitiría resucitar los QR
-      # ya pegados en la pared si se perdiera todo. Si se agrega una pieza y su
-      # dirección no queda anotada ahí, esa etiqueta sería irrecuperable. Por eso
-      # se regenera sola: no puede depender de que alguien se acuerde.
+      # ── 4. El respaldo de direcciones ──────────────────────────────────
+      # Es lo único que permitiría resucitar los QR ya pegados si se perdiera
+      # todo. Si se agrega una pieza y su dirección no queda anotada ahí, esa
+      # etiqueta sería irrecuperable. Por eso no depende de que nadie se acuerde.
       - name: Mantener al día el respaldo de direcciones
-        env:
-          SUPABASE_URL: https://ffsafqgzggysvxumwemh.supabase.co
-          ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmc2FmcWd6Z2d5c3Z4dW13ZW1oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5NjUxNzAsImV4cCI6MjEwMDU0MTE3MH0.uJtLdBPdE4QQsyHdKSw3zcfq7Ey9ux_VhEEG3SuEEec' }}
+        id: respaldo
+        if: always()
         run: |
+          if [ "${{ steps.base.outputs.estado }}" != "bien" ]; then
+            echo "La base no respondió; no se toca el respaldo para no escribir una lista incompleta."
+            exit 0
+          fi
+
           python3 herramientas/generar-direcciones.py
 
           if [ -z "$(git status --porcelain qr-direcciones.csv QR-DIRECCIONES.md)" ]; then
@@ -132,24 +187,75 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add qr-direcciones.csv QR-DIRECCIONES.md
           git commit -m "Actualizar el respaldo de direcciones de los QR"
-          git push
+          # Reintentos: entre el checkout y el push puede haber entrado otro
+          # commit, y perder el respaldo por un empujón fallido sería absurdo.
+          for intento in 1 2 3; do
+            git pull --rebase --quiet origin "$GITHUB_REF_NAME" || true
+            git push && exit 0
+            echo "Empujón fallido, reintento $intento."
+            sleep 5
+          done
+          echo "::error::No se pudo guardar el respaldo actualizado."
+          exit 1
 
-      # GitHub desactiva los flujos programados si el repositorio pasa
-      # 60 días sin commits. Este sello mensual evita que eso ocurra.
-      - name: Sello mensual de actividad
+      # ── 5. Mantenerse vivo a sí mismo ──────────────────────────────────
+      # GitHub desactiva los flujos programados si el repositorio pasa 60 días
+      # sin commits. Este sello los evita. Corre pase lo que pase con los pasos
+      # anteriores: si una caída de Supabase impidiera sellar, el vigilante
+      # acabaría apagándose por culpa de lo que vigila.
+      - name: Sello de actividad
+        if: always()
         run: |
-          # En la ejecución diaria el sello solo se pone el día 1 del mes.
-          # Lanzado a mano se pone siempre, para poder comprobar que el
-          # permiso de escritura funciona antes de necesitarlo de verdad.
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(date -u +%d)" != "01" ]; then
-            echo "Hoy no toca sello (solo el día 1 de cada mes)."
+          sello=.github/ultima-comprobacion.txt
+          hoy=$(date -u +%Y-%m-%d)
+
+          # Por antigüedad y no por día del calendario: si la ejecución del
+          # día 1 se retrasa o se salta, el sello se pone igual en la
+          # siguiente. Se cura solo en vez de depender de una fecha exacta.
+          anterior=$(sed -n 's/.*: //p' "$sello" 2>/dev/null | head -1)
+          if [ -n "$anterior" ]; then
+            edad=$(( ( $(date -u +%s) - $(date -u -d "$anterior" +%s) ) / 86400 ))
+            echo "Último sello: $anterior (hace $edad días)."
+            if [ "$edad" -lt 20 ]; then
+              echo "Todavía no hace falta: el margen de GitHub son 60 días."
+              exit 0
+            fi
+          fi
+
+          echo "Ultima comprobacion automatica: $hoy" > "$sello"
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$sello"
+          git commit -m "Sello de actividad" || exit 0
+          for intento in 1 2 3; do
+            git pull --rebase --quiet origin "$GITHUB_REF_NAME" || true
+            git push && exit 0
+            echo "Empujón fallido, reintento $intento."
+            sleep 5
+          done
+          echo "::error::No se pudo escribir el sello de actividad. Si esto se repite 60 días, GitHub apagará esta vigilancia."
+          exit 1
+
+      # ── 6. Veredicto ───────────────────────────────────────────────────
+      - name: Resumen
+        if: always()
+        run: |
+          echo "base:    ${{ steps.base.outputs.estado }}"
+          echo "sitio:   ${{ steps.sitio.outputs.estado }}"
+          echo "dominio: ${{ steps.dominio.outputs.estado }}"
+
+          if [ "${{ inputs.simular_fallo }}" = "true" ]; then
+            echo "Era una simulación: los pasos siguientes corrieron igual, que es lo que se quería comprobar."
             exit 0
           fi
 
-          date -u +"Ultima comprobacion automatica: %Y-%m-%d" > .github/ultima-comprobacion.txt
+          malos=""
+          [ "${{ steps.base.outputs.estado }}"    = "fallo" ] && malos="$malos base"
+          [ "${{ steps.sitio.outputs.estado }}"   = "fallo" ] && malos="$malos sitio"
+          [ "${{ steps.dominio.outputs.estado }}" = "fallo" ] && malos="$malos dominio"
 
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .github/ultima-comprobacion.txt
-          git commit -m "Sello mensual de actividad" || exit 0
-          git push
+          if [ -n "$malos" ]; then
+            echo "::error::Fallaron:$malos. Revisa los pasos de arriba."
+            exit 1
+          fi
+          echo "Todo en orden."
