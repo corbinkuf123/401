@@ -1,5 +1,8 @@
 {
   "rewrites": [
-    { "source": "/p/:id", "destination": "/index.html" }
+    {
+      "source": "/p/:id([^.]+)",
+      "destination": "/index.html"
+    }
   ]
 }
