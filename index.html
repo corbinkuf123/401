@@ -106,12 +106,6 @@ body{
   background:
     linear-gradient(to top,var(--base) 0%,rgba(17,17,17,.72) 18%,rgba(17,17,17,.2) 46%,transparent 68%),
     radial-gradient(128% 88% at 50% 32%,transparent 38%,rgba(17,17,17,.82) 100%)}
-.opener .cap{position:absolute;left:var(--aire);right:var(--aire);bottom:30px;z-index:2;
-  cursor:pointer;text-align:center}
-.opener .cap .eyebrow{margin-bottom:10px;display:block}
-.opener .cap .nm{font-family:var(--serif);font-weight:400;font-size:27px;line-height:1.1;
-  color:var(--marfil);transition:color .4s}
-.opener .cap:hover .nm{color:var(--oro)}
 
 /* — identidad — */
 .ident{padding:44px var(--aire) 0;text-align:center}
@@ -430,7 +424,6 @@ body{
       <img class="op-img" id="opA" alt="">
       <img class="op-img" id="opB" alt="" aria-hidden="true">
       <div class="op-fade"></div>
-      <div class="cap" id="openerCap"></div>
     </div>
 
     <!-- identidad -->
@@ -678,7 +671,7 @@ function iniciarPortada(){
     [pool[i],pool[j]]=[pool[j],pool[i]];
   }
 
-  const capas=[$("#opA"),$("#opB")], cap=$("#openerCap");
+  const capas=[$("#opA"),$("#opB")];
   let n=0, cual=0;
 
   function mostrar(i){
@@ -688,12 +681,10 @@ function iniciarPortada(){
       el.classList.add("on");
       cual=1-cual;
     };
+    /* El nombre queda solo en el texto alternativo, para lectores de
+       pantalla: la apertura es una imagen y nada más. */
     el.alt=it.a.nombreComun;
     el.src=it.u;
-    const pie=[it.a.pais,it.a.anio].filter(Boolean).join(" · ");
-    cap.innerHTML=`${pie?`<span class="eyebrow">${esc(pie)}</span>`:""}
-                   <div class="nm">${esc(it.a.nombreComun)}</div>`;
-    cap.onclick=()=>goFicha(it.a.id);
   }
 
   mostrar(0);
