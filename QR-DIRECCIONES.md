@@ -1,6 +1,6 @@
 # Direcciones de los códigos QR · Pabellón 414
 
-Actualizado el 2026-09-10. **46 piezas.** Este documento se regenera solo.
+Actualizado el 2026-09-21. **46 piezas.** Este documento se regenera solo.
 
 ## Qué es esto y para qué sirve
 
