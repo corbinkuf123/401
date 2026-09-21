@@ -1,6 +1,6 @@
 # Direcciones de los códigos QR · Pabellón 414
 
-Actualizado el 2026-09-21. **46 piezas.** Este documento se regenera solo.
+Actualizado el 2026-09-21. **47 piezas.** Este documento se regenera solo.
 
 ## Qué es esto y para qué sirve
 
@@ -40,6 +40,7 @@ Dirección completa de cada pieza: `https://pabellon414.com/p/` + identificador
 
 | Código | Identificador | Pieza | País |
 |---|---|---|---|
+| BER-001 | `berberisco-aoudad-barbary-sheep` | Berberisco / Aoudad / Barbary Sheep | México |
 | P414-001 | `ciervo-dama` | Ciervo Dama | Nueva Zelanda |
 | P414-002 | `axis-ciervo` | Axis Ciervo | Argentina |
 | P414-003 | `dama-ciervo` | Dama Ciervo | España |
@@ -68,7 +69,7 @@ Dirección completa de cada pieza: `https://pabellon414.com/p/` + identificador
 | P414-026 | `springbuck` | Springbuck | Sudáfrica |
 | P414-027 | `orix` | Orix | Sudáfrica |
 | P414-028 | `mule-deer` | Mule Deer | Estados Unidos |
-| P414-029 | `whitetail` | Whitetail | Estados Unidos |
+| P414-029 | `whitetail` | Venado Coues | México |
 | P414-030 | `caiman-entrada` | Caiman Entrada | Estados Unidos |
 | P414-031 | `piel-caiman` | Piel Caiman | Estados Unidos |
 | P414-032 | `piel-de-zebra` | Piel De Zebra | Sudáfrica |
