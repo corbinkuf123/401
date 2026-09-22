@@ -1,6 +1,6 @@
 # Direcciones de los códigos QR · Pabellón 414
 
-Actualizado el 2026-09-21. **47 piezas.** Este documento se regenera solo.
+Actualizado el 2026-09-22. **48 piezas.** Este documento se regenera solo.
 
 ## Qué es esto y para qué sirve
 
@@ -40,7 +40,8 @@ Dirección completa de cada pieza: `https://pabellon414.com/p/` + identificador
 
 | Código | Identificador | Pieza | País |
 |---|---|---|---|
-| BER-001 | `berberisco-aoudad-barbary-sheep` | Berberisco / Aoudad / Barbary Sheep | México |
+| P414-048 | `bufalo-de-agua-mediterraneo` | BUFALO DE AGUA MEDITERRANEO | Argentina |
+| P414-047 | `berberisco-aoudad-barbary-sheep` | Berberisco / Aoudad / Barbary Sheep | México |
 | P414-001 | `ciervo-dama` | Ciervo Dama | Nueva Zelanda |
 | P414-002 | `axis-ciervo` | Axis Ciervo | Argentina |
 | P414-003 | `dama-ciervo` | Dama Ciervo | España |
@@ -59,7 +60,7 @@ Dirección completa de cada pieza: `https://pabellon414.com/p/` + identificador
 | P414-016 | `ibex-bezoar` | Ibex Bezoar | Turquía |
 | P414-017 | `impala` | Impala | Sudáfrica |
 | P414-018 | `waterbuck` | Waterbuck | Sudáfrica |
-| P414-019 | `gnu-azul` | Gñu Azul | Sudáfrica |
+| P414-019 | `gnu-azul` | Gñu | Sudáfrica |
 | P414-020 | `elk` | Elk | Nueva Zelanda |
 | P414-021 | `ciervo-3` | Ciervo | Nueva Zelanda |
 | P414-022 | `jabali` | Jabali | Turquía |
@@ -70,16 +71,16 @@ Dirección completa de cada pieza: `https://pabellon414.com/p/` + identificador
 | P414-027 | `orix` | Orix | Sudáfrica |
 | P414-028 | `mule-deer` | Mule Deer | Estados Unidos |
 | P414-029 | `whitetail` | Venado Coues | México |
-| P414-030 | `caiman-entrada` | Caiman Entrada | Estados Unidos |
+| P414-030 | `caiman-entrada` | Caiman Alligator | Estados Unidos |
 | P414-031 | `piel-caiman` | Piel Caiman | Estados Unidos |
 | P414-032 | `piel-de-zebra` | Piel De Zebra | Sudáfrica |
-| P414-033 | `venado` | Venado | Perú |
+| P414-033 | `venado` | Venados del Perú | Perú |
 | P414-034 | `antilope-negro` | Antilope Negro | Argentina |
-| P414-035 | `escudo-ciervo` | Escudo Ciervo | Argentina |
+| P414-035 | `escudo-ciervo` | Escudos de Ciervo | Argentina |
 | P414-036 | `escudo-beceite` | Escudo Beceite | España |
 | P414-037 | `escudo-thar` | Escudo Thar | Nueva Zelanda |
-| P414-038 | `replica-rhino` | Replica Rhino | Sudáfrica |
-| P414-039 | `palma-de-oso` | Palma De Oso | Rusia |
+| P414-038 | `replica-rhino` | Rinoceronte (Green hunt) | Sudáfrica |
+| P414-039 | `palma-de-oso` | Oso Grizzly | Rusia |
 | P414-040 | `bongo` | Bongo | Camerún |
 | P414-041 | `gacela-anatolia` | Gacela Anatolia | Siria |
 | P414-042 | `marco-polo-craneo` | Marco Polo Craneo | Tayikistán |
