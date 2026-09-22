@@ -1,6 +1,6 @@
 # Direcciones de los códigos QR · Pabellón 414
 
-Actualizado el 2026-09-22. **48 piezas.** Este documento se regenera solo.
+Actualizado el 2026-09-22. **49 piezas.** Este documento se regenera solo.
 
 ## Qué es esto y para qué sirve
 
@@ -42,6 +42,7 @@ Dirección completa de cada pieza: `https://pabellon414.com/p/` + identificador
 |---|---|---|---|
 | P414-048 | `bufalo-de-agua-mediterraneo` | BUFALO DE AGUA MEDITERRANEO | Argentina |
 | P414-047 | `berberisco-aoudad-barbary-sheep` | Berberisco / Aoudad / Barbary Sheep | México |
+| P414-049 | `carnero-arapawa` | CARNERO ARAPAWA | Nueva Zelanda |
 | P414-001 | `ciervo-dama` | Ciervo Dama | Nueva Zelanda |
 | P414-002 | `axis-ciervo` | Axis Ciervo | Argentina |
 | P414-003 | `dama-ciervo` | Dama Ciervo | España |
@@ -62,7 +63,7 @@ Dirección completa de cada pieza: `https://pabellon414.com/p/` + identificador
 | P414-018 | `waterbuck` | Waterbuck | Sudáfrica |
 | P414-019 | `gnu-azul` | Gñu | Sudáfrica |
 | P414-020 | `elk` | Elk | Nueva Zelanda |
-| P414-021 | `ciervo-3` | Ciervo | Nueva Zelanda |
+| P414-021 | `ciervo-3` | Ciervo NZ | Nueva Zelanda |
 | P414-022 | `jabali` | Jabali | Turquía |
 | P414-023 | `eland` | Eland | Sudáfrica |
 | P414-024 | `facochero` | Facochero | Sudáfrica |
