@@ -1,7 +1,9 @@
 ﻿codigo;identificador;direccion_del_qr;nombre_comun;nombre_cientifico;pais;anio;sala;fotos
-P414-048;bufalo-de-agua-mediterraneo;https://pabellon414.com/p/bufalo-de-agua-mediterraneo;BUFALO DE AGUA MEDITERRANEO;Bubalus bubalis;Argentina;2015;Sector 6 – Patio Interior;2
+P414-048;bufalo-de-agua-mediterraneo;https://pabellon414.com/p/bufalo-de-agua-mediterraneo;Búfalo de Agua Mediterráneo;Bubalus bubalis;Argentina;2015;Sector 6 – Patio Interior;2
 P414-047;berberisco-aoudad-barbary-sheep;https://pabellon414.com/p/berberisco-aoudad-barbary-sheep;Berberisco / Aoudad / Barbary Sheep;Ammotragus lervia;México;2025;Sector 4 – Oficina / Hall;6
-P414-049;carnero-arapawa;https://pabellon414.com/p/carnero-arapawa;CARNERO ARAPAWA;Ovis aries arapawa;Nueva Zelanda;2017;Sector 4 – Oficina / Hall;3
+P414-51;nylgai-toro-azul;https://pabellon414.com/p/nylgai-toro-azul;Nylgai / Toro Azul;Boselaphus tragocamelus;Estados Unidos;2024;En trámite de importación;3
+P414-50;bisonte;https://pabellon414.com/p/bisonte;Bisonte;Bison bison athabascae;Estados Unidos;2024;En trámite de importación;3
+P414-049;carnero-arapawa;https://pabellon414.com/p/carnero-arapawa;Carnero Arapawa;Ovis aries arapawa;Nueva Zelanda;2017;Sector 4 – Oficina / Hall;3
 P414-001;ciervo-dama;https://pabellon414.com/p/ciervo-dama;Ciervo Dama;Dama dama;Nueva Zelanda;2016;Sector 1 – Salón Principal Pared Oeste;4
 P414-002;axis-ciervo;https://pabellon414.com/p/axis-ciervo;Axis Ciervo;Axis axis;Argentina;2010;Sector 1 – Salón Principal Pared Oeste;3
 P414-003;dama-ciervo;https://pabellon414.com/p/dama-ciervo;Dama Ciervo;Dama dama;España;;Sector 1 – Salón Principal Pared Oeste;0
@@ -43,7 +45,7 @@ P414-038;replica-rhino;https://pabellon414.com/p/replica-rhino;Rinoceronte (Gree
 P414-039;palma-de-oso;https://pabellon414.com/p/palma-de-oso;Oso Grizzly;Ursus arctos;Rusia;;Fotos en cuadros;4
 P414-040;bongo;https://pabellon414.com/p/bongo;Bongo;Tragelaphus eurycerus;Camerún;;Fotos en cuadros;4
 P414-041;gacela-anatolia;https://pabellon414.com/p/gacela-anatolia;Gacela Anatolia;Gazella gazella;Siria;;Fotos en cuadros;2
-P414-042;marco-polo-craneo;https://pabellon414.com/p/marco-polo-craneo;Marco Polo Craneo;Ovis ammon polii;Tayikistán;;Fotos en cuadros;6
+P414-042;marco-polo-craneo;https://pabellon414.com/p/marco-polo-craneo;Marco Polo Craneo;Ovis ammon polii;Tayikistán;2014;Fotos en cuadros;6
 P414-043;markhor;https://pabellon414.com/p/markhor;Markhor;Capra falconeri;Tayikistán;;Fotos en cuadros;2
 P414-044;borrego-cimarron;https://pabellon414.com/p/borrego-cimarron;Borrego Cimarron;Ovis canadensis;México;2025;Fotos en cuadros;3
 P414-045;bufalos-brasil;https://pabellon414.com/p/bufalos-brasil;Bufalos Brasil;Bubalus bubalis;Brasil;2019;Fotos en cuadros;3
