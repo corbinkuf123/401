@@ -116,10 +116,11 @@ body{
   line-height:1.6;color:var(--gris);max-width:290px;margin:0 auto}
 
 /* — manifiesto — */
+/* El manifiesto comparte el estilo editorial de las historias (.story):
+   serif, capitular dorada y el mismo cuerpo de texto. Se reutiliza la clase
+   en lugar de duplicar sus reglas, para que no puedan desincronizarse. */
 .manifest{padding:52px var(--aire) 0}
-.manifest .body{margin-bottom:20px}
-.manifest .body:last-child{margin-bottom:0}
-.manifest .lead{color:rgba(242,239,232,.82)}
+.manifest p:last-child{margin-bottom:0}
 
 /* — cifras: tres columnas — */
 .figures{display:grid;grid-template-columns:repeat(3,1fr);margin:52px var(--aire) 0;
@@ -443,10 +444,10 @@ body{
     </div>
 
     <!-- manifiesto -->
-    <div class="manifest">
-      <p class="body lead">La caza, en nuestra esencia, nunca ha sido solo un acto de obtener “un trofeo”. Es una forma de leer el paisaje, de mantener vivos saberes que no están escritos en ningún manual: rastros, vientos, refugios, ciclos. Es parte de una cosmovisión donde el animal no es solamente proteína, sino un otro con el que se establece relación eterna.</p>
-      <p class="body">Cuando la caza se regula y se dignifica, no solo se conserva fauna: se conserva hábitat y saberes, porque para que exista caza debe existir territorio sano; se conserva memoria, porque el saber del cazador mayor no se pierde; y se conserva valor, porque un animal visible y respetado, protege más bosque que cualquier prohibición.</p>
-      <p class="body">La caza ética genera intercambio de conocimientos, ordena el uso del espacio y devuelve equilibrio. En este modelo, el animal no representa muerte: representa todo lo que fue necesario cuidar para que esté ahí.</p>
+    <div class="manifest story">
+      <p>La caza, en nuestra esencia, nunca ha sido solo un acto de obtener “un trofeo”. Es una forma de leer el paisaje, de mantener vivos saberes que no están escritos en ningún manual: rastros, vientos, refugios, ciclos. Es parte de una cosmovisión donde el animal no es solamente proteína, sino un otro con el que se establece relación eterna.</p>
+      <p>Cuando la caza se regula y se dignifica, no solo se conserva fauna: se conserva hábitat y saberes, porque para que exista caza debe existir territorio sano; se conserva memoria, porque el saber del cazador mayor no se pierde; y se conserva valor, porque un animal visible y respetado, protege más bosque que cualquier prohibición.</p>
+      <p>La caza ética genera intercambio de conocimientos, ordena el uso del espacio y devuelve equilibrio. En este modelo, el animal no representa muerte: representa todo lo que fue necesario cuidar para que esté ahí.</p>
     </div>
 
     <!-- cifras -->
