@@ -1,6 +1,6 @@
 # Direcciones de los códigos QR · Pabellón 414
 
-Actualizado el 2026-09-24. **51 piezas.** Este documento se regenera solo.
+Actualizado el 2026-09-28. **52 piezas.** Este documento se regenera solo.
 
 ## Qué es esto y para qué sirve
 
@@ -40,21 +40,22 @@ Dirección completa de cada pieza: `https://pabellon414.com/p/` + identificador
 
 | Código | Identificador | Pieza | País |
 |---|---|---|---|
-| P414-048 | `bufalo-de-agua-mediterraneo` | Búfalo de Agua Mediterráneo | Argentina |
+| P414-049 | `carnero-arapawa` | Carnero Arapawa | Nueva Zelanda |
 | P414-047 | `berberisco-aoudad-barbary-sheep` | Berberisco / Aoudad / Barbary Sheep | México |
+| P414-52 | `pieles-de-jaguar` | Pieles de Jaguar | Perú |
 | P414-51 | `nylgai-toro-azul` | Nylgai / Toro Azul | Estados Unidos |
 | P414-50 | `bisonte` | Bisonte | Estados Unidos |
-| P414-049 | `carnero-arapawa` | Carnero Arapawa | Nueva Zelanda |
+| P414-048 | `bufalo-de-agua-mediterraneo` | Búfalo de Agua Mediterráneo | Argentina |
 | P414-001 | `ciervo-dama` | Ciervo Dama | Nueva Zelanda |
 | P414-002 | `axis-ciervo` | Axis Ciervo | Argentina |
-| P414-003 | `dama-ciervo` | Dama Ciervo | España |
+| P414-003 | `dama-ciervo` | GAMO | España |
 | P414-004 | `alce` | Alce | Rusia |
 | P414-005 | `ciervo` | Ciervo | Argentina |
 | P414-006 | `ciervo-2` | Ciervo | España |
 | P414-007 | `corzo` | Corzo | España |
 | P414-008 | `muflon` | Muflon | España |
 | P414-009 | `rebeco` | Rebeco | Nueva Zelanda |
-| P414-010 | `macho-montes` | Macho Montes | España |
+| P414-010 | `macho-montes` | Macho Montés | España |
 | P414-011 | `ibex-beceite` | Ibex Beceite | España |
 | P414-012 | `urogallo` | Urogallo | Rusia |
 | P414-013 | `snow-sheep` | Snow Sheep | Rusia |
@@ -72,7 +73,7 @@ Dirección completa de cada pieza: `https://pabellon414.com/p/` + identificador
 | P414-025 | `kudu` | Kudu | Sudáfrica |
 | P414-026 | `springbuck` | Springbuck | Sudáfrica |
 | P414-027 | `orix` | Orix | Sudáfrica |
-| P414-028 | `mule-deer` | Mule Deer | Estados Unidos |
+| P414-028 | `mule-deer` | BURA | México |
 | P414-029 | `whitetail` | Venado Coues | México |
 | P414-030 | `caiman-entrada` | Caiman Alligator | Estados Unidos |
 | P414-031 | `piel-caiman` | Piel Caiman | Estados Unidos |
