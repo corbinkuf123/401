@@ -87,7 +87,7 @@ Dirección completa de cada pieza: `https://pabellon414.com/p/` + identificador
 | P414-038 | `replica-rhino` | Rinoceronte (Green hunt) | Sudáfrica |
 | P414-039 | `palma-de-oso` | Oso Grizzly | Rusia |
 | P414-040 | `bongo` | Bongo | Camerún |
-| P414-041 | `gacela-anatolia` | Gacela Anatolia | Siria |
+| P414-041 | `gacela-anatolia` | Gacela Anatolia | Turquía / Siria |
 | P414-042 | `marco-polo-craneo` | Marco Polo Craneo | Tayikistán |
 | P414-043 | `markhor` | Markhor | Tayikistán |
 | P414-044 | `borrego-cimarron` | Borrego Cimarron | México |
