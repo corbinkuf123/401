@@ -1,6 +1,6 @@
 # Direcciones de los códigos QR · Pabellón 414
 
-Actualizado el 2026-09-28. **53 piezas.** Este documento se regenera solo.
+Actualizado el 2026-09-29. **53 piezas.** Este documento se regenera solo.
 
 ## Qué es esto y para qué sirve
 
@@ -40,13 +40,13 @@ Dirección completa de cada pieza: `https://pabellon414.com/p/` + identificador
 
 | Código | Identificador | Pieza | País |
 |---|---|---|---|
-| P414-50 | `bisonte` | Bisonte | Estados Unidos |
-| P414-53 | `chamois-del-caucaso` | Chamois del Cáucaso | Rusia / Georgia |
 | P414-048 | `bufalo-de-agua-mediterraneo` | Búfalo de Agua Mediterráneo | Argentina |
-| P414-52 | `pieles-de-jaguar` | Pieles de Jaguar | Perú |
-| P414-049 | `carnero-arapawa` | Carnero Arapawa | Nueva Zelanda |
-| P414-51 | `nylgai-toro-azul` | Nylgai / Toro Azul | Estados Unidos |
+| P414-53 | `chamois-del-caucaso` | Chamois del Cáucaso | Rusia / Georgia |
 | P414-047 | `berberisco-aoudad-barbary-sheep` | Berberisco / Aoudad / Barbary Sheep | México |
+| P414-52 | `pieles-de-jaguar` | Pieles de Jaguar | Perú |
+| P414-51 | `nylgai-toro-azul` | Nylgai / Toro Azul | Estados Unidos |
+| P414-50 | `bisonte` | Bisonte | Estados Unidos |
+| P414-049 | `carnero-arapawa` | Carnero Arapawa | Nueva Zelanda |
 | P414-001 | `ciervo-dama` | Ciervo Dama | Nueva Zelanda |
 | P414-002 | `axis-ciervo` | Axis Ciervo | Argentina |
 | P414-003 | `dama-ciervo` | GAMO | España |
